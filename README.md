@@ -1,1 +1,1 @@
-# unique-sdk-java
+# unique-sdk-kotlin
