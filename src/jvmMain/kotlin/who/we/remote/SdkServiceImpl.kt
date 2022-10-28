@@ -3,6 +3,7 @@ package who.we.remote
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.*
+import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
@@ -13,9 +14,9 @@ import io.ktor.serialization.kotlinx.json.*
 import who.we.remote.exception.RequestException
 import who.we.remote.model.*
 
-class SdkServiceImpl(engine: HttpClientEngine, private val host: String) : SdkService {
+class SdkServiceImpl(private val host: String) : SdkService {
 
-    private val client: HttpClient = HttpClient(engine) {
+    private val client: HttpClient = HttpClient(CIO) {
         install(Logging) {
             logger = Logger.DEFAULT
             level = LogLevel.ALL

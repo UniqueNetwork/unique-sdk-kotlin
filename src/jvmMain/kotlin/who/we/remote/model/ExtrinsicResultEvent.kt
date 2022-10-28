@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 class ExtrinsicResultEvent(
     val section: String,
     val method: String,
-    val data: Array<String>,
+    val data: Array<String>? = null,
 )

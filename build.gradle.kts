@@ -62,6 +62,7 @@ kotlin {
             dependencies {
                 implementation("io.ktor:ktor-client-mock:$ktorVersion")
                 implementation(kotlin("test"))
+                implementation("ch.qos.logback:logback-classic:1.2.3")
             }
         }
         val jsMain by getting

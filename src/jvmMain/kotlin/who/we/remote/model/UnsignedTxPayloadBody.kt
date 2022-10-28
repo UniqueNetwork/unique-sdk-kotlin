@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 class UnsignedTxPayloadBody(
     val signerPayloadJSON: SignerPayloadJSONDto,
     val signerPayloadRaw: SignerPayloadRawDto,
-    val signerPayloadHexFee: FeeResponse,
+    val signerPayloadHex: String,
 )

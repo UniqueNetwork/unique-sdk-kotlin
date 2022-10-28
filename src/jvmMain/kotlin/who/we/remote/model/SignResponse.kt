@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 class SignResponse(
     val signerPayloadJSON: SignerPayloadJSONDto,
     val signature: String,
-    val fee: FeeResponse,
+    val fee: FeeResponse? = null,
 )
