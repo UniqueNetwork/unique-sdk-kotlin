@@ -1,0 +1,10 @@
+package network.unique.remote.model
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+class UnsignedTxPayloadBody(
+    val signerPayloadJSON: SignerPayloadJSONDto,
+    val signerPayloadRaw: SignerPayloadRawDto,
+    val signerPayloadHex: String,
+)
