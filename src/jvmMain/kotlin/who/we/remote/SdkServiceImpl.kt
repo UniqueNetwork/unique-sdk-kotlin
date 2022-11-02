@@ -11,18 +11,22 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.serialization.json.Json
 import who.we.remote.exception.RequestException
 import who.we.remote.model.*
 
-class SdkServiceImpl(private val host: String) : SdkService {
+class SdkServiceImpl(engine: HttpClientEngine, private val host: String, private val protocol: URLProtocol) : SdkService {
 
-    private val client: HttpClient = HttpClient(CIO) {
+    private val client: HttpClient = HttpClient(engine) {
         install(Logging) {
             logger = Logger.DEFAULT
             level = LogLevel.ALL
         }
         install(ContentNegotiation) {
-            json()
+            json(Json {
+                prettyPrint = true
+                isLenient = true
+            })
         }
         install(HttpRequestRetry) {
             retryOnServerErrors(maxRetries = 5)
@@ -33,7 +37,7 @@ class SdkServiceImpl(private val host: String) : SdkService {
     override suspend fun buildTransaction(request: BalanceTransferBody, seed: String): UnsignedTxPayloadResponse {
         val response: HttpResponse = client.request {
             url {
-                protocol = URLProtocol.HTTPS
+                protocol = this@SdkServiceImpl.protocol
                 host = this@SdkServiceImpl.host
                 path("/v1/balance/transfer")
                 parameters.append("use", "Build")
@@ -44,6 +48,7 @@ class SdkServiceImpl(private val host: String) : SdkService {
                 append(HttpHeaders.Authorization, "Seed $seed")
             }
             method = HttpMethod.Post
+            accept(ContentType.Application.Json)
             contentType(ContentType.Application.Json)
             setBody(request)
         }
@@ -54,7 +59,7 @@ class SdkServiceImpl(private val host: String) : SdkService {
     override suspend fun signTransaction(request: UnsignedTxPayloadBody, seed: String): SignResponse {
         val response: HttpResponse = client.request {
             url {
-                protocol = URLProtocol.HTTPS
+                protocol = this@SdkServiceImpl.protocol
                 host = this@SdkServiceImpl.host
                 path("/v1/balance/transfer")
                 parameters.append("use", "Sign")
@@ -65,6 +70,7 @@ class SdkServiceImpl(private val host: String) : SdkService {
                 append(HttpHeaders.Authorization, "Seed $seed")
             }
             method = HttpMethod.Post
+            accept(ContentType.Application.Json)
             contentType(ContentType.Application.Json)
             setBody(request)
         }
@@ -75,7 +81,7 @@ class SdkServiceImpl(private val host: String) : SdkService {
     override suspend fun submitAndWatchTransaction(request: SubmitTxBody, seed: String): SubmitResultResponse {
         val response: HttpResponse = client.request {
             url {
-                protocol = URLProtocol.HTTPS
+                protocol = this@SdkServiceImpl.protocol
                 host = this@SdkServiceImpl.host
                 path("/v1/balance/transfer")
                 parameters.append("use", "SubmitWatch")
@@ -86,6 +92,7 @@ class SdkServiceImpl(private val host: String) : SdkService {
                 append(HttpHeaders.Authorization, "Seed $seed")
             }
             method = HttpMethod.Post
+            accept(ContentType.Application.Json)
             contentType(ContentType.Application.Json)
             setBody(request)
         }
@@ -96,7 +103,7 @@ class SdkServiceImpl(private val host: String) : SdkService {
     override suspend fun getExtrinsic(transactionHash: String, seed: String): ExtrinsicResultResponse {
         val response: HttpResponse = client.request {
             url {
-                protocol = URLProtocol.HTTPS
+                protocol = this@SdkServiceImpl.protocol
                 host = this@SdkServiceImpl.host
                 path("/v1/extrinsic/status")
                 parameters.append("hash", transactionHash)
@@ -104,6 +111,7 @@ class SdkServiceImpl(private val host: String) : SdkService {
             headers {
                 append(HttpHeaders.Authorization, "Seed $seed")
             }
+            accept(ContentType.Application.Json)
             method = HttpMethod.Get
         }
         validateResponse(response)

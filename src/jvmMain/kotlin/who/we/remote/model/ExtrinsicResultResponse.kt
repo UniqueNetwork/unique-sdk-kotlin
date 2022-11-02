@@ -11,7 +11,7 @@ class ExtrinsicResultResponse(
     val blockIndex: Long? = null,
     val error: String? = null,
     val events: Array<ExtrinsicResultEvent>,
-    val parsed: BalanceTransferBody? = null,
+    val parsed: ExtrinsicTransferDto? = null,
     val fee: FeeResponse? = null,
     val callbackUrl: String? = null,
 )

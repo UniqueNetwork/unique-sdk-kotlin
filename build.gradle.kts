@@ -61,9 +61,10 @@ kotlin {
         }
         val jvmTest by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-mock:$ktorVersion")
+                implementation("com.marcinziolo:kotlin-wiremock:2.0.1")
                 implementation(kotlin("test"))
                 implementation("ch.qos.logback:logback-classic:1.2.3")
+                implementation("io.ktor:ktor-client-apache:$ktorVersion")
             }
         }
         val jsMain by getting

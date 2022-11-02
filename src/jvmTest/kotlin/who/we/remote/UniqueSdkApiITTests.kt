@@ -1,27 +1,20 @@
 package who.we.remote
 
+import io.ktor.client.engine.cio.*
+import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import who.we.remote.model.BalanceTransferBody
 import who.we.remote.model.SubmitTxBody
 import who.we.remote.model.UnsignedTxPayloadBody
 import java.math.BigDecimal
 
-class ApiClientTest {
+class ApiClientITTests {
     @Test
-    fun sampleClientTest() {
+    fun transferFlowITTest() {
         runBlocking {
-//            val mockEngine = MockEngine {
-//                respond(
-//                    content = ByteReadChannel("""{"ip":"127.0.0.1"}"""),
-//                    status = HttpStatusCode.OK,
-//                    headers = headersOf(HttpHeaders.ContentType, "application/json")
-//                )
-//            }
-//            val apiClient = SdkServiceImpl(mockEngine, "")
-//
-////            Assertions.assertEquals("127.0.0.1", apiClient.buildTransaction(BuildRequest()).toString())
-            val service: SdkService = SdkServiceImpl("rest.opal.uniquenetwork.dev")
+            val service: SdkService = SdkServiceImpl(CIO.create(), "rest.opal.uniquenetwork.dev", URLProtocol.HTTPS)
             val seed = "//Bob"
             val transferBody = BalanceTransferBody(
                 "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty",
@@ -40,6 +33,9 @@ class ApiClientTest {
 
             println(submitResponse.hash)
             println(extrinsic)
+
+            Assertions.assertNotNull(extrinsic)
+            Assertions.assertFalse(extrinsic.isCompleted)
         }
     }
 }
