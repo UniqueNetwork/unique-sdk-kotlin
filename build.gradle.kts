@@ -13,6 +13,22 @@ plugins {
 repositories {
     mavenCentral()
     maven { url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap") }
+    maven { url = uri("https://dl.bintray.com/emerald/polkaj") }
+    maven { url = uri("https://jitpack.io") }
+    mavenLocal()
+}
+
+tasks.withType(Test::class.java) {
+    val os: OperatingSystem = org.gradle.nativeplatform.platform.internal.DefaultNativePlatform.getCurrentOperatingSystem();
+    if (os.isLinux) {
+        systemProperty("java.library.path", "$buildDir/rustJniLibs/desktop/linux-x86-64")
+    }
+    if (os.isMacOsX) {
+        systemProperty("java.library.path", "$buildDir/rustJniLibs/desktop/darwin-x86-64")
+    }
+    if (os.isWindows) {
+        systemProperty("java.library.path", "$buildDir")
+    }
 }
 
 kotlin {
@@ -56,6 +72,7 @@ kotlin {
                 implementation("io.ktor:ktor-client-cio:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+                implementation("io.emeraldpay.polkaj:polkaj-tx:0.5.0-SNAPSHOT")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
             }
         }

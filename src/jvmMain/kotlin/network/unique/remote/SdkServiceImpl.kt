@@ -3,7 +3,6 @@ package network.unique.remote
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.*
-import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
@@ -14,9 +13,8 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 import network.unique.remote.exception.RequestException
 import network.unique.remote.model.*
-import who.we.remote.model.*
 
-class SdkServiceImpl(engine: HttpClientEngine, private val host: String, private val protocol: URLProtocol) :
+open class SdkServiceImpl(engine: HttpClientEngine, protected val host: String, protected val protocol: URLProtocol) :
     SdkService {
 
     private val client: HttpClient = HttpClient(engine) {

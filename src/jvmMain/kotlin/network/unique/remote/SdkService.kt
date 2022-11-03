@@ -1,8 +1,6 @@
 package network.unique.remote
 
-import io.ktor.client.statement.*
 import network.unique.remote.model.*
-import who.we.remote.model.*
 
 interface SdkService {
 
