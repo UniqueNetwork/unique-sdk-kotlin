@@ -1,3 +1,5 @@
+import java.io.ByteArrayOutputStream;
+
 val ktorVersion: String by project
 val kotlinxCoroutinesVersion: String by project
 
@@ -18,27 +20,76 @@ repositories {
     mavenLocal()
 }
 
-tasks.withType(Test::class.java) {
-    val os: OperatingSystem = org.gradle.nativeplatform.platform.internal.DefaultNativePlatform.getCurrentOperatingSystem();
-    if (os.isLinux) {
-        systemProperty("java.library.path", "$buildDir/rustJniLibs/desktop/linux-x86-64")
-    }
-    if (os.isMacOsX) {
-        systemProperty("java.library.path", "$buildDir/rustJniLibs/desktop/darwin-x86-64")
-    }
-    if (os.isWindows) {
-        systemProperty("java.library.path", "$buildDir")
-    }
-}
-
 kotlin {
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "1.8"
         }
         withJava()
+
+        // Append to `lib/build.gradle`
+        val rustBasePath = "./src/signer"
+
+        // execute cargo metadata and get path to target directory
+        tasks.create("cargo-output-dir") {
+            val os = ByteArrayOutputStream()
+            exec {
+                commandLine("cargo", "metadata", "--format-version", "1")
+                workingDir(rustBasePath)
+                standardOutput = os
+            }
+            val outputAsString = os.toString()
+            val json = groovy.json.JsonSlurper().parseText(outputAsString) as Map<String, String>
+
+            logger.info("cargo target directory: ${json["target_directory"]}")
+            project.ext.set("cargo_target_directory", json["target_directory"])
+        }
+
+        // Build with cargo
+        tasks.create("cargo-build", Exec::class.java) {
+            dependsOn("cargo-output-dir")
+            workingDir(rustBasePath)
+            commandLine("cargo", "build", "--release")
+
+            doLast {
+                exec {
+                    workingDir(rustBasePath)
+                    commandLine("cross", "build", "--target", "armv7-linux-androideabi")
+                }
+                exec {
+                    workingDir(rustBasePath)
+                    commandLine("cross", "build", "--target", "i686-linux-android")
+                }
+                exec {
+                    workingDir(rustBasePath)
+                    commandLine("cross", "build", "--target", "aarch64-linux-android")
+                }
+                exec {
+                    workingDir(rustBasePath)
+                    commandLine("cross", "build", "--target", "x86_64-linux-android")
+                }
+            }
+        }
+
+        tasks.create("rust-deploy", Sync::class.java) {
+            dependsOn("cargo-build")
+            from("${project.ext.get("cargo_target_directory")}/release")
+            include("*.dylib", "*.so")
+            into("rust-lib/")
+        }
+
+        tasks.create("clean-rust", Delete::class.java) {
+            delete("${project.ext.get("cargo_target_directory")}")
+        }
+
+        tasks["clean"].dependsOn("clean-rust")
+        tasks.withType(JavaCompile::class.java) {
+                dependsOn("rust-deploy")
+        }
+
         testRuns["test"].executionTask.configure {
             useJUnitPlatform()
+            systemProperty("java.library.path", "${project.ext.get("cargo_target_directory")}/release")
         }
     }
     js(BOTH) {

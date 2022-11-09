@@ -54,5 +54,6 @@
     "from": "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty",
     "to": "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
     "amount": "10000000000000000"
-  }
+  },
+  "useMethod": false
 }

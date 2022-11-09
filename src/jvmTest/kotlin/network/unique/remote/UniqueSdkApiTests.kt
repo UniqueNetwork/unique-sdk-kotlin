@@ -8,18 +8,16 @@ import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import network.unique.client.KtorClientWrapper
 import org.junit.jupiter.api.Test
-import network.unique.remote.model.BalanceTransferBody
-import network.unique.remote.model.SubmitTxBody
-import network.unique.remote.model.UnsignedTxPayloadBody
-import kotlin.random.Random
+import network.unique.model.balance.BalanceTransferBody
+import network.unique.model.SubmitTxBody
+import network.unique.model.UnsignedTxPayloadBody
+import network.unique.service.impl.BalanceServiceImpl
+import network.unique.service.impl.ExtrinsicServiceImpl
 
 @WireMockTest
 class ApiClientTests {
-
-    companion object {
-        val CHAR_POOL = charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'f')
-    }
 
     @Test
     fun transferFlowTest(runtime :WireMockRuntimeInfo) {
@@ -57,25 +55,26 @@ class ApiClientTests {
         )
 
         runBlocking {
-            val service = SdkServiceImpl(Apache.create(), "localhost:" + runtime.httpPort, URLProtocol.HTTP)
+            val clientWrapper = KtorClientWrapper(Apache.create(), "localhost:" + runtime.httpPort, URLProtocol.HTTP)
+            val balanceService = BalanceServiceImpl(clientWrapper)
+            val extrinsicService = ExtrinsicServiceImpl(clientWrapper)
 
             val balanceTransferBodyRequest = readObject("/request/BalanceTransferBody.json") {
                 Json.decodeFromString<BalanceTransferBody>(it)
             }
-            val balanceTransferResponse = service.buildTransaction(balanceTransferBodyRequest, "")
+            balanceService.buildTransaction(balanceTransferBodyRequest, "")
 
             val unsignedTxPayloadBody = readObject("/request/UnsignedTxPayloadBody.json") {
                 Json.decodeFromString<UnsignedTxPayloadBody>(it)
             }
-            val signResponse = service.signTransaction(unsignedTxPayloadBody, "")
+            balanceService.signTransaction(unsignedTxPayloadBody, "")
 
             val submitTxBody = readObject("/request/SubmitTxBody.json") {
                 Json.decodeFromString<SubmitTxBody>(it)
             }
-            val submitResponse = service.submitAndWatchTransaction(submitTxBody, "")
+            val submitResponse = balanceService.submitAndWatchTransaction(submitTxBody, "")
 
-            val extrinsicResponse = service.getExtrinsic(submitResponse.hash, "")
-            println()
+            extrinsicService.getExtrinsicStatus(submitResponse.hash)
         }
     }
 

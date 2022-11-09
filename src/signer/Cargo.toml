@@ -1,0 +1,22 @@
+[package]
+name = "signer"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+jni = "0.20.0"
+sp-core = { version = "6.0.0", default-features = false, features = [
+	"full_crypto",
+	"std",
+] }
+thiserror = "1.0.37"
+
+[lib]
+crate_type = ["staticlib", "dylib"]
+
+[profile.release]
+panic = "abort"
+strip = true
+lto = true
+codegen-units = 1
+debug = 0
