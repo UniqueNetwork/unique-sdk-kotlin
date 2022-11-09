@@ -78,27 +78,31 @@ kotlin {
 
         tasks["clean"].dependsOn("clean-rust")
         tasks.withType(JavaCompile::class.java) {
-                dependsOn("cargo-build")
+            dependsOn("cargo-build")
         }
 
         tasks.withType(Jar::class.java) {
-            from("${project.ext.get("cargo_target_directory")}/armv7-linux-androideabi/release/libsigner.so")
-            into("natives/armv7/")
+            from("${project.ext.get("cargo_target_directory")}/armv7-linux-androideabi/release/libsigner.so") {
+                into("natives/armv7/")
+            }
         }
 
         tasks.withType(Jar::class.java) {
-            from("${project.ext.get("cargo_target_directory")}/i686-linux-android/release/libsigner.so")
-            into("natives/i686/")
+            from("${project.ext.get("cargo_target_directory")}/i686-linux-android/release/libsigner.so") {
+                into("natives/i686/")
+            }
         }
 
         tasks.withType(Jar::class.java) {
-            from("${project.ext.get("cargo_target_directory")}/aarch64-linux-android/release/libsigner.so")
-            into("natives/aarch64/")
+            from("${project.ext.get("cargo_target_directory")}/aarch64-linux-android/release/libsigner.so") {
+                into("natives/aarch64/")
+            }
         }
 
         tasks.withType(Jar::class.java) {
-            from("${project.ext.get("cargo_target_directory")}/x86_64-linux-android/release/libsigner.so")
-            into("natives/x86_64/")
+            from("${project.ext.get("cargo_target_directory")}/x86_64-linux-android/release/libsigner.so") {
+                into("natives/x86_64/")
+            }
         }
 
         testRuns["test"].executionTask.configure {
