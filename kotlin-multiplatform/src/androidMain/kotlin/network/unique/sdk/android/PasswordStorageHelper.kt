@@ -1,7 +1,6 @@
 package network.unique.sdk.android
 
 import android.content.Context
-import android.os.Build
 import android.util.Log
 import network.unique.sdk.android.Constants.Companion.tag
 import network.unique.sdk.android.key.PasswordStorageHelperSDK16
@@ -13,11 +12,7 @@ class PasswordStorageHelper(context: Context) {
     private var passwordStorage: PasswordStorageInterface?
 
     init {
-        passwordStorage = if (Build.VERSION.SDK_INT < 18) {
-            PasswordStorageHelperSDK16();
-        } else {
-            PasswordStorageHelperSDK18();
-        }
+        passwordStorage = PasswordStorageHelperSDK18();
 
         var isInitialized: Boolean? = false;
 

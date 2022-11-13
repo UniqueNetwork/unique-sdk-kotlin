@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("maven-publish")
 }
 
 java {
@@ -23,24 +24,24 @@ tasks.create("cargo-build", Exec::class.java) {
     workingDir(rustBasePath!!)
     commandLine("cargo", "build", "--release")
 
-    doLast {
-        exec {
-            workingDir(rustBasePath)
-            commandLine("cross", "build", "--target", "armv7-linux-androideabi", "--release")
-        }
-        exec {
-            workingDir(rustBasePath)
-            commandLine("cross", "build", "--target", "i686-linux-android", "--release")
-        }
-        exec {
-            workingDir(rustBasePath)
-            commandLine("cross", "build", "--target", "aarch64-linux-android", "--release")
-        }
-        exec {
-            workingDir(rustBasePath)
-            commandLine("cross", "build", "--target", "x86_64-linux-android", "--release")
-        }
-    }
+//    doLast {
+//        exec {
+//            workingDir(rustBasePath)
+//            commandLine("cross", "build", "--target", "armv7-linux-androideabi", "--release")
+//        }
+//        exec {
+//            workingDir(rustBasePath)
+//            commandLine("cross", "build", "--target", "i686-linux-android", "--release")
+//        }
+//        exec {
+//            workingDir(rustBasePath)
+//            commandLine("cross", "build", "--target", "aarch64-linux-android", "--release")
+//        }
+//        exec {
+//            workingDir(rustBasePath)
+//            commandLine("cross", "build", "--target", "x86_64-linux-android", "--release")
+//        }
+//    }
 }
 
 tasks.create("clean-rust", Delete::class.java) {
@@ -53,31 +54,39 @@ tasks.withType(JavaCompile::class.java) {
     dependsOn("cargo-build")
 }
 
-tasks.withType(Jar::class.java) {
-    from("${project.ext.get("cargo_target_directory")}/armv7-linux-androideabi/release/libsigner.so") {
-        into("natives/armv7/")
-    }
-}
-
-tasks.withType(Jar::class.java) {
-    from("${project.ext.get("cargo_target_directory")}/i686-linux-android/release/libsigner.so") {
-        into("natives/i686/")
-    }
-}
-
-tasks.withType(Jar::class.java) {
-    from("${project.ext.get("cargo_target_directory")}/aarch64-linux-android/release/libsigner.so") {
-        into("natives/aarch64/")
-    }
-}
-
-tasks.withType(Jar::class.java) {
-    from("${project.ext.get("cargo_target_directory")}/x86_64-linux-android/release/libsigner.so") {
-        into("natives/x86_64/")
-    }
-}
+//tasks.withType(Jar::class.java) {
+//    from("${project.ext.get("cargo_target_directory")}/armv7-linux-androideabi/release/libsigner.so") {
+//        into("natives/armv7/")
+//    }
+//}
+//
+//tasks.withType(Jar::class.java) {
+//    from("${project.ext.get("cargo_target_directory")}/i686-linux-android/release/libsigner.so") {
+//        into("natives/i686/")
+//    }
+//}
+//
+//tasks.withType(Jar::class.java) {
+//    from("${project.ext.get("cargo_target_directory")}/aarch64-linux-android/release/libsigner.so") {
+//        into("natives/aarch64/")
+//    }
+//}
+//
+//tasks.withType(Jar::class.java) {
+//    from("${project.ext.get("cargo_target_directory")}/x86_64-linux-android/release/libsigner.so") {
+//        into("natives/x86_64/")
+//    }
+//}
 
 tasks.test {
     useJUnitPlatform()
     systemProperty("java.library.path", "${project.ext.get("cargo_target_directory")}/release")
+}
+
+publishing {
+    publications {
+        register<MavenPublication>("java") {
+            from(components["java"])
+        }
+    }
 }
