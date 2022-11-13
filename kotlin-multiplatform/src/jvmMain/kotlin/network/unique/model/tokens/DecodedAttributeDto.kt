@@ -1,6 +1,5 @@
 package network.unique.model.tokens
 
-import com.fasterxml.jackson.annotation.JsonRawValue
 import kotlinx.serialization.Serializable
 
 @Serializable

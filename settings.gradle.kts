@@ -19,4 +19,5 @@ pluginManagement {
 }
 
 rootProject.name = "unique-sdk-kotlin"
-
+include("kotlin-multiplatform")
+include("java-signer")
