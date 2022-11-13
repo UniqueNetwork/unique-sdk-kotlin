@@ -1,11 +1,11 @@
-import java.io.ByteArrayOutputStream;
-
 plugins {
     id("java")
 }
 
-group = "who.we"
-version = "1.0-SNAPSHOT"
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
 
 repositories {
     mavenCentral()
@@ -18,7 +18,6 @@ dependencies {
 
 val rustBasePath = project.ext.get("rust_base_path")
 
-// Build with cargo
 tasks.create("cargo-build", Exec::class.java) {
     dependsOn("cargo-output-dir")
     workingDir(rustBasePath!!)

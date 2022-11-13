@@ -9,7 +9,7 @@ import android.security.keystore.KeyInfo
 import android.security.keystore.KeyProperties
 import android.util.Base64
 import android.util.Log
-import com.surrus.common.R
+import network.unique.R
 import network.unique.sdk.android.Constants.Companion.PREFS_NAME
 import network.unique.sdk.android.Constants.Companion.tag
 import java.io.IOException

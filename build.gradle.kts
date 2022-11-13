@@ -1,12 +1,10 @@
-group = "who.we"
-version = "1.0-SNAPSHOT"
-
 allprojects {
-    // Append to `lib/build.gradle`
+    group = "network.unique"
+    version = "1.0-SNAPSHOT"
+
     val rustBasePath = "${project.rootDir}/java-signer/src/signer"
     project.ext.set("rust_base_path", rustBasePath)
 
-    // execute cargo metadata and get path to target directory
     tasks.create("cargo-output-dir") {
         val os = java.io.ByteArrayOutputStream()
         exec {
