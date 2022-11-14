@@ -23,25 +23,30 @@ tasks.create("cargo-build", Exec::class.java) {
     dependsOn("cargo-output-dir")
     workingDir(rustBasePath!!)
     commandLine("cargo", "build", "--release")
+}
 
-    doLast {
-        exec {
-            workingDir(rustBasePath)
-            commandLine("cross", "build", "--target", "armv7-linux-androideabi", "--release")
-        }
-        exec {
-            workingDir(rustBasePath)
-            commandLine("cross", "build", "--target", "i686-linux-android", "--release")
-        }
-        exec {
-            workingDir(rustBasePath)
-            commandLine("cross", "build", "--target", "aarch64-linux-android", "--release")
-        }
-        exec {
-            workingDir(rustBasePath)
-            commandLine("cross", "build", "--target", "x86_64-linux-android", "--release")
-        }
-    }
+tasks.create("cargo-build-android-armv7", Exec::class.java) {
+    dependsOn("cargo-output-dir")
+    workingDir(rustBasePath!!)
+    commandLine("cross", "build", "--target", "armv7-linux-androideabi", "--release")
+}
+
+tasks.create("cargo-build-android-i686", Exec::class.java) {
+    dependsOn("cargo-output-dir")
+    workingDir(rustBasePath!!)
+    commandLine("cross", "build", "--target", "i686-linux-android", "--release")
+}
+
+tasks.create("cargo-build-android-aarch64", Exec::class.java) {
+    dependsOn("cargo-output-dir")
+    workingDir(rustBasePath!!)
+    commandLine("cross", "build", "--target", "aarch64-linux-android", "--release")
+}
+
+tasks.create("cargo-build-android-x86_64", Exec::class.java) {
+    dependsOn("cargo-output-dir")
+    workingDir(rustBasePath!!)
+    commandLine("cross", "build", "--target", "x86_64-linux-android", "--release")
 }
 
 tasks.create("clean-rust", Delete::class.java) {
@@ -55,24 +60,28 @@ tasks.withType(JavaCompile::class.java) {
 }
 
 tasks.withType(Jar::class.java) {
+    dependsOn("cargo-build-android-armv7")
     from("${project.ext.get("cargo_target_directory")}/armv7-linux-androideabi/release/libsigner.so") {
         into("natives/armv7/")
     }
 }
 
 tasks.withType(Jar::class.java) {
+    dependsOn("cargo-build-android-i686")
     from("${project.ext.get("cargo_target_directory")}/i686-linux-android/release/libsigner.so") {
         into("natives/i686/")
     }
 }
 
 tasks.withType(Jar::class.java) {
+    dependsOn("cargo-build-android-aarch64")
     from("${project.ext.get("cargo_target_directory")}/aarch64-linux-android/release/libsigner.so") {
         into("natives/aarch64/")
     }
 }
 
 tasks.withType(Jar::class.java) {
+    dependsOn("cargo-build-android-x86_64")
     from("${project.ext.get("cargo_target_directory")}/x86_64-linux-android/release/libsigner.so") {
         into("natives/x86_64/")
     }
