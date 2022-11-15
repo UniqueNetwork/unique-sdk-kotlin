@@ -12,6 +12,7 @@ buildscript {
 
     dependencies {
         classpath("com.android.tools.build:gradle:7.2.0")
+        classpath("com.google.guava:guava:31.1-jre")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
         classpath("org.jetbrains.kotlin:kotlin-serialization:${kotlinVersion}")
         classpath("org.jmailen.gradle:kotlinter-gradle:${kotlinterGradle}")
@@ -31,6 +32,7 @@ plugins {
     kotlin("plugin.serialization") version "1.7.20"
     id("com.android.library")
     id("maven-publish")
+    id("org.openapi.generator") version "6.2.1"
 }
 
 repositories {
@@ -48,6 +50,25 @@ configurations.all {
             using(module("androidx.compose.compiler:compiler:${composeCompiler}"))
         }
     }
+}
+
+openApiGenerate {
+    generatorName.set("kotlin")
+    inputSpec.set("$projectDir/specs/opal-spec.yml")
+    outputDir.set("$buildDir/generated")
+    apiPackage.set("network.unique.api")
+    invokerPackage.set("network.unique.invoker")
+    modelPackage.set("network.unique.model")
+    skipValidateSpec.set(true)
+}
+
+tasks.create("downloadSpec", org.jetbrains.kotlin.de.undercouch.gradle.tasks.download.Download::class.java) {
+    src("https://rest.opal.uniquenetwork.dev/swagger-yaml")
+    dest(File(projectDir, "specs/opal-spec.yml"))
+}
+
+tasks.openApiGenerate {
+    dependsOn("downloadSpec")
 }
 
 android {
@@ -117,6 +138,11 @@ kotlin {
             dependencies {
                 implementation("androidx.annotation:annotation:1.5.0")
                 implementation("io.ktor:ktor-client-android:$ktorVersion")
+            }
+        }
+        val androidTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
             }
         }
     }
