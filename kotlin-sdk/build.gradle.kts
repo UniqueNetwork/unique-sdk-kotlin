@@ -55,7 +55,7 @@ configurations.all {
 openApiGenerate {
     generatorName.set("kotlin")
     inputSpec.set("$projectDir/specs/opal-spec.yml")
-    outputDir.set("$buildDir/generated")
+    outputDir.set("$projectDir/src/openApiGenerator")
     apiPackage.set("network.unique.api")
     invokerPackage.set("network.unique.invoker")
     modelPackage.set("network.unique.model")
@@ -107,7 +107,6 @@ kotlin {
         }
     }
 
-
     sourceSets {
         val commonMain by getting
         val commonTest by getting {
@@ -115,7 +114,12 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
+        val openApiGenerator by creating {
+            kotlin.srcDir("src/openApiGenerator/src/main/kotlin")
+        }
         val jvmMain by getting {
+            dependsOn(openApiGenerator)
+
             dependencies {
                 implementation(project(":java-signer"))
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
