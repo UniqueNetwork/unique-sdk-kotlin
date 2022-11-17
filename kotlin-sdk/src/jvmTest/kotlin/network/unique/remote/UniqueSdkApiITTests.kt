@@ -4,14 +4,11 @@ import io.ktor.client.engine.apache.*
 import io.ktor.client.engine.cio.*
 import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
-import network.unique.client.KtorClientWrapper
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import network.unique.model.balance.BalanceTransferBody
 import network.unique.model.SubmitTxBody
 import network.unique.model.UnsignedTxPayloadBody
-import network.unique.service.BalanceService
-import network.unique.service.impl.BalanceServiceImpl
 import network.unique.service.impl.BalanceServiceLocalSignImpl
 import network.unique.service.impl.ExtrinsicServiceImpl
 import java.math.BigDecimal

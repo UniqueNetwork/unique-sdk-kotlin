@@ -8,7 +8,6 @@ import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import network.unique.client.KtorClientWrapper
 import org.junit.jupiter.api.Test
 import network.unique.model.balance.BalanceTransferBody
 import network.unique.model.SubmitTxBody

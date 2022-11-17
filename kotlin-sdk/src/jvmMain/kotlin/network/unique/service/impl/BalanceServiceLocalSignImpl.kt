@@ -1,6 +1,5 @@
 package network.unique.service.impl
 
-import network.unique.client.KtorClientWrapper
 import network.unique.model.UnsignedTxPayloadBody
 import network.unique.model.balance.SignResponse
 import network.unique.signer.CryptoScheme

@@ -1,5 +1,5 @@
 package network.unique.exception
 
-import io.ktor.client.statement.*
+import okhttp3.Response
 
-class RequestException(val response: HttpResponse, message: String): RuntimeException(message)
+class RequestException(val response: Response, message: String): RuntimeException(message)

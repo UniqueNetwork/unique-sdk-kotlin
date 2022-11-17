@@ -4,7 +4,6 @@ import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import network.unique.client.KtorClientWrapper
 import network.unique.model.SubmitResultResponse
 import network.unique.model.SubmitTxBody
 import network.unique.model.UnsignedTxPayloadBody

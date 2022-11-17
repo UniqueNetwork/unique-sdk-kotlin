@@ -32,7 +32,7 @@ plugins {
     kotlin("plugin.serialization") version "1.7.20"
     id("com.android.library")
     id("maven-publish")
-    id("org.openapi.generator") version "6.2.1"
+//    id("org.openapi.generator") version "6.2.1"
 }
 
 repositories {
@@ -52,24 +52,24 @@ configurations.all {
     }
 }
 
-openApiGenerate {
-    generatorName.set("kotlin")
-    inputSpec.set("$projectDir/specs/opal-spec.yml")
-    outputDir.set("$projectDir/src/openApiGenerator")
-    apiPackage.set("network.unique.api")
-    invokerPackage.set("network.unique.invoker")
-    modelPackage.set("network.unique.model")
-    skipValidateSpec.set(true)
-}
+//openApiGenerate {
+//    generatorName.set("kotlin")
+//    inputSpec.set("$projectDir/specs/opal-spec.yml")
+//    outputDir.set("$projectDir/src/openApiGenerator")
+//    apiPackage.set("network.unique.api")
+//    invokerPackage.set("network.unique.invoker")
+//    modelPackage.set("network.unique.model")
+//    skipValidateSpec.set(true)
+//}
 
-tasks.create("downloadSpec", org.jetbrains.kotlin.de.undercouch.gradle.tasks.download.Download::class.java) {
-    src("https://rest.opal.uniquenetwork.dev/swagger-yaml")
-    dest(File(projectDir, "specs/opal-spec.yml"))
-}
-
-tasks.openApiGenerate {
-    dependsOn("downloadSpec")
-}
+//tasks.create("downloadSpec", org.jetbrains.kotlin.de.undercouch.gradle.tasks.download.Download::class.java) {
+//    src("https://rest.opal.uniquenetwork.dev/swagger-yaml")
+//    dest(File(projectDir, "specs/opal-spec.yml"))
+//}
+//
+//tasks.openApiGenerate {
+//    dependsOn("downloadSpec")
+//}
 
 android {
     compileSdk = 33
@@ -122,11 +122,13 @@ kotlin {
 
             dependencies {
                 implementation(project(":java-signer"))
-                implementation("io.ktor:ktor-client-core:$ktorVersion")
-                implementation("io.ktor:ktor-client-logging:$ktorVersion")
-                implementation("io.ktor:ktor-client-cio:$ktorVersion")
-                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+//                implementation("io.ktor:ktor-client-core:$ktorVersion")
+//                implementation("io.ktor:ktor-client-logging:$ktorVersion")
+//                implementation("io.ktor:ktor-client-cio:$ktorVersion")
+//                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+//                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+                implementation("com.squareup.okhttp3:okhttp:4.10.0")
+                implementation("com.squareup.moshi:moshi:1.14.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
             }
         }
@@ -135,13 +137,13 @@ kotlin {
                 implementation("com.marcinziolo:kotlin-wiremock:2.0.1")
                 implementation(kotlin("test"))
                 implementation("ch.qos.logback:logback-classic:1.2.3")
-                implementation("io.ktor:ktor-client-apache:$ktorVersion")
+//                implementation("io.ktor:ktor-client-apache:$ktorVersion")
             }
         }
         val androidMain by getting {
             dependencies {
                 implementation("androidx.annotation:annotation:1.5.0")
-                implementation("io.ktor:ktor-client-android:$ktorVersion")
+//                implementation("io.ktor:ktor-client-android:$ktorVersion")
             }
         }
         val androidTest by getting {
