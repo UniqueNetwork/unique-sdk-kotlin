@@ -15,8 +15,6 @@
 
 package network.unique.model
 
-import network.unique.model.ArrayPipeNumberPipeRecordLessThanStringCommaAnyGreaterThan
-
 import com.squareup.moshi.Json
 
 /**
@@ -42,7 +40,7 @@ data class TxBuildBody (
     val method: kotlin.String,
 
     @Json(name = "args")
-    val args: kotlin.collections.List<ArrayPipeNumberPipeRecordLessThanStringCommaAnyGreaterThan>
+    val args: kotlin.collections.List<Any>
 
 )
 

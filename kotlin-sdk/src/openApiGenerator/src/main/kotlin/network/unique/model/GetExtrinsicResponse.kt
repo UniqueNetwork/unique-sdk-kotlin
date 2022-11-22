@@ -39,10 +39,10 @@ data class GetExtrinsicResponse (
     val method: kotlin.String,
 
     @Json(name = "events")
-    val events: kotlin.collections.List,
+    val events: kotlin.collections.List<Any>,
 
     @Json(name = "args")
-    val args: kotlin.collections.List,
+    val args: kotlin.collections.List<Any>,
 
     @Json(name = "nonce")
     val nonce: java.math.BigDecimal,

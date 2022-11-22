@@ -24,7 +24,7 @@ import com.squareup.moshi.Json
  */
 
 
-data class EvmSendArgumentsDtoValue (
+class EvmSendArgumentsDtoValue (
 
 )
 

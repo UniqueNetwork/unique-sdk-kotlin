@@ -46,32 +46,32 @@ import com.squareup.moshi.Json
 data class TransferMutationDefaultResponse (
 
     @Json(name = "signerPayloadJSON")
-    val signerPayloadJSON: SignerPayloadJSONDto,
+    val signerPayloadJSON: SignerPayloadJSONDto?,
 
     @Json(name = "signerPayloadRaw")
-    val signerPayloadRaw: SignerPayloadRawDto,
+    val signerPayloadRaw: SignerPayloadRawDto?,
 
     @Json(name = "signerPayloadHex")
-    val signerPayloadHex: kotlin.String,
+    val signerPayloadHex: kotlin.String?,
 
     /* Warning: Signature must be with SignatureType! */
     @Json(name = "signature")
-    val signature: kotlin.String,
+    val signature: kotlin.String?,
 
     @Json(name = "hash")
-    val hash: kotlin.String,
+    val hash: kotlin.String?,
 
     @Json(name = "isError")
-    val isError: kotlin.Boolean,
+    val isError: kotlin.Boolean?,
 
     @Json(name = "parsed")
-    val parsed: BalanceTransferParsed,
+    val parsed: BalanceTransferParsed?,
 
     @Json(name = "payloads")
-    val payloads: kotlin.collections.List<UnsignedTxPayloadResponse>,
+    val payloads: kotlin.collections.List<UnsignedTxPayloadResponse>?,
 
     @Json(name = "nextNonce")
-    val nextNonce: java.math.BigDecimal,
+    val nextNonce: java.math.BigDecimal?,
 
     @Json(name = "fee")
     val fee: FeeResponse? = null

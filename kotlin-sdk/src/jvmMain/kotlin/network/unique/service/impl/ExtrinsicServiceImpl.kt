@@ -1,123 +1,52 @@
 package network.unique.service.impl
 
-import io.ktor.client.call.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
+import network.unique.api.ExtrinsicApi
 import network.unique.model.*
-import network.unique.model.extrinsic.*
 import network.unique.service.ExtrinsicService
+import network.unique.signer.CryptoScheme
+import network.unique.signer.Pair
 
-class ExtrinsicServiceImpl(clientWrapper: KtorClientWrapper) : BasicHttpService(clientWrapper), ExtrinsicService {
-    override suspend fun buildExtrinsic(request: TxBuildBody): UnsignedTxPayloadResponse {
-        val response: HttpResponse = client.request {
-            url {
-                protocol = super.protocol
-                host = super.host
-                path("/v1/extrinsic/build")
-            }
-            method = HttpMethod.Post
-            accept(ContentType.Application.Json)
-            contentType(ContentType.Application.Json)
-            setBody(request)
-        }
-        validateResponse(response)
-        return response.body()
+class ExtrinsicServiceImpl(basePath: String) : ExtrinsicService {
+
+    private val api: ExtrinsicApi = ExtrinsicApi(basePath)
+
+    override fun buildTx(body: TxBuildBody): UnsignedTxPayloadResponse {
+        return api.extrinsicsControllerBuildTx(body)
     }
 
-    override suspend fun signExtrinsic(request: UnsignedTxPayloadBody, seed: String): SignTxResultResponse {
-        val response: HttpResponse = client.request {
-            url {
-                protocol = super.protocol
-                host = super.host
-                path("/v1/extrinsic/sign")
-            }
-            method = HttpMethod.Post
-            accept(ContentType.Application.Json)
-            contentType(ContentType.Application.Json)
-            setBody(request)
-        }
-        validateResponse(response)
-        return response.body()
+    override fun signTx(body: UnsignedTxPayloadBody, seed: String): SignTxResultResponse {
+        val keyPair = Pair.fromSuri(CryptoScheme.Sr25519, seed, null)
+
+        val signature = keyPair.sign(toByteArray(body.signerPayloadRaw.data.substring(2)))
+            .joinToString("") { eachByte -> "%02x".format(eachByte) }
+
+        return SignTxResultResponse("0x01$signature", SignTxResultResponse.SignatureType.sr25519)
     }
 
-    override suspend fun verifyExtrinsicSign(request: SubmitTxBody): VerificationResultResponse {
-        val response: HttpResponse = client.request {
-            url {
-                protocol = super.protocol
-                host = super.host
-                path("/v1/extrinsic/verify-sign")
-            }
-            method = HttpMethod.Post
-            accept(ContentType.Application.Json)
-            contentType(ContentType.Application.Json)
-            setBody(request)
-        }
-        validateResponse(response)
-        return response.body()
+    override fun verifySign(body: SubmitTxBody): VerificationResultResponse {
+        return api.extrinsicsControllerVerifySign(body)
     }
 
-    override suspend fun submitExtrinsic(request: SubmitTxBody): SubmitResultResponse {
-        val response: HttpResponse = client.request {
-            url {
-                protocol = super.protocol
-                host = super.host
-                path("/v1/extrinsic/submit")
-            }
-            method = HttpMethod.Post
-            accept(ContentType.Application.Json)
-            contentType(ContentType.Application.Json)
-            setBody(request)
-        }
-        validateResponse(response)
-        return response.body()
+    override fun submit(body: SubmitTxBody): SubmitResultResponse {
+        return api.extrinsicsControllerSubmitTx(body)
     }
 
-    override suspend fun calculateExtrinsicFee(request: Feeable): FeeResponse {
-        val response: HttpResponse = client.request {
-            url {
-                protocol = super.protocol
-                host = super.host
-                path("/v1/extrinsic/calculate-fee")
-            }
-            method = HttpMethod.Post
-            accept(ContentType.Application.Json)
-            contentType(ContentType.Application.Json)
-            setBody(request)
-        }
-        validateResponse(response)
-        return response.body()
+    override fun calculateFee(body: ExtrinsicsControllerCalculateFeeRequest): FeeResponse {
+        return api.extrinsicsControllerCalculateFee(body)
     }
 
-    override suspend fun getExtrinsicStatus(transactionHash: String): ExtrinsicResultResponse {
-        val response: HttpResponse = client.request {
-            url {
-                protocol = super.protocol
-                host = super.host
-                path("/v1/extrinsic/status")
-                parameters.append("hash", transactionHash)
-            }
-            accept(ContentType.Application.Json)
-            method = HttpMethod.Get
-        }
-        validateResponse(response)
-        return response.body()
+    override fun getExtrinsicStatus(hash: String): ExtrinsicResultResponse {
+        return api.extrinsicsControllerGetStatus(hash)
     }
 
-    override suspend fun getExtrinsic(blockHashOrNumber: String, extrinsicHash: String): GetExtrinsicResponse {
-        val response: HttpResponse = client.request {
-            url {
-                protocol = super.protocol
-                host = super.host
-                path("/v1/extrinsic")
-                parameters.append("blockHashOrNumber", blockHashOrNumber)
-                parameters.append("extrinsicHash", extrinsicHash)
-            }
-            accept(ContentType.Application.Json)
-            method = HttpMethod.Get
-        }
-        validateResponse(response)
-        return response.body()
+    override fun getExtrinsic(blockHashOrNumber: String, extrinsicHash: String): GetExtrinsicResponse {
+        return api.extrinsicsControllerGet(blockHashOrNumber, extrinsicHash)
+    }
+
+    private fun toByteArray(data: String): ByteArray {
+        return data.chunked(2)
+            .map { it.toInt(16).toByte() }
+            .toByteArray()
     }
 
 }

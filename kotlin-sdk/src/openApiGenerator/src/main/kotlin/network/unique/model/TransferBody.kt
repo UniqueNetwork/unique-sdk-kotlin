@@ -27,7 +27,7 @@ import com.squareup.moshi.Json
  */
 
 
-data class MutationBody (
+data class TransferBody (
 
     /* The ss-58 encoded address */
     @Json(name = "address")

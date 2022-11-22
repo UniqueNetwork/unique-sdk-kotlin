@@ -129,6 +129,7 @@ kotlin {
 //                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 implementation("com.squareup.okhttp3:okhttp:4.10.0")
                 implementation("com.squareup.moshi:moshi:1.14.0")
+                implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
             }
         }

@@ -1,22 +1,21 @@
 package network.unique.service
 
 import network.unique.model.*
-import network.unique.model.extrinsic.*
 
 interface ExtrinsicService {
 
-    suspend fun buildExtrinsic(request: TxBuildBody): UnsignedTxPayloadResponse
+    fun buildTx(body: TxBuildBody): UnsignedTxPayloadResponse
 
-    suspend fun signExtrinsic(request: UnsignedTxPayloadBody, seed: String): SignTxResultResponse
+    fun signTx(body: UnsignedTxPayloadBody, seed: String): SignTxResultResponse
 
-    suspend fun verifyExtrinsicSign(request: SubmitTxBody): VerificationResultResponse
+    fun verifySign(body: SubmitTxBody): VerificationResultResponse
 
-    suspend fun submitExtrinsic(request: SubmitTxBody): SubmitResultResponse
+    fun submit(body: SubmitTxBody): SubmitResultResponse
 
-    suspend fun calculateExtrinsicFee(request: Feeable): FeeResponse
+    fun calculateFee(body: ExtrinsicsControllerCalculateFeeRequest): FeeResponse
 
-    suspend fun getExtrinsicStatus(transactionHash: String): ExtrinsicResultResponse
+    fun getExtrinsicStatus(hash: String): ExtrinsicResultResponse
 
-    suspend fun getExtrinsic(blockHashOrNumber: String, extrinsicHash: String): GetExtrinsicResponse
+    fun getExtrinsic(blockHashOrNumber: String, extrinsicHash: String): GetExtrinsicResponse
 
 }

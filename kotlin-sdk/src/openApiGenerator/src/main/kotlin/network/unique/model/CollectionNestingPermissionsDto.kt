@@ -17,6 +17,7 @@ package network.unique.model
 
 
 import com.squareup.moshi.Json
+import java.math.BigDecimal
 
 /**
  * 
@@ -36,7 +37,7 @@ data class CollectionNestingPermissionsDto (
     val collectionAdmin: kotlin.Boolean? = null,
 
     @Json(name = "restricted")
-    val restricted: kotlin.collections.List<java.math.BigDecimal>? = arrayListOf(1,2)
+    val restricted: kotlin.collections.List<java.math.BigDecimal>? = arrayListOf(BigDecimal(1),BigDecimal(2))
 
 )
 

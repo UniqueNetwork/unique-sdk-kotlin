@@ -15,7 +15,6 @@
 
 package network.unique.model
 
-import network.unique.model.ArrayPipeNumberPipeRecordLessThanStringCommaAnyGreaterThan
 import network.unique.model.SignerPayloadJSONDto
 import network.unique.model.SignerPayloadRawDto
 import network.unique.model.SubmitTxBody
@@ -42,29 +41,29 @@ data class ExtrinsicsControllerCalculateFeeRequest (
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
     @Json(name = "section")
-    val section: kotlin.String,
+    val section: kotlin.String? = null,
 
     @Json(name = "method")
-    val method: kotlin.String,
+    val method: kotlin.String? = null,
 
     @Json(name = "args")
-    val args: kotlin.collections.List<ArrayPipeNumberPipeRecordLessThanStringCommaAnyGreaterThan>,
+    val args: kotlin.collections.List<Any>? = null,
 
     @Json(name = "signerPayloadJSON")
-    val signerPayloadJSON: SignerPayloadJSONDto,
+    val signerPayloadJSON: SignerPayloadJSONDto? = null,
 
     @Json(name = "signerPayloadRaw")
-    val signerPayloadRaw: SignerPayloadRawDto,
+    val signerPayloadRaw: SignerPayloadRawDto? = null,
 
     @Json(name = "signerPayloadHex")
-    val signerPayloadHex: kotlin.String,
+    val signerPayloadHex: kotlin.String? = null,
 
     /* Warning: Signature must be with SignatureType! */
     @Json(name = "signature")
-    val signature: kotlin.String
+    val signature: kotlin.String? = null
 
 )
 

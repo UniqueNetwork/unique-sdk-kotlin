@@ -73,7 +73,6 @@ import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
 import org.openapitools.client.infrastructure.ServerError
 import org.openapitools.client.infrastructure.MultiValueMap
-import org.openapitools.client.infrastructure.PartConfig
 import org.openapitools.client.infrastructure.RequestConfig
 import org.openapitools.client.infrastructure.RequestMethod
 import org.openapitools.client.infrastructure.ResponseType
@@ -1410,7 +1409,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * 
      * 
-     * @param createCollectionBody 
+     * @param collectionBody
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1425,8 +1424,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createCollectionMutation(createCollectionBody: CreateCollectionBody, use: Use_createCollectionMutation? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : CreateCollectionMutationDefaultResponse {
-        val localVarResponse = createCollectionMutationWithHttpInfo(createCollectionBody = createCollectionBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun createCollectionMutation(collectionBody: CreateCollectionBody, use: Use_createCollectionMutation? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : CreateCollectionMutationDefaultResponse {
+        val localVarResponse = createCollectionMutationWithHttpInfo(collectionBody = collectionBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as CreateCollectionMutationDefaultResponse
@@ -1446,7 +1445,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * 
      * 
-     * @param createCollectionBody 
+     * @param collectionBody
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1458,8 +1457,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createCollectionMutationWithHttpInfo(createCollectionBody: CreateCollectionBody, use: Use_createCollectionMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<CreateCollectionMutationDefaultResponse?> {
-        val localVariableConfig = createCollectionMutationRequestConfig(createCollectionBody = createCollectionBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun createCollectionMutationWithHttpInfo(collectionBody: CreateCollectionBody, use: Use_createCollectionMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<CreateCollectionMutationDefaultResponse?> {
+        val localVariableConfig = createCollectionMutationRequestConfig(collectionBody = collectionBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return request<CreateCollectionBody, CreateCollectionMutationDefaultResponse>(
             localVariableConfig
@@ -1469,7 +1468,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * To obtain the request config of the operation createCollectionMutation
      *
-     * @param createCollectionBody 
+     * @param collectionBody
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1477,8 +1476,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun createCollectionMutationRequestConfig(createCollectionBody: CreateCollectionBody, use: Use_createCollectionMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<CreateCollectionBody> {
-        val localVariableBody = createCollectionBody
+    fun createCollectionMutationRequestConfig(collectionBody: CreateCollectionBody, use: Use_createCollectionMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<CreateCollectionBody> {
+        val localVariableBody = collectionBody
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {

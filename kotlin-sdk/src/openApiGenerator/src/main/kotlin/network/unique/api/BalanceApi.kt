@@ -20,10 +20,10 @@ import okhttp3.OkHttpClient
 import okhttp3.HttpUrl
 
 import network.unique.model.AllBalancesResponse
-import network.unique.model.MutationBody
 import network.unique.model.TransferMutationDefaultResponse
 
 import com.squareup.moshi.Json
+import network.unique.model.TransferBody
 
 import org.openapitools.client.infrastructure.ApiClient
 import org.openapitools.client.infrastructure.ApiResponse
@@ -133,7 +133,7 @@ class BalanceApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
     /**
      * 
      * 
-     * @param mutationBody
+     * @param transferBody
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -146,9 +146,10 @@ class BalanceApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun transferMutation(mutationBody: MutationBody, use: Use_transferMutation? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : TransferMutationDefaultResponse {
-        val localVarResponse = transferMutationWithHttpInfo(mutationBody = mutationBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun transferMutation(transferBody: TransferBody, use: Use_transferMutation? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : TransferMutationDefaultResponse {
+        val localVarResponse = transferMutationWithHttpInfo(transferBody = transferBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as TransferMutationDefaultResponse
@@ -168,7 +169,7 @@ class BalanceApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
     /**
      * 
      * 
-     * @param mutationBody
+     * @param transferBody
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -180,10 +181,10 @@ class BalanceApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun transferMutationWithHttpInfo(mutationBody: MutationBody, use: Use_transferMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<TransferMutationDefaultResponse?> {
-        val localVariableConfig = transferMutationRequestConfig(mutationBody = mutationBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun transferMutationWithHttpInfo(transferBody: TransferBody, use: Use_transferMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<TransferMutationDefaultResponse?> {
+        val localVariableConfig = transferMutationRequestConfig(transferBody = transferBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<MutationBody, TransferMutationDefaultResponse>(
+        return request<TransferBody, TransferMutationDefaultResponse>(
             localVariableConfig
         )
     }
@@ -191,7 +192,7 @@ class BalanceApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
     /**
      * To obtain the request config of the operation transferMutation
      *
-     * @param mutationBody
+     * @param transferBody
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -199,12 +200,12 @@ class BalanceApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun transferMutationRequestConfig(mutationBody: MutationBody, use: Use_transferMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<MutationBody> {
-        val localVariableBody = mutationBody
+    fun transferMutationRequestConfig(transferBody: TransferBody, use: Use_transferMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<TransferBody> {
+        val localVariableBody = transferBody
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
-                    put("use", listOf(use.toString()))
+                    put("use", listOf(use.value))
                 }
                 if (withFee != null) {
                     put("withFee", listOf(withFee.toString()))

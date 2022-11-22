@@ -24,7 +24,7 @@ import com.squareup.moshi.Json
  */
 
 
-data class EvmSendArgumentsDtoMaxFeePerGas (
+class EvmSendArgumentsDtoMaxFeePerGas (
 
 )
 
