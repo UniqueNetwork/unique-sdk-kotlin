@@ -33,20 +33,36 @@ data class ApproveTokenBody (
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "spender")
-    val spender: kotlin.String,
+    val spender: kotlin.String? = null,
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal,
+    val collectionId: java.math.BigDecimal? = null,
 
     @Json(name = "tokenId")
-    val tokenId: java.math.BigDecimal,
+    val tokenId: java.math.BigDecimal? = null,
 
     @Json(name = "isApprove")
-    val isApprove: kotlin.Boolean
+    val isApprove: kotlin.Boolean? = null,
+
+    @Json(name = "signerPayloadJSON")
+    val signerPayloadJSON: SignerPayloadJSONDto? = null,
+
+    /* Warning: Signature must be with SignatureType! */
+    @Json(name = "signature")
+    val signature: kotlin.String? = null,
+
+    @Json(name = "signerPayloadRaw")
+    val signerPayloadRaw: SignerPayloadRawDto? = null,
+
+    @Json(name = "signerPayloadHex")
+    val signerPayloadHex: kotlin.String? = null,
+
+    @Json(name = "fee")
+    val fee: FeeResponse? = null
 
 )
 

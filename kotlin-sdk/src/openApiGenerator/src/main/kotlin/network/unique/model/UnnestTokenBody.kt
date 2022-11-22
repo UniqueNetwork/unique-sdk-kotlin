@@ -34,16 +34,32 @@ data class UnnestTokenBody (
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
     @Json(name = "parent")
-    val parent: NestTokenBodyParent,
+    val parent: NestTokenBodyParent? = null,
 
     @Json(name = "nested")
-    val nested: NestTokenBodyNested,
+    val nested: NestTokenBodyNested? = null,
 
     @Json(name = "value")
-    val `value`: java.math.BigDecimal? = java.math.BigDecimal("1")
+    val `value`: java.math.BigDecimal? = java.math.BigDecimal("1"),
+
+    @Json(name = "signerPayloadJSON")
+    val signerPayloadJSON: SignerPayloadJSONDto? = null,
+
+    /* Warning: Signature must be with SignatureType! */
+    @Json(name = "signature")
+    val signature: kotlin.String? = null,
+
+    @Json(name = "signerPayloadRaw")
+    val signerPayloadRaw: SignerPayloadRawDto? = null,
+
+    @Json(name = "signerPayloadHex")
+    val signerPayloadHex: kotlin.String? = null,
+
+    @Json(name = "fee")
+    val fee: FeeResponse? = null
 
 )
 
