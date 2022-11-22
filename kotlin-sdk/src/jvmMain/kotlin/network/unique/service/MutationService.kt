@@ -14,13 +14,9 @@ abstract class MutationService<A> {
 
     abstract fun getFee(args: A): FeeResponse
 
-    fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
-        TODO()
-    }
+    abstract fun getFee(args: UnsignedTxPayloadResponse): FeeResponse
 
-    fun getFee(args: SubmitTxBody): FeeResponse {
-        TODO()
-    }
+    abstract fun getFee(args: SubmitTxBody): FeeResponse
 
     abstract fun sign(args: A, seed: String): SubmitTxBody
 
@@ -28,21 +24,15 @@ abstract class MutationService<A> {
 
     abstract fun submit(args: A, seed: String): SubmitResultResponse
 
-    abstract fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse
+    abstract fun submit(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse
 
     abstract fun submit(args: SubmitTxBody): SubmitResultResponse
 
-    abstract fun submitWatch(args: A): SubmitResultResponse
+    abstract fun submitWatch(args: A, seed: String): SubmitResultResponse
 
-    abstract fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse
+    abstract fun submitWatch(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse
 
     abstract fun submitWatch(args: SubmitTxBody): SubmitResultResponse
-
-    abstract fun submitWaitResult(args: A): ExtrinsicResultResponse
-
-    abstract fun submitWaitResult(args: UnsignedTxPayloadResponse): ExtrinsicResultResponse
-
-    abstract fun submitWaitResult(args: SubmitTxBody): ExtrinsicResultResponse
 
     protected fun toByteArray(data: String): ByteArray {
         return data.chunked(2)

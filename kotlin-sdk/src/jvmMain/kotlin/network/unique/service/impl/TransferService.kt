@@ -6,21 +6,43 @@ import network.unique.service.MutationService
 import network.unique.signer.CryptoScheme
 import network.unique.signer.Pair
 
-class TransferService(basePath: String) : MutationService<BalanceTransferBody>() {
+class TransferService(basePath: String) : MutationService<MutationBody>() {
 
     private val api: BalanceApi = BalanceApi(basePath)
 
-    override fun build(args: BalanceTransferBody): UnsignedTxPayloadResponse {
+    override fun build(args: MutationBody): UnsignedTxPayloadResponse {
         val res = api.transferMutation(args, BalanceApi.Use_transferMutation.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: BalanceTransferBody): FeeResponse {
+    override fun getFee(args: MutationBody): FeeResponse {
         val res = api.transferMutation(args, BalanceApi.Use_transferMutation.build, true)
         return res.fee!!
     }
 
-    override fun sign(args: BalanceTransferBody, seed: String): SubmitTxBody {
+    override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
+        val res = api.transferMutation(
+            MutationBody(
+                signerPayloadHex = args.signerPayloadHex,
+                signerPayloadRaw = args.signerPayloadRaw,
+                signerPayloadJSON = args.signerPayloadJSON,
+                fee = args.fee
+            ), BalanceApi.Use_transferMutation.build, true
+        )
+        return res.fee!!
+    }
+
+    override fun getFee(args: SubmitTxBody): FeeResponse {
+        val res = api.transferMutation(
+            MutationBody(
+                signature = args.signature,
+                signerPayloadJSON = args.signerPayloadJSON,
+            ), BalanceApi.Use_transferMutation.build, true
+        )
+        return res.fee!!
+    }
+
+    override fun sign(args: MutationBody, seed: String): SubmitTxBody {
         val signPayload = build(args)
         return sign(signPayload, seed)
     }
@@ -34,40 +56,43 @@ class TransferService(basePath: String) : MutationService<BalanceTransferBody>()
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: BalanceTransferBody, seed: String): SubmitResultResponse {
+    override fun submit(args: MutationBody, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
-        return api.transferMutation(signedBody)
+        return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
-        TODO("Not yet implemented")
+    override fun submit(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
+        val signedBody = sign(args, seed)
+        return submit(signedBody)
     }
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        TODO("Not yet implemented")
+        val response = api.transferMutation(
+            MutationBody(
+                signerPayloadJSON = args.signerPayloadJSON,
+                signature = args.signature
+            ), BalanceApi.Use_transferMutation.submit
+        )
+        return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: BalanceTransferBody): SubmitResultResponse {
-        TODO("Not yet implemented")
+    override fun submitWatch(args: MutationBody, seed: String): SubmitResultResponse {
+        val signedBody = sign(args, seed)
+        return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
-        TODO("Not yet implemented")
+    override fun submitWatch(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
+        val signedBody = sign(args, seed)
+        return submitWatch(signedBody)
     }
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        TODO("Not yet implemented")
-    }
-
-    override fun submitWaitResult(args: BalanceTransferBody): ExtrinsicResultResponse {
-        TODO("Not yet implemented")
-    }
-
-    override fun submitWaitResult(args: UnsignedTxPayloadResponse): ExtrinsicResultResponse {
-        TODO("Not yet implemented")
-    }
-
-    override fun submitWaitResult(args: SubmitTxBody): ExtrinsicResultResponse {
-        TODO("Not yet implemented")
+        val response = api.transferMutation(
+            MutationBody(
+                signerPayloadJSON = args.signerPayloadJSON,
+                signature = args.signature
+            ), BalanceApi.Use_transferMutation.submitWatch
+        )
+        return SubmitResultResponse(response.hash)
     }
 }

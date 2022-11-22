@@ -27,18 +27,34 @@ import com.squareup.moshi.Json
  */
 
 
-data class BalanceTransferBody (
+data class MutationBody (
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "destination")
-    val destination: kotlin.String,
+    val destination: kotlin.String? = null,
 
     @Json(name = "amount")
-    val amount: java.math.BigDecimal
+    val amount: java.math.BigDecimal? = null,
+
+    @Json(name = "signerPayloadJSON")
+    val signerPayloadJSON: SignerPayloadJSONDto? = null,
+
+    /* Warning: Signature must be with SignatureType! */
+    @Json(name = "signature")
+    val signature: kotlin.String? = null,
+
+    @Json(name = "signerPayloadRaw")
+    val signerPayloadRaw: SignerPayloadRawDto? = null,
+
+    @Json(name = "signerPayloadHex")
+    val signerPayloadHex: kotlin.String? = null,
+
+    @Json(name = "fee")
+    val fee: FeeResponse? = null
 
 )
 
