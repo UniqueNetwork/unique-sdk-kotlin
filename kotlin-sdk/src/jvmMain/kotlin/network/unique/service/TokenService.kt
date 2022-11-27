@@ -29,4 +29,22 @@ interface TokenService {
 
     fun getTokenBalance(tokenId: BigDecimal, collectionId: BigDecimal, address: String, at: String): TokenBalanceResponse
 
+    fun getApproveTokenMutationService(): MutationService<ApproveTokenBody>
+
+    fun getBurnTokenMutationService(): MutationService<BurnTokenBody>
+
+    fun getCreateMultipleTokensMutationService(): MutationService<CreateMultipleTokensBody>
+
+    fun getCreateTokenMutationService(): MutationService<CreateTokenBody>
+
+    fun getDeleteTokenPropertiesMutationService(): MutationService<DeleteTokenPropertiesBody>
+
+    fun getNestTokenMutationService(): MutationService<NestTokenBody>
+
+    fun getSetTokenPropertiesMutationService(): MutationService<SetTokenPropertiesBody>
+
+    fun getTransferTokenMutationService(): MutationService<TransferTokenBody>
+
+    fun getUnnestTokenMutationService(): MutationService<UnnestTokenBody>
+
 }

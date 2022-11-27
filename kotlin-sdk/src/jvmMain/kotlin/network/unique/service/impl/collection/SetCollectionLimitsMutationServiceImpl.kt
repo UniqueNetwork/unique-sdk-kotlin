@@ -1,48 +1,48 @@
-package network.unique.service.impl.balance
+package network.unique.service.impl.collection
 
-import network.unique.api.BalanceApi
+import network.unique.api.CollectionsApi
 import network.unique.model.*
 import network.unique.service.MutationService
 import network.unique.signer.CryptoScheme
 import network.unique.signer.Pair
 
-class TransferServiceImpl(basePath: String) : MutationService<TransferBody>() {
+class SetCollectionLimitsMutationServiceImpl(basePath: String) : MutationService<SetCollectionLimitsBody>() {
 
-    private val api: BalanceApi = BalanceApi(basePath)
+    private val api: CollectionsApi = CollectionsApi(basePath)
 
-    override fun build(args: TransferBody): UnsignedTxPayloadResponse {
-        val res = api.transferMutation(args, BalanceApi.Use_transferMutation.build)
-        return UnsignedTxPayloadResponse(res.signerPayloadJSON!!, res.signerPayloadRaw!!, res.signerPayloadHex!!, res.fee)
+    override fun build(args: SetCollectionLimitsBody): UnsignedTxPayloadResponse {
+        val res = api.setCollectionLimits(args, CollectionsApi.Use_setCollectionLimits.build)
+        return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: TransferBody): FeeResponse {
-        val res = api.transferMutation(args, BalanceApi.Use_transferMutation.build, true)
+    override fun getFee(args: SetCollectionLimitsBody): FeeResponse {
+        val res = api.setCollectionLimits(args, CollectionsApi.Use_setCollectionLimits.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
-        val res = api.transferMutation(
-            TransferBody(
+        val res = api.setCollectionLimits(
+            SetCollectionLimitsBody(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
                 fee = args.fee
-            ), BalanceApi.Use_transferMutation.build, true
+            ), CollectionsApi.Use_setCollectionLimits.build, true
         )
         return res.fee!!
     }
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
-        val res = api.transferMutation(
-            TransferBody(
+        val res = api.setCollectionLimits(
+            SetCollectionLimitsBody(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
-            ), BalanceApi.Use_transferMutation.build, true
+            ), CollectionsApi.Use_setCollectionLimits.build, true
         )
         return res.fee!!
     }
 
-    override fun sign(args: TransferBody, seed: String): SubmitTxBody {
+    override fun sign(args: SetCollectionLimitsBody, seed: String): SubmitTxBody {
         val signPayload = build(args)
         return sign(signPayload, seed)
     }
@@ -56,7 +56,7 @@ class TransferServiceImpl(basePath: String) : MutationService<TransferBody>() {
         return SubmitTxBody(args.signerPayloadJSON, "0x01$signature")
     }
 
-    override fun submit(args: TransferBody, seed: String): SubmitResultResponse {
+    override fun submit(args: SetCollectionLimitsBody, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submit(signedBody)
     }
@@ -67,16 +67,16 @@ class TransferServiceImpl(basePath: String) : MutationService<TransferBody>() {
     }
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.transferMutation(
-            TransferBody(
+        val response = api.setCollectionLimits(
+            SetCollectionLimitsBody(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), BalanceApi.Use_transferMutation.submit
+            ), CollectionsApi.Use_setCollectionLimits.submit
         )
-        return SubmitResultResponse(response.hash!!)
+        return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: TransferBody, seed: String): SubmitResultResponse {
+    override fun submitWatch(args: SetCollectionLimitsBody, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submitWatch(signedBody)
     }
@@ -87,12 +87,13 @@ class TransferServiceImpl(basePath: String) : MutationService<TransferBody>() {
     }
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.transferMutation(
-            TransferBody(
+        val response = api.setCollectionLimits(
+            SetCollectionLimitsBody(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), BalanceApi.Use_transferMutation.submitWatch
+            ), CollectionsApi.Use_setCollectionLimits.submitWatch
         )
-        return SubmitResultResponse(response.hash!!)
+        return SubmitResultResponse(response.hash)
     }
+
 }

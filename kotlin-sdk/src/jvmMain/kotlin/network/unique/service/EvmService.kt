@@ -2,6 +2,7 @@ package network.unique.service
 
 import network.unique.model.EvmCallArgumentsDto
 import network.unique.model.EvmContractExistsResponseDto
+import network.unique.model.EvmSendArgumentsDto
 
 interface EvmService {
 
@@ -9,5 +10,7 @@ interface EvmService {
 
     //TODO Empty response?
     fun call(body: EvmCallArgumentsDto): Any
+
+    fun getEvmSendMutationService(): MutationService<EvmSendArgumentsDto>
 
 }

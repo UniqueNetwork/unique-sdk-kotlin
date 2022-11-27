@@ -6,43 +6,43 @@ import network.unique.service.MutationService
 import network.unique.signer.CryptoScheme
 import network.unique.signer.Pair
 
-class SetCollectionLimitMutationServiceImpl(basePath: String) : MutationService<SetCollectionLimitsBody>() {
+class DestroyCollectionMutationServiceImpl(basePath: String) : MutationService<DestroyCollectionBody>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
-    override fun build(args: SetCollectionLimitsBody): UnsignedTxPayloadResponse {
-        val res = api.setCollectionLimits(args, CollectionsApi.Use_setCollectionLimits.build)
+    override fun build(args: DestroyCollectionBody): UnsignedTxPayloadResponse {
+        val res = api.destroy(args, CollectionsApi.Use_destroy.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: SetCollectionLimitsBody): FeeResponse {
-        val res = api.setCollectionLimits(args, CollectionsApi.Use_setCollectionLimits.build, true)
+    override fun getFee(args: DestroyCollectionBody): FeeResponse {
+        val res = api.destroy(args, CollectionsApi.Use_destroy.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
-        val res = api.setCollectionLimits(
-            SetCollectionLimitsBody(
+        val res = api.destroy(
+            DestroyCollectionBody(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
                 fee = args.fee
-            ), CollectionsApi.Use_setCollectionLimits.build, true
+            ), CollectionsApi.Use_destroy.build, true
         )
         return res.fee!!
     }
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
-        val res = api.setCollectionLimits(
-            SetCollectionLimitsBody(
+        val res = api.destroy(
+            DestroyCollectionBody(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
-            ), CollectionsApi.Use_setCollectionLimits.build, true
+            ), CollectionsApi.Use_destroy.build, true
         )
         return res.fee!!
     }
 
-    override fun sign(args: SetCollectionLimitsBody, seed: String): SubmitTxBody {
+    override fun sign(args: DestroyCollectionBody, seed: String): SubmitTxBody {
         val signPayload = build(args)
         return sign(signPayload, seed)
     }
@@ -56,7 +56,7 @@ class SetCollectionLimitMutationServiceImpl(basePath: String) : MutationService<
         return SubmitTxBody(args.signerPayloadJSON, "0x01$signature")
     }
 
-    override fun submit(args: SetCollectionLimitsBody, seed: String): SubmitResultResponse {
+    override fun submit(args: DestroyCollectionBody, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submit(signedBody)
     }
@@ -67,16 +67,16 @@ class SetCollectionLimitMutationServiceImpl(basePath: String) : MutationService<
     }
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.setCollectionLimits(
-            SetCollectionLimitsBody(
+        val response = api.destroy(
+            DestroyCollectionBody(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), CollectionsApi.Use_setCollectionLimits.submit
+            ), CollectionsApi.Use_destroy.submit
         )
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: SetCollectionLimitsBody, seed: String): SubmitResultResponse {
+    override fun submitWatch(args: DestroyCollectionBody, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submitWatch(signedBody)
     }
@@ -87,11 +87,11 @@ class SetCollectionLimitMutationServiceImpl(basePath: String) : MutationService<
     }
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.setCollectionLimits(
-            SetCollectionLimitsBody(
+        val response = api.destroy(
+            DestroyCollectionBody(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), CollectionsApi.Use_setCollectionLimits.submitWatch
+            ), CollectionsApi.Use_destroy.submitWatch
         )
         return SubmitResultResponse(response.hash)
     }

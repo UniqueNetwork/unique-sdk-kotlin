@@ -5,7 +5,7 @@ import network.unique.model.SubmitTxBody
 import network.unique.model.TransferBody
 import network.unique.model.UnsignedTxPayloadResponse
 import network.unique.service.impl.ExtrinsicServiceImpl
-import network.unique.service.impl.balance.TransferServiceImpl
+import network.unique.service.impl.balance.TransferMutationServiceImpl
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
@@ -14,7 +14,7 @@ class ApiClientITTests {
     @Test
     fun transferFlowITTest() {
         runBlocking {
-            val transferService = TransferServiceImpl("https://rest.opal.uniquenetwork.dev")
+            val transferService = TransferMutationServiceImpl("https://rest.opal.uniquenetwork.dev")
             val extrinsicService = ExtrinsicServiceImpl("https://rest.opal.uniquenetwork.dev")
             val seed = "//Bob"
             val transferBody = TransferBody(
