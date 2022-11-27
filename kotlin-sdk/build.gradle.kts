@@ -76,14 +76,14 @@ configurations.all {
 //}
 
 android {
-    compileSdk = 33
+    compileSdk = 23
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdk = 33
-        targetSdk = 33
+        minSdk = 21
+        targetSdk = 21
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         aarMetadata {
-            minCompileSdk = 33
+            minCompileSdk = 23
         }
     }
     compileOptions {

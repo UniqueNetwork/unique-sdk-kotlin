@@ -100,9 +100,8 @@ class PasswordStorageHelperSDK18 : PasswordStorageInterface {
         }
 
         try {
-            val isHardwareBackedKeystoreSupported: Boolean?
 
-            isHardwareBackedKeystoreSupported = if (Build.VERSION.SDK_INT < 23) {
+            val isHardwareBackedKeystoreSupported: Boolean = if (Build.VERSION.SDK_INT < 23) {
                 KeyChain.isBoundKeyAlgorithm(KeyProperties.KEY_ALGORITHM_RSA)
             } else {
                 val privateKey: Key = ks.getKey(alias, null)
