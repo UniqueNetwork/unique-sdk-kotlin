@@ -3,7 +3,7 @@ package network.unique.model
 import network.unique.signer.CryptoScheme
 import network.unique.signer.Pair
 
-class Sr25519Signer(private val seed: String, private val password: String?): Signer {
+class Sr25519SignerWrapper(private val seed: String, private val password: String?): SignerWrapper {
 
     override fun sign(data: String): String {
         val keyPair = Pair.fromSuri(CryptoScheme.Sr25519, seed, password)

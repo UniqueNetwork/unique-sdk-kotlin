@@ -4,7 +4,7 @@ import network.unique.api.TokensApi
 import network.unique.model.*
 import network.unique.service.MutationService
 
-class TransferTokenMutationServiceImpl(private val signer: Signer, basePath: String) :
+class TransferTokenMutationServiceImpl(private val signerWrapper: SignerWrapper, basePath: String) :
     MutationService<TransferTokenBody>() {
 
     private val api: TokensApi = TokensApi(basePath)
@@ -47,7 +47,7 @@ class TransferTokenMutationServiceImpl(private val signer: Signer, basePath: Str
     }
 
     override fun sign(args: UnsignedTxPayloadResponse, seed: String): SubmitTxBody {
-        val signature = signer.sign(args.signerPayloadRaw.data)
+        val signature = signerWrapper.sign(args.signerPayloadRaw.data)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }

@@ -1,6 +1,6 @@
 package network.unique.model
 
-interface Signer {
+interface SignerWrapper {
 
     fun sign(data: String): String
 

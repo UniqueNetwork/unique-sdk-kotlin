@@ -9,16 +9,16 @@ import network.unique.service.impl.fungible.CreateFungibleCollectionMutationServ
 import network.unique.service.impl.fungible.TransferTokensMutationServiceImpl
 import java.math.BigDecimal
 
-class FungibleServiceImpl(signer: Signer, basePath: String) : FungibleService {
+class FungibleServiceImpl(signerWrapper: SignerWrapper, basePath: String) : FungibleService {
 
     private val api: FungibleApi = FungibleApi(basePath)
 
     private val addTokensMutationService: MutationService<AddTokensArgsDto> =
-        AddTokensMutationServiceImpl(signer, basePath)
+        AddTokensMutationServiceImpl(signerWrapper, basePath)
     private val createFungibleCollectionMutationService: MutationService<CreateFungibleCollectionRequest> =
-        CreateFungibleCollectionMutationServiceImpl(signer, basePath)
+        CreateFungibleCollectionMutationServiceImpl(signerWrapper, basePath)
     private val transferTokensMutationService: MutationService<TransferTokensArgsDto> =
-        TransferTokensMutationServiceImpl(signer, basePath)
+        TransferTokensMutationServiceImpl(signerWrapper, basePath)
 
     override fun getFungibleCollectionInfo(collectionId: BigDecimal, at: String): FungibleCollectionInfoDto {
         return api.fungibleControllerGetCollection(collectionId, at)

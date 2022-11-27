@@ -4,17 +4,17 @@ import network.unique.api.EvmApi
 import network.unique.model.EvmCallArgumentsDto
 import network.unique.model.EvmContractExistsResponseDto
 import network.unique.model.EvmSendArgumentsDto
-import network.unique.model.Signer
+import network.unique.model.SignerWrapper
 import network.unique.service.EvmService
 import network.unique.service.MutationService
 import network.unique.service.impl.evm.EvmSendMutationServiceImpl
 
-class EvmServiceImpl(signer: Signer, basePath: String) : EvmService {
+class EvmServiceImpl(signerWrapper: SignerWrapper, basePath: String) : EvmService {
 
     private val api: EvmApi = EvmApi(basePath)
 
     private val evmSendMutationService: MutationService<EvmSendArgumentsDto> =
-        EvmSendMutationServiceImpl(signer, basePath)
+        EvmSendMutationServiceImpl(signerWrapper, basePath)
 
     override fun isContractExists(contractAddress: String): EvmContractExistsResponseDto {
         return api.evmControllerEvmExist(contractAddress)

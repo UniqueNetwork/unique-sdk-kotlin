@@ -4,7 +4,7 @@ import network.unique.api.CollectionsApi
 import network.unique.model.*
 import network.unique.service.MutationService
 
-class RemoveFromAllowListMutationServiceImpl(private val signer: Signer, basePath: String) :
+class RemoveFromAllowListMutationServiceImpl(private val signerWrapper: SignerWrapper, basePath: String) :
     MutationService<RemoveFromAllowListBody>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
@@ -47,7 +47,7 @@ class RemoveFromAllowListMutationServiceImpl(private val signer: Signer, basePat
     }
 
     override fun sign(args: UnsignedTxPayloadResponse, seed: String): SubmitTxBody {
-        val signature = signer.sign(args.signerPayloadRaw.data)
+        val signature = signerWrapper.sign(args.signerPayloadRaw.data)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }

@@ -4,7 +4,7 @@ import network.unique.api.TokensApi
 import network.unique.model.*
 import network.unique.service.MutationService
 
-class DeleteTokenPropertiesMutationServiceImpl(private val signer: Signer, basePath: String) :
+class DeleteTokenPropertiesMutationServiceImpl(private val signerWrapper: SignerWrapper, basePath: String) :
     MutationService<DeleteTokenPropertiesBody>() {
 
     private val api: TokensApi = TokensApi(basePath)
@@ -47,7 +47,7 @@ class DeleteTokenPropertiesMutationServiceImpl(private val signer: Signer, baseP
     }
 
     override fun sign(args: UnsignedTxPayloadResponse, seed: String): SubmitTxBody {
-        val signature = signer.sign(args.signerPayloadRaw.data)
+        val signature = signerWrapper.sign(args.signerPayloadRaw.data)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }

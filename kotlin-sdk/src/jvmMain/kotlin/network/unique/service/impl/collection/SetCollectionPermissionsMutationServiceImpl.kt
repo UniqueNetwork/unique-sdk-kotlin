@@ -4,7 +4,7 @@ import network.unique.api.CollectionsApi
 import network.unique.model.*
 import network.unique.service.MutationService
 
-class SetCollectionPermissionsMutationServiceImpl(private val signer: Signer, basePath: String) :
+class SetCollectionPermissionsMutationServiceImpl(private val signerWrapper: SignerWrapper, basePath: String) :
     MutationService<SetCollectionPermissionsBody>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
@@ -47,7 +47,7 @@ class SetCollectionPermissionsMutationServiceImpl(private val signer: Signer, ba
     }
 
     override fun sign(args: UnsignedTxPayloadResponse, seed: String): SubmitTxBody {
-        val signature = signer.sign(args.signerPayloadRaw.data)
+        val signature = signerWrapper.sign(args.signerPayloadRaw.data)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }

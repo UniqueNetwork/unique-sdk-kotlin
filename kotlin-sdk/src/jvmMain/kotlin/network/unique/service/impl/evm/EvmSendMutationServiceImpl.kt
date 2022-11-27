@@ -4,7 +4,7 @@ import network.unique.api.EvmApi
 import network.unique.model.*
 import network.unique.service.MutationService
 
-class EvmSendMutationServiceImpl(private val signer: Signer, basePath: String) :
+class EvmSendMutationServiceImpl(private val signerWrapper: SignerWrapper, basePath: String) :
     MutationService<EvmSendArgumentsDto>() {
 
     private val api: EvmApi = EvmApi(basePath)
@@ -47,7 +47,7 @@ class EvmSendMutationServiceImpl(private val signer: Signer, basePath: String) :
     }
 
     override fun sign(args: UnsignedTxPayloadResponse, seed: String): SubmitTxBody {
-        val signature = signer.sign(args.signerPayloadRaw.data)
+        val signature = signerWrapper.sign(args.signerPayloadRaw.data)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
