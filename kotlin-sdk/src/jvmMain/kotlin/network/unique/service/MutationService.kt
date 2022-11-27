@@ -1,12 +1,9 @@
 package network.unique.service
 
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
-import network.unique.exception.RequestException
-import network.unique.model.*
-import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.RequestBody.Companion.toRequestBody
+import network.unique.model.FeeResponse
+import network.unique.model.SubmitResultResponse
+import network.unique.model.SubmitTxBody
+import network.unique.model.UnsignedTxPayloadResponse
 
 abstract class MutationService<A> {
 

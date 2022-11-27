@@ -1,6 +1,6 @@
 package network.unique.service
 
-import network.unique.model.*
+import network.unique.model.IpfsUploadResponse
 import java.io.File
 
 interface IPFSService {

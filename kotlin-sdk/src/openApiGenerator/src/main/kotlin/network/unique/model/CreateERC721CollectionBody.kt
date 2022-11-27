@@ -45,17 +45,17 @@ import com.squareup.moshi.Json
 data class CreateERC721CollectionBody (
 
     @Json(name = "name")
-    val name: kotlin.String,
+    val name: kotlin.String? = null,
 
     @Json(name = "description")
-    val description: kotlin.String,
+    val description: kotlin.String? = null,
 
     @Json(name = "tokenPrefix")
-    val tokenPrefix: kotlin.String,
+    val tokenPrefix: kotlin.String? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
     @Json(name = "mode")
     val mode: CreateERC721CollectionBody.Mode? = null,
@@ -82,7 +82,23 @@ data class CreateERC721CollectionBody (
     val properties: kotlin.collections.List<CollectionProperty>? = null,
 
     @Json(name = "tokenPropertyPermissions")
-    val tokenPropertyPermissions: kotlin.collections.List<PropertyKeyPermission>? = null
+    val tokenPropertyPermissions: kotlin.collections.List<PropertyKeyPermission>? = null,
+
+    @Json(name = "signerPayloadJSON")
+    val signerPayloadJSON: SignerPayloadJSONDto? = null,
+
+    /* Warning: Signature must be with SignatureType! */
+    @Json(name = "signature")
+    val signature: kotlin.String? = null,
+
+    @Json(name = "signerPayloadRaw")
+    val signerPayloadRaw: SignerPayloadRawDto? = null,
+
+    @Json(name = "signerPayloadHex")
+    val signerPayloadHex: kotlin.String? = null,
+
+    @Json(name = "fee")
+    val fee: FeeResponse? = null
 
 ) {
 

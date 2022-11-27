@@ -23,6 +23,9 @@ buildscript {
 val ktorVersion: String by project
 val composeCompiler: String by project
 val kotlinxCoroutinesVersion: String by project
+val signEnabled: String by project
+val signingKey: String by project
+val signingPassword: String by project
 
 group = "network.unique"
 version = "1.0-SNAPSHOT"
@@ -32,6 +35,7 @@ plugins {
     kotlin("plugin.serialization") version "1.7.20"
     id("com.android.library")
     id("maven-publish")
+    id("signing")
 //    id("org.openapi.generator") version "6.2.1"
 }
 
@@ -107,13 +111,14 @@ kotlin {
         }
     }
 
-    sourceSets {
-        val commonMain by getting
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
+    if (signEnabled.toBoolean()) {
+        signing {
+            useInMemoryPgpKeys(signingKey, signingPassword)
+            sign(configurations.archives.get())
         }
+    }
+
+    sourceSets {
         val openApiGenerator by creating {
             kotlin.srcDir("src/openApiGenerator/src/main/kotlin")
         }
@@ -122,11 +127,6 @@ kotlin {
 
             dependencies {
                 implementation(project(":java-signer"))
-//                implementation("io.ktor:ktor-client-core:$ktorVersion")
-//                implementation("io.ktor:ktor-client-logging:$ktorVersion")
-//                implementation("io.ktor:ktor-client-cio:$ktorVersion")
-//                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-//                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 implementation("com.squareup.okhttp3:okhttp:4.10.0")
                 implementation("com.squareup.moshi:moshi:1.14.0")
                 implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
@@ -138,13 +138,11 @@ kotlin {
                 implementation("com.marcinziolo:kotlin-wiremock:2.0.1")
                 implementation(kotlin("test"))
                 implementation("ch.qos.logback:logback-classic:1.2.3")
-//                implementation("io.ktor:ktor-client-apache:$ktorVersion")
             }
         }
         val androidMain by getting {
             dependencies {
                 implementation("androidx.annotation:annotation:1.5.0")
-//                implementation("io.ktor:ktor-client-android:$ktorVersion")
             }
         }
         val androidTest by getting {
@@ -156,11 +154,44 @@ kotlin {
 }
 
 publishing {
+    repositories {
+        maven {
+            name = "OSSHR"
+            val releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            val snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
+            credentials(PasswordCredentials::class)
+        }
+    }
     publications {
         register<MavenPublication>("release") {
             groupId = "network.unique"
-            artifactId = "android-sdk"
+            artifactId = "unique-sdk-android"
             version = project.version.toString()
+
+            pom {
+                name.set("Unique SDK Kotlin")
+                description.set("SDK For Unique Network on Kotlin language")
+                url.set("https://github.com/UniqueNetwork/unique-sdk-kotlin")
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("stepan14041999")
+                        name.set("Stepan Sandulyak")
+                        email.set("stepan.14041999@gmail.com")
+                    }
+                }
+                scm {
+                    connection.set("https://github.com/UniqueNetwork/unique-sdk-kotlin.git")
+                    developerConnection.set("https://github.com/UniqueNetwork/unique-sdk-kotlin.git")
+                    url.set("https://github.com/UniqueNetwork/unique-sdk-kotlin")
+                }
+            }
 
             afterEvaluate {
                 from(components["release"])

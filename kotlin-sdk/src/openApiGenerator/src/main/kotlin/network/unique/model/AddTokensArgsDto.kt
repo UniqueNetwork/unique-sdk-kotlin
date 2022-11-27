@@ -32,17 +32,33 @@ data class AddTokensArgsDto (
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal,
+    val collectionId: java.math.BigDecimal? = null,
 
     @Json(name = "amount")
-    val amount: java.math.BigDecimal,
+    val amount: java.math.BigDecimal? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "recipient")
-    val recipient: kotlin.String? = null
+    val recipient: kotlin.String? = null,
+
+    @Json(name = "signerPayloadJSON")
+    val signerPayloadJSON: SignerPayloadJSONDto? = null,
+
+    /* Warning: Signature must be with SignatureType! */
+    @Json(name = "signature")
+    val signature: kotlin.String? = null,
+
+    @Json(name = "signerPayloadRaw")
+    val signerPayloadRaw: SignerPayloadRawDto? = null,
+
+    @Json(name = "signerPayloadHex")
+    val signerPayloadHex: kotlin.String? = null,
+
+    @Json(name = "fee")
+    val fee: FeeResponse? = null
 
 )
 

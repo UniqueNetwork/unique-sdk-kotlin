@@ -41,19 +41,19 @@ data class EvmSendArgumentsDto (
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
     /* JSON ABI from your smart contract */
     @Json(name = "abi")
-    val abi: kotlin.collections.List<kotlin.Any>,
+    val abi: kotlin.collections.List<kotlin.Any>? = null,
 
     /* Ethereum address of your smart contract */
     @Json(name = "contractAddress")
-    val contractAddress: kotlin.String,
+    val contractAddress: kotlin.String? = null,
 
     /* Name of function smart-contract */
     @Json(name = "funcName")
-    val funcName: kotlin.String,
+    val funcName: kotlin.String? = null,
 
     /* An array of arguments you want to pass to the function call */
     @Json(name = "args")
@@ -72,7 +72,23 @@ data class EvmSendArgumentsDto (
     val maxFeePerGas: EvmSendArgumentsDtoMaxFeePerGas? = null,
 
     @Json(name = "maxPriorityFeePerGas")
-    val maxPriorityFeePerGas: EvmSendArgumentsDtoMaxFeePerGas? = null
+    val maxPriorityFeePerGas: EvmSendArgumentsDtoMaxFeePerGas? = null,
+
+    @Json(name = "signerPayloadJSON")
+    val signerPayloadJSON: SignerPayloadJSONDto? = null,
+
+    /* Warning: Signature must be with SignatureType! */
+    @Json(name = "signature")
+    val signature: kotlin.String? = null,
+
+    @Json(name = "signerPayloadRaw")
+    val signerPayloadRaw: SignerPayloadRawDto? = null,
+
+    @Json(name = "signerPayloadHex")
+    val signerPayloadHex: kotlin.String? = null,
+
+    @Json(name = "fee")
+    val fee: FeeResponse? = null
 
 )
 
