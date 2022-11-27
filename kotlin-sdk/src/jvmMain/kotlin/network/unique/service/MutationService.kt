@@ -31,10 +31,4 @@ abstract class MutationService<A> {
 
     abstract fun submitWatch(args: SubmitTxBody): SubmitResultResponse
 
-    protected fun toByteArray(data: String): ByteArray {
-        return data.chunked(2)
-            .map { it.toInt(16).toByte() }
-            .toByteArray()
-    }
-
 }

@@ -3,10 +3,9 @@ package network.unique.service.impl.erc721
 import network.unique.api.ERC721Api
 import network.unique.model.*
 import network.unique.service.MutationService
-import network.unique.signer.CryptoScheme
-import network.unique.signer.Pair
 
-class CreateERC721TokenMutationServiceImpl(basePath: String) : MutationService<CreateERC721TokenBody>() {
+class CreateERC721TokenMutationServiceImpl(private val signer: Signer, basePath: String) :
+    MutationService<CreateERC721TokenBody>() {
 
     private val api: ERC721Api = ERC721Api(basePath)
 
@@ -48,12 +47,9 @@ class CreateERC721TokenMutationServiceImpl(basePath: String) : MutationService<C
     }
 
     override fun sign(args: UnsignedTxPayloadResponse, seed: String): SubmitTxBody {
-        val keyPair = Pair.fromSuri(CryptoScheme.Sr25519, seed, null)
+        val signature = signer.sign(args.signerPayloadRaw.data)
 
-        val signature = keyPair.sign(toByteArray(args.signerPayloadRaw.data.substring(2)))
-            .joinToString("") { eachByte -> "%02x".format(eachByte) }
-
-        return SubmitTxBody(args.signerPayloadJSON, "0x01$signature")
+        return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
     override fun submit(args: CreateERC721TokenBody, seed: String): SubmitResultResponse {

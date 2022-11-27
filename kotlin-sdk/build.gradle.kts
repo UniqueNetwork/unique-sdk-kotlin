@@ -111,9 +111,12 @@ kotlin {
         }
     }
 
-    if (signEnabled.toBoolean()) {
+    if (System.getenv("SIGN_ENABLED")?.toBoolean() ?: signEnabled.toBoolean()) {
         signing {
-            useInMemoryPgpKeys(signingKey, signingPassword)
+            useInMemoryPgpKeys(
+                System.getenv("SIGN_KEY") ?: signingKey,
+                System.getenv("SIGN_PASSWORD") ?: signingPassword
+            )
             sign(configurations.archives.get())
         }
     }

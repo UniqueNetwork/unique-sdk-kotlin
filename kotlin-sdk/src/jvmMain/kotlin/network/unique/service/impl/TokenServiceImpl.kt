@@ -7,24 +7,28 @@ import network.unique.service.TokenService
 import network.unique.service.impl.token.*
 import java.math.BigDecimal
 
-class TokenServiceImpl(basePath: String) : TokenService {
+class TokenServiceImpl(signer: Signer, basePath: String) : TokenService {
 
     private val api: TokensApi = TokensApi(basePath)
 
     private val approveTokenMutationService: MutationService<ApproveTokenBody> =
-        ApproveTokenMutationServiceImpl(basePath)
-    private val burnTokenMutationService: MutationService<BurnTokenBody> = BurnTokenMutationServiceImpl(basePath)
+        ApproveTokenMutationServiceImpl(signer, basePath)
+    private val burnTokenMutationService: MutationService<BurnTokenBody> =
+        BurnTokenMutationServiceImpl(signer, basePath)
     private val createMultipleTokensMutationService: MutationService<CreateMultipleTokensBody> =
-        CreateMultipleTokensMutationServiceImpl(basePath)
-    private val createTokenMutationService: MutationService<CreateTokenBody> = CreateTokenMutationServiceImpl(basePath)
+        CreateMultipleTokensMutationServiceImpl(signer, basePath)
+    private val createTokenMutationService: MutationService<CreateTokenBody> =
+        CreateTokenMutationServiceImpl(signer, basePath)
     private val deleteTokenPropertiesMutationService: MutationService<DeleteTokenPropertiesBody> =
-        DeleteTokenPropertiesMutationServiceImpl(basePath)
-    private val nestTokenMutationService: MutationService<NestTokenBody> = NestTokenMutationServiceImpl(basePath)
+        DeleteTokenPropertiesMutationServiceImpl(signer, basePath)
+    private val nestTokenMutationService: MutationService<NestTokenBody> =
+        NestTokenMutationServiceImpl(signer, basePath)
     private val setTokenPropertiesMutationService: MutationService<SetTokenPropertiesBody> =
-        SetTokenPropertiesMutationServiceImpl(basePath)
+        SetTokenPropertiesMutationServiceImpl(signer, basePath)
     private val transferTokenMutationService: MutationService<TransferTokenBody> =
-        TransferTokenMutationServiceImpl(basePath)
-    private val unnsetTokenMutationService: MutationService<UnnestTokenBody> = UnnestTokenMutationServiceImpl(basePath)
+        TransferTokenMutationServiceImpl(signer, basePath)
+    private val unnsetTokenMutationService: MutationService<UnnestTokenBody> =
+        UnnestTokenMutationServiceImpl(signer, basePath)
 
     override fun getToken(tokenId: BigDecimal, collectionId: BigDecimal, at: String): TokenByIdResponse {
         return api.newTokenControllerGetTokenNew(collectionId, tokenId, at)

@@ -5,7 +5,7 @@ import network.unique.model.ChainPropertiesResponse
 import network.unique.model.GetNonceResponse
 import network.unique.service.CommonService
 
-class CommonServiceImpl(basePath: String): CommonService {
+class CommonServiceImpl(basePath: String) : CommonService {
 
     private val api: CommonApi = CommonApi(basePath)
 
