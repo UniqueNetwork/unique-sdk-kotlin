@@ -3,16 +3,19 @@ package network.unique.service.impl.balance
 import network.unique.api.BalanceApi
 import network.unique.model.*
 import network.unique.service.MutationService
-import network.unique.signer.CryptoScheme
-import network.unique.signer.Pair
 
-class TransferMutationServiceImpl(basePath: String) : MutationService<TransferBody>() {
+class TransferMutationServiceImpl(private val signer: Signer, basePath: String) : MutationService<TransferBody>() {
 
     private val api: BalanceApi = BalanceApi(basePath)
 
     override fun build(args: TransferBody): UnsignedTxPayloadResponse {
         val res = api.transferMutation(args, BalanceApi.Use_transferMutation.build)
-        return UnsignedTxPayloadResponse(res.signerPayloadJSON!!, res.signerPayloadRaw!!, res.signerPayloadHex!!, res.fee)
+        return UnsignedTxPayloadResponse(
+            res.signerPayloadJSON!!,
+            res.signerPayloadRaw!!,
+            res.signerPayloadHex!!,
+            res.fee
+        )
     }
 
     override fun getFee(args: TransferBody): FeeResponse {
@@ -48,12 +51,9 @@ class TransferMutationServiceImpl(basePath: String) : MutationService<TransferBo
     }
 
     override fun sign(args: UnsignedTxPayloadResponse, seed: String): SubmitTxBody {
-        val keyPair = Pair.fromSuri(CryptoScheme.Sr25519, seed, null)
+        val signature = signer.sign(args.signerPayloadRaw.data)
 
-        val signature = keyPair.sign(toByteArray(args.signerPayloadRaw.data.substring(2)))
-            .joinToString("") { eachByte -> "%02x".format(eachByte) }
-
-        return SubmitTxBody(args.signerPayloadJSON, "0x01$signature")
+        return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
     override fun submit(args: TransferBody, seed: String): SubmitResultResponse {

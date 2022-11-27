@@ -3,10 +3,9 @@ package network.unique.service.impl.token
 import network.unique.api.TokensApi
 import network.unique.model.*
 import network.unique.service.MutationService
-import network.unique.signer.CryptoScheme
-import network.unique.signer.Pair
 
-class CreateTokenMutationServiceImpl(basePath: String) : MutationService<CreateTokenBody>() {
+class CreateTokenMutationServiceImpl(private val signer: Signer, basePath: String) :
+    MutationService<CreateTokenBody>() {
 
     private val api: TokensApi = TokensApi(basePath)
 
@@ -48,12 +47,9 @@ class CreateTokenMutationServiceImpl(basePath: String) : MutationService<CreateT
     }
 
     override fun sign(args: UnsignedTxPayloadResponse, seed: String): SubmitTxBody {
-        val keyPair = Pair.fromSuri(CryptoScheme.Sr25519, seed, null)
+        val signature = signer.sign(args.signerPayloadRaw.data)
 
-        val signature = keyPair.sign(toByteArray(args.signerPayloadRaw.data.substring(2)))
-            .joinToString("") { eachByte -> "%02x".format(eachByte) }
-
-        return SubmitTxBody(args.signerPayloadJSON, "0x01$signature")
+        return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
     override fun submit(args: CreateTokenBody, seed: String): SubmitResultResponse {

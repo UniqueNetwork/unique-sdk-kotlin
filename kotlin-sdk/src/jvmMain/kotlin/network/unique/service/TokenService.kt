@@ -25,9 +25,20 @@ interface TokenService {
 
     fun tokenIsExists(tokenId: BigDecimal, collectionId: BigDecimal, at: String): TokenExistsResponse
 
-    fun tokenIsAllowed(tokenId: BigDecimal, collectionId: BigDecimal, from: String, to: String, at: String): AllowanceResultResponse
+    fun tokenIsAllowed(
+        tokenId: BigDecimal,
+        collectionId: BigDecimal,
+        from: String,
+        to: String,
+        at: String
+    ): AllowanceResultResponse
 
-    fun getTokenBalance(tokenId: BigDecimal, collectionId: BigDecimal, address: String, at: String): TokenBalanceResponse
+    fun getTokenBalance(
+        tokenId: BigDecimal,
+        collectionId: BigDecimal,
+        address: String,
+        at: String
+    ): TokenBalanceResponse
 
     fun getApproveTokenMutationService(): MutationService<ApproveTokenBody>
 
