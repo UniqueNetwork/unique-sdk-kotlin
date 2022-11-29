@@ -2,8 +2,8 @@ name: Gradle publishing
 
 env:
   SIGN_ENABLED: true
-  SIGN_KEY: ${{ secrets.SIGN_KEY }}
-  SIGN_PASSWORD: ${{ secrets.SIGN_PASSWORD }}
+  SIGN_KEY: ${{ secrets.GPG_SECRET }}
+  SIGN_PASSWORD: ${{ secrets.GPG_PASSWORD }}
 
 on:
   push:
