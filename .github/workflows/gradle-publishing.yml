@@ -1,10 +1,5 @@
 name: Gradle publishing
 
-env:
-  SIGN_ENABLED: true
-  SIGN_KEY: ${{ secrets.GPG_SECRET }}
-  SIGN_PASSWORD: ${{ secrets.GPG_PASSWORD }}
-
 on:
   push:
     branches:
@@ -30,4 +25,8 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Execute Gradle build
+        env:
+          SIGN_ENABLED: true
+          SIGN_KEY: ${{ secrets.GPG_SECRET }}
+          SIGN_PASSWORD: ${{ secrets.GPG_PASSWORD }}
         run: ./gradlew build
