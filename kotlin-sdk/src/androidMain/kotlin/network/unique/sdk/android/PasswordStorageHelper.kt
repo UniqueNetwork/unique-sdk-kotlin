@@ -17,7 +17,7 @@ class PasswordStorageHelper(context: Context) {
         var isInitialized: Boolean? = false;
 
         try {
-            isInitialized = passwordStorage?.init(context);
+            isInitialized = passwordStorage?.init(context)
         } catch (ex: Exception) {
             Log.e(tag, "PasswordStorage initialisation error:" + ex.message, ex);
         }
