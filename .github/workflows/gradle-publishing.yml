@@ -34,6 +34,8 @@ jobs:
         env:
           SIGN_ENABLED: true
         run: |
+          GPG_TTY=$(tty)
+          export GPG_TTY
           echo -e "${{ secrets.GPG_SECRET }}" | gpg --batch --import
           ./gradlew build publishJavaPublicationToOSSRHRepository publishReleasePublicationToOSSRHRepository \
             -Psigning.gnupg.keyName=${{ secrets.GPG_ID }} -Psigning.gnupg.passphrase=${{ secrets.GPG_PASSWORD }} \
