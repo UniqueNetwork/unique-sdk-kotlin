@@ -5,11 +5,14 @@ import network.unique.model.*
 import network.unique.service.impl.ExtrinsicServiceImpl
 import network.unique.service.impl.balance.TransferMutationServiceImpl
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 
 class ApiClientITTests {
+
     @Test
+    @Disabled
     fun transferFlowITTest() {
         runBlocking {
             val signerWrapper = Sr25519SignerWrapper("//Bob", null);
