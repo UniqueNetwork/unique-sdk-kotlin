@@ -38,12 +38,12 @@ if (System.getenv("SIGN_ENABLED")?.toBoolean() ?: signEnabled.toBoolean()) {
 
 val rustBasePath = project.ext.get("rust_base_path")
 
-tasks.create("cargo-build", Exec::class.java) {
-    dependsOn("cargo-output-dir")
-    workingDir(rustBasePath!!)
-    commandLine("cargo", "build", "--release")
-}
-
+//tasks.create("cargo-build", Exec::class.java) {
+//    dependsOn("cargo-output-dir")
+//    workingDir(rustBasePath!!)
+//    commandLine("cargo", "build", "--release")
+//}
+//
 //tasks.create("cargo-build-android-armv7", Exec::class.java) {
 //    dependsOn("cargo-output-dir")
 //    workingDir(rustBasePath!!)
@@ -67,17 +67,17 @@ tasks.create("cargo-build", Exec::class.java) {
 //    workingDir(rustBasePath!!)
 //    commandLine("cross", "build", "--target", "x86_64-linux-android", "--release")
 //}
-
-tasks.create("clean-rust", Delete::class.java) {
-    delete("${project.ext.get("cargo_target_directory")}")
-    delete("${rustBasePath}/Cargo.lock")
-}
-
-tasks["clean"].dependsOn("clean-rust")
-tasks.withType(JavaCompile::class.java) {
-    dependsOn("cargo-build")
-}
-
+//
+//tasks.create("clean-rust", Delete::class.java) {
+//    delete("${project.ext.get("cargo_target_directory")}")
+//    delete("${rustBasePath}/Cargo.lock")
+//}
+//
+//tasks["clean"].dependsOn("clean-rust")
+//tasks.withType(JavaCompile::class.java) {
+//    dependsOn("cargo-build")
+//}
+//
 //tasks.withType(Jar::class.java) {
 //    dependsOn("cargo-build-android-armv7")
 //    from("${project.ext.get("cargo_target_directory")}/armv7-linux-androideabi/release/libsigner.so") {
