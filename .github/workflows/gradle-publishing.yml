@@ -32,10 +32,9 @@ jobs:
 
       - name: Execute Gradle build
         env:
-          SIGN_ID: ${{ secrets.GPG_ID }}
-          USE_FILE: false
           SIGN_ENABLED: true
-          SIGN_KEY: echo -e "${{ secrets.GPG_SECRET }}" | awk 'NR == 1 { print "" } 1' ORS='\\n'
-          SIGN_PASSWORD: ${{ secrets.GPG_PASSWORD }}
-        run:
-          ./gradlew build publishJavaPublicationToOSSRHRepository publishReleasePublicationToOSSRHRepository -POSSRHUsername=${{ secrets.OSSRH_LOGIN }} -POSSRHPassword=${{ secrets.OSSRH_PASSWORD }}
+        run: |
+          echo -e "${{ secrets.GPG_SECRET }}" | gpg --batch --import
+          ./gradlew build publishJavaPublicationToOSSRHRepository publishReleasePublicationToOSSRHRepository \
+            -Psigning.gnupg.keyName=${{ secrets.GPG_ID }} -Psigning.gnupg.passphrase=${{ secrets.GPG_PASSWORD }}
+            -POSSRHUsername=${{ secrets.OSSRH_LOGIN }} -POSSRHPassword=${{ secrets.OSSRH_PASSWORD }}
