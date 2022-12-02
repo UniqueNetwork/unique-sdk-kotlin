@@ -30,8 +30,8 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
-#      - name: Setup Cross
-#        run: cargo install cross --git https://github.com/cross-rs/cross
+      - name: Setup Cross
+        run: cargo install cross --git https://github.com/cross-rs/cross
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
