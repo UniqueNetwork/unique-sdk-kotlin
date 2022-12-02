@@ -12,7 +12,7 @@ class PasswordStorageHelper(context: Context) {
     private var passwordStorage: PasswordStorageInterface?
 
     init {
-        passwordStorage = PasswordStorageHelperSDK18();
+        passwordStorage = PasswordStorageHelperSDK18()
 
         var isInitialized: Boolean? = false;
 
