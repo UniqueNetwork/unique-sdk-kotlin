@@ -114,7 +114,7 @@ kotlin {
     if (System.getenv("SIGN_ENABLED")?.toBoolean() ?: signEnabled.toBoolean()) {
         signing {
             useInMemoryPgpKeys(
-                System.getenv("SIGN_ID"),
+                System.getenv("SIGN_ID") ?: null,
                 if (System.getenv("USE_FILE").toBoolean())
                     "secret_for_sign.gpg"
                 else
