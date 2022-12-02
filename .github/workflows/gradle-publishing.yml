@@ -35,7 +35,7 @@ jobs:
           SIGN_ID: ${{ secrets.GPG_ID }}
           USE_FILE: false
           SIGN_ENABLED: true
+          SIGN_KEY: echo -e "${{ secrets.GPG_SECRET }}" | awk 'NR == 1 { print "SIGN_KEY=" } 1' ORS='\\n'
           SIGN_PASSWORD: ${{ secrets.GPG_PASSWORD }}
-        run: |
-          echo -e "${{ secrets.GPG_SECRET }}" | awk 'NR == 1 { print "SIGN_KEY=" } 1' ORS='\\n' >> $GITHUB_ENV
+        run:
           ./gradlew build publishJavaPublicationToOSSRHRepository publishReleasePublicationToOSSRHRepository -POSSRHUsername=${{ secrets.OSSRH_LOGIN }} -POSSRHPassword=${{ secrets.OSSRH_PASSWORD }}
