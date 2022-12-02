@@ -27,12 +27,16 @@ jobs:
       - name: Setup Cross
         run: cargo install cross --git https://github.com/cross-rs/cross
 
+      - name: Install GPG secret key
+        run: echo -e "${{ secrets.GPG_SECRET }}" > secret_for_sign.gpg
+
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
       - name: Execute Gradle build
         env:
+          SIGN_ID: ${{ secrets.GPG_ID }}
           SIGN_ENABLED: true
-          SIGN_KEY: ${{ secrets.GPG_SECRET }}
           SIGN_PASSWORD: ${{ secrets.GPG_PASSWORD }}
-        run: ./gradlew build
+          USE_FILE: true
+        run: ./gradlew build publishJavaPublicationToOSSHRRepository publishReleasePublicationToOSSHRRepository
