@@ -1,6 +1,6 @@
 allprojects {
     group = "network.unique"
-    version = "1.0-SNAPSHOT"
+    version = "0.0.1"
 
     val rustBasePath = "${project.rootDir}/java-signer/src/signer"
     project.ext.set("rust_base_path", rustBasePath)

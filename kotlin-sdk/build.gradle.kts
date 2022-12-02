@@ -28,7 +28,7 @@ val signingKey: String by project
 val signingPassword: String by project
 
 group = "network.unique"
-version = "1.0-SNAPSHOT"
+version = "0.0.1"
 
 plugins {
     kotlin("multiplatform") version "1.7.20"
