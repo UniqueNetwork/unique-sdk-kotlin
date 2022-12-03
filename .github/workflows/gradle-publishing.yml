@@ -39,4 +39,4 @@ jobs:
       - name: Execute Gradle build
         env:
           SIGN_ENABLED: true
-        run: ./gradlew build sign publishJavaPublicationToOSSRHRepository publishAllPublicationsToOSSRHRepository -Psigning.gnupg.keyName=${{ secrets.GPG_ID }} -Psigning.gnupg.passphrase=${{ secrets.GPG_PASSWORD }} -POSSRHUsername=${{ secrets.OSSRH_LOGIN }} -POSSRHPassword=${{ secrets.OSSRH_PASSWORD }}
+        run: ./gradlew build publishJavaPublicationToOSSRHRepository publishAllPublicationsToOSSRHRepository -Psigning.gnupg.keyName=${{ secrets.GPG_ID }} -Psigning.gnupg.passphrase=${{ secrets.GPG_PASSWORD }} -POSSRHUsername=${{ secrets.OSSRH_LOGIN }} -POSSRHPassword=${{ secrets.OSSRH_PASSWORD }}

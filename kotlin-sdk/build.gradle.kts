@@ -173,6 +173,7 @@ publishing {
     }
     publications {
         register<MavenPublication>("release") {
+            artifact(javadocJar)
             groupId = "network.unique"
             artifactId = "unique-sdk-android"
             version = project.version.toString()
