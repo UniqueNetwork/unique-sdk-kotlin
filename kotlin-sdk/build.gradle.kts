@@ -36,7 +36,7 @@ plugins {
     id("com.android.library")
     id("maven-publish")
     id("signing")
-    id("org.jetbrains.dokka") version "1.4.20"
+    id("org.jetbrains.dokka") version "1.6.21"
 //    id("org.openapi.generator") version "6.2.1"
 }
 
