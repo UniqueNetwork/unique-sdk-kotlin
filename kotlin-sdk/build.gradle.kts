@@ -36,6 +36,7 @@ plugins {
     id("com.android.library")
     id("maven-publish")
     id("signing")
+    id("org.jetbrains.dokka") version "1.4.20"
 //    id("org.openapi.generator") version "6.2.1"
 }
 
@@ -114,7 +115,6 @@ kotlin {
     if (System.getenv("SIGN_ENABLED")?.toBoolean() ?: signEnabled.toBoolean()) {
         signing {
             useGpgCmd()
-            sign(configurations.archives.get())
         }
     }
 
@@ -153,6 +153,14 @@ kotlin {
     }
 }
 
+val dokkaHtml by tasks.getting(org.jetbrains.dokka.gradle.DokkaTask::class)
+
+val javadocJar: TaskProvider<Jar> by tasks.registering(Jar::class) {
+    dependsOn(dokkaHtml)
+    archiveClassifier.set("javadoc")
+    from(dokkaHtml.outputDirectory)
+}
+
 publishing {
     repositories {
         maven {
@@ -175,15 +183,15 @@ publishing {
                 url.set("https://github.com/UniqueNetwork/unique-sdk-kotlin")
                 licenses {
                     license {
-                        name.set("The Apache License, Version 2.0")
-                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                        name.set("MIT")
+                        url.set("https://opensource.org/licenses/MIT")
                     }
                 }
                 developers {
                     developer {
-                        id.set("stepan14041999")
-                        name.set("Stepan Sandulyak")
-                        email.set("stepan.14041999@gmail.com")
+                        id.set("Nikolai Pasynkov")
+                        name.set("Nikolai Pasynkov")
+                        email.set("np@unique.network")
                     }
                 }
                 scm {
@@ -191,6 +199,10 @@ publishing {
                     developerConnection.set("https://github.com/UniqueNetwork/unique-sdk-kotlin.git")
                     url.set("https://github.com/UniqueNetwork/unique-sdk-kotlin")
                 }
+            }
+
+            if (System.getenv("SIGN_ENABLED")?.toBoolean() ?: signEnabled.toBoolean()) {
+                the<SigningExtension>().sign(this)
             }
 
             afterEvaluate {
