@@ -172,6 +172,30 @@ publishing {
                 // Stub javadoc.jar artifact
                 artifact(javadocJar.get())
 
+                pom {
+                    name.set("Unique SDK Kotlin")
+                    description.set("SDK For Unique Network with Key Storage for Android")
+                    url.set("https://github.com/UniqueNetwork/unique-sdk-kotlin")
+                    licenses {
+                        license {
+                            name.set("MIT")
+                            url.set("https://opensource.org/licenses/MIT")
+                        }
+                    }
+                    developers {
+                        developer {
+                            id.set("Nikolai Pasynkov")
+                            name.set("Nikolai Pasynkov")
+                            email.set("np@unique.network")
+                        }
+                    }
+                    scm {
+                        connection.set("https://github.com/UniqueNetwork/unique-sdk-kotlin.git")
+                        developerConnection.set("https://github.com/UniqueNetwork/unique-sdk-kotlin.git")
+                        url.set("https://github.com/UniqueNetwork/unique-sdk-kotlin")
+                    }
+                }
+
                 if (System.getenv("SIGN_ENABLED")?.toBoolean() ?: signEnabled.toBoolean()) {
                     the<SigningExtension>().sign(this)
                 }
@@ -184,7 +208,7 @@ publishing {
             version = project.version.toString()
 
             pom {
-                name.set("Unique SDK Kotlin")
+                name.set("Unique SDK Android")
                 description.set("SDK For Unique Network on Kotlin language")
                 url.set("https://github.com/UniqueNetwork/unique-sdk-kotlin")
                 licenses {
