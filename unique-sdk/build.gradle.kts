@@ -36,7 +36,6 @@ plugins {
     id("com.android.library")
     id("maven-publish")
     id("signing")
-    id("org.jetbrains.dokka") version "1.6.21"
 //    id("org.openapi.generator") version "6.2.1"
 }
 
@@ -126,7 +125,7 @@ kotlin {
             dependsOn(openApiGenerator)
 
             dependencies {
-                implementation(project(":java-signer"))
+                implementation(project(":unique-sdk-java-signer"))
                 implementation("com.squareup.okhttp3:okhttp:4.10.0")
                 implementation("com.squareup.moshi:moshi:1.14.0")
                 implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
@@ -153,12 +152,8 @@ kotlin {
     }
 }
 
-val dokkaHtml by tasks.getting(org.jetbrains.dokka.gradle.DokkaTask::class)
-
-val javadocJar: TaskProvider<Jar> by tasks.registering(Jar::class) {
-    dependsOn(dokkaHtml)
+val javadocJar by tasks.registering(Jar::class) {
     archiveClassifier.set("javadoc")
-    from(dokkaHtml.outputDirectory)
 }
 
 publishing {
@@ -172,6 +167,12 @@ publishing {
         }
     }
     publications {
+        withType<MavenPublication>() {
+            if (this.name == "jvm") {
+                // Stub javadoc.jar artifact
+                artifact(javadocJar.get())
+            }
+        }
         register<MavenPublication>("release") {
             artifact(javadocJar)
             groupId = "network.unique"

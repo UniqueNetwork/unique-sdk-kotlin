@@ -6,7 +6,7 @@ allprojects {
     group = "network.unique"
     version = "0.0.1"
 
-    val rustBasePath = "${project.rootDir}/java-signer/src/signer"
+    val rustBasePath = "${project.rootDir}/unique-sdk-java-signer/src/signer"
     project.ext.set("rust_base_path", rustBasePath)
 
     tasks.create("cargo-output-dir") {
