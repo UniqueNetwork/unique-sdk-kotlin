@@ -171,6 +171,10 @@ publishing {
             if (this.name == "jvm") {
                 // Stub javadoc.jar artifact
                 artifact(javadocJar.get())
+
+                if (System.getenv("SIGN_ENABLED")?.toBoolean() ?: signEnabled.toBoolean()) {
+                    the<SigningExtension>().sign(this)
+                }
             }
         }
         register<MavenPublication>("release") {
