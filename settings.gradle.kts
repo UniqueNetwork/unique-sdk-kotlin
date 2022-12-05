@@ -19,5 +19,5 @@ pluginManagement {
 }
 
 rootProject.name = "unique-sdk-kotlin"
-include("kotlin-sdk")
-include("java-signer")
+include("unique-sdk")
+include("unique-sdk-java-signer")

@@ -125,7 +125,7 @@ publishing {
     publications {
         register<MavenPublication>("java") {
             groupId = "network.unique"
-            artifactId = "unique-java-signer"
+            artifactId = "unique-sdk-java-signer"
             version = project.version.toString()
 
             pom {
