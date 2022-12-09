@@ -1,5 +1,8 @@
 # Unique SKD Kotlin
-[![Maven Central JVM](https://img.shields.io/maven-central/v/network.unique/unique-sdk-jvm.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22network.unique%22%20AND%20a:%22unique-sdk-jvm%22)
+[![Maven Central JVM](https://img.shields.io/maven-central/v/network.unique/unique-sdk-jvm.svg?label=Maven%20Central%20JVM)](https://search.maven.org/search?q=g:%22network.unique%22%20AND%20a:%22unique-sdk-jvm%22)
+[![Maven Central Signer](https://img.shields.io/maven-central/v/network.unique/unique-sdk-jvm.svg?label=Maven%20Central%20Signer)](https://search.maven.org/search?q=g:%22network.unique%22%20AND%20a:%22unique-sdk-java-signer%22)
+[![Maven Central Android](https://img.shields.io/maven-central/v/network.unique/unique-sdk-jvm.svg?label=Maven%20Central%20Android)](https://search.maven.org/search?q=g:%22network.unique%22%20AND%20a:%22unique-sdk-android%22)
+![Publishing](https://github.com/UniqueNetwork/unique-sdk-kotlin/actions/workflows/gradle-publishing.yml/badge.svg)
 
 
 Unique SDK Kotlin is a Kotlin library for dealing with polkadot blockchains.
@@ -66,20 +69,20 @@ Let's see how it's working
 // Creating payload for balance transfering
 val transferBody = TransferBody(
 //from
-"5DnUE1uV7iW25bUriWVPHY67KMm2t6g5v23GzVbZCUc8fyBD",
+    "5DnUE1uV7iW25bUriWVPHY67KMm2t6g5v23GzVbZCUc8fyBD",
 //to
-"unjKJQJrRd238pkUZZvzDQrfKuM39zBSnQ5zjAGAGcdRhaJTx",
+    "unjKJQJrRd238pkUZZvzDQrfKuM39zBSnQ5zjAGAGcdRhaJTx",
 //amount
-BigDecimal("0.01")
+    BigDecimal("0.01")
 )
 
 // Build transaction
 val transferResponse = transferMutationService.build(transferBody)
 
 val signBody = UnsignedTxPayloadResponse(
-transferResponse.signerPayloadJSON,
-transferResponse.signerPayloadRaw,
-transferResponse.signerPayloadHex
+    transferResponse.signerPayloadJSON,
+    transferResponse.signerPayloadRaw,
+    transferResponse.signerPayloadHex
 )
 
 // Sign transaction via inner signer
