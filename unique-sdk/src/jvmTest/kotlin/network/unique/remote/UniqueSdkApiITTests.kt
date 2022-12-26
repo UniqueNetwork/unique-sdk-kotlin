@@ -6,7 +6,6 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.impl.ExtrinsicServiceImpl
 import network.unique.service.impl.balance.TransferMutationServiceImpl
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 
@@ -15,7 +14,7 @@ class ApiClientITTests {
     @Test
     fun transferFlowITTest() {
         runBlocking {
-            val signerWrapper = Sr25519SignerWrapper("//Bob", null, false)
+            val signerWrapper = Sr25519SignerWrapper("charge fame control elephant taxi among brain latin meadow oven crash another", null, false)
             UniqueSdk.signerWrapper = signerWrapper
             val transferService = TransferMutationServiceImpl("https://rest.opal.uniquenetwork.dev")
             val extrinsicService = ExtrinsicServiceImpl("https://rest.opal.uniquenetwork.dev")
@@ -28,7 +27,7 @@ class ApiClientITTests {
             val transferResponse = transferService.build(transferBody)
 
             val signBody = UnsignedTxPayloadResponse(transferResponse.signerPayloadJSON, transferResponse.signerPayloadRaw, transferResponse.signerPayloadHex)
-            val signResponse = transferService.sign(signBody, "")
+            val signResponse = transferService.sign(signBody)
 
             val submitBody = SubmitTxBody(signResponse.signerPayloadJSON, signResponse.signature)
             val submitResponse = transferService.submitWatch(submitBody)

@@ -42,24 +42,24 @@ class DeleteTokenPropertiesMutationServiceImpl(basePath: String) :
         return res.fee!!
     }
 
-    override fun sign(args: DeleteTokenPropertiesRequest, seed: String): SubmitTxBody {
+    override fun sign(args: DeleteTokenPropertiesRequest): SubmitTxBody {
         val signPayload = build(args)
-        return sign(signPayload, seed)
+        return sign(signPayload)
     }
 
-    override fun sign(args: UnsignedTxPayloadResponse, seed: String): SubmitTxBody {
+    override fun sign(args: UnsignedTxPayloadResponse): SubmitTxBody {
         val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw.data)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: DeleteTokenPropertiesRequest, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: DeleteTokenPropertiesRequest): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
@@ -73,13 +73,13 @@ class DeleteTokenPropertiesMutationServiceImpl(basePath: String) :
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: DeleteTokenPropertiesRequest, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: DeleteTokenPropertiesRequest): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
@@ -88,7 +88,7 @@ class DeleteTokenPropertiesMutationServiceImpl(basePath: String) :
             DeleteTokenPropertiesRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), TokensApi.Use_deleteTokenProperties.result
+            ), TokensApi.Use_deleteTokenProperties.submit
         )
         return SubmitResultResponse(response.hash)
     }

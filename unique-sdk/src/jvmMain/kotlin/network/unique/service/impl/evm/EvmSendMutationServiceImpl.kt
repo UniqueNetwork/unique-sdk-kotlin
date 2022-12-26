@@ -42,24 +42,24 @@ class EvmSendMutationServiceImpl(basePath: String) :
         return res.fee!!
     }
 
-    override fun sign(args: EvmSendMutationRequest, seed: String): SubmitTxBody {
+    override fun sign(args: EvmSendMutationRequest): SubmitTxBody {
         val signPayload = build(args)
-        return sign(signPayload, seed)
+        return sign(signPayload)
     }
 
-    override fun sign(args: UnsignedTxPayloadResponse, seed: String): SubmitTxBody {
+    override fun sign(args: UnsignedTxPayloadResponse): SubmitTxBody {
         val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw.data)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: EvmSendMutationRequest, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: EvmSendMutationRequest): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
@@ -73,13 +73,13 @@ class EvmSendMutationServiceImpl(basePath: String) :
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: EvmSendMutationRequest, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: EvmSendMutationRequest): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
@@ -88,7 +88,7 @@ class EvmSendMutationServiceImpl(basePath: String) :
             EvmSendMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), EvmApi.Use_evmSendMutation.result
+            ), EvmApi.Use_evmSendMutation.submit
         )
         return SubmitResultResponse(response.hash)
     }

@@ -41,24 +41,24 @@ class TransferRefungibleTokensMutationServiceImpl(basePath: String) : MutationSe
         return res.fee!!
     }
 
-    override fun sign(args: TransferTokensMutationRequest1, seed: String): SubmitTxBody {
+    override fun sign(args: TransferTokensMutationRequest1): SubmitTxBody {
         val signPayload = build(args)
-        return sign(signPayload, seed)
+        return sign(signPayload)
     }
 
-    override fun sign(args: UnsignedTxPayloadResponse, seed: String): SubmitTxBody {
+    override fun sign(args: UnsignedTxPayloadResponse): SubmitTxBody {
         val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw.data)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: TransferTokensMutationRequest1, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: TransferTokensMutationRequest1): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
@@ -72,13 +72,13 @@ class TransferRefungibleTokensMutationServiceImpl(basePath: String) : MutationSe
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: TransferTokensMutationRequest1, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: TransferTokensMutationRequest1): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
@@ -87,7 +87,7 @@ class TransferRefungibleTokensMutationServiceImpl(basePath: String) : MutationSe
             TransferTokensMutationRequest1(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), RefungibleApi.Use_transferTokensMutation.result
+            ), RefungibleApi.Use_transferTokensMutation.submit
         )
         return SubmitResultResponse(response.hash)
     }

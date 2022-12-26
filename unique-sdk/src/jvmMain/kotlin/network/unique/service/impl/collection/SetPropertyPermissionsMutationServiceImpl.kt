@@ -42,24 +42,24 @@ class SetPropertyPermissionsMutationServiceImpl(basePath: String) :
         return res.fee!!
     }
 
-    override fun sign(args: SetPropertyPermissionsRequest, seed: String): SubmitTxBody {
+    override fun sign(args: SetPropertyPermissionsRequest): SubmitTxBody {
         val signPayload = build(args)
-        return sign(signPayload, seed)
+        return sign(signPayload)
     }
 
-    override fun sign(args: UnsignedTxPayloadResponse, seed: String): SubmitTxBody {
+    override fun sign(args: UnsignedTxPayloadResponse): SubmitTxBody {
         val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw.data)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: SetPropertyPermissionsRequest, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: SetPropertyPermissionsRequest): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
@@ -73,13 +73,13 @@ class SetPropertyPermissionsMutationServiceImpl(basePath: String) :
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: SetPropertyPermissionsRequest, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: SetPropertyPermissionsRequest): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
@@ -88,7 +88,7 @@ class SetPropertyPermissionsMutationServiceImpl(basePath: String) :
             SetPropertyPermissionsRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), CollectionsApi.Use_setPropertyPermissions.result
+            ), CollectionsApi.Use_setPropertyPermissions.submit
         )
         return SubmitResultResponse(response.hash)
     }

@@ -70,7 +70,11 @@ class RefungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCli
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
          @Json(name = "Result") result("Result"),
-         @Json(name = "GetFee") getFee("GetFee")
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
@@ -185,7 +189,11 @@ class RefungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCli
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
          @Json(name = "Result") result("Result"),
-         @Json(name = "GetFee") getFee("GetFee")
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
@@ -300,7 +308,11 @@ class RefungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCli
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
          @Json(name = "Result") result("Result"),
-         @Json(name = "GetFee") getFee("GetFee")
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
@@ -415,7 +427,11 @@ class RefungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCli
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
          @Json(name = "Result") result("Result"),
-         @Json(name = "GetFee") getFee("GetFee")
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
@@ -947,7 +963,11 @@ class RefungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCli
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
          @Json(name = "Result") result("Result"),
-         @Json(name = "GetFee") getFee("GetFee")
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
@@ -1062,7 +1082,11 @@ class RefungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCli
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
          @Json(name = "Result") result("Result"),
-         @Json(name = "GetFee") getFee("GetFee")
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**

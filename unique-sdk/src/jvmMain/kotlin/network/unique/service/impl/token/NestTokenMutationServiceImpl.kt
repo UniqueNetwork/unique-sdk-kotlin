@@ -41,24 +41,24 @@ class NestTokenMutationServiceImpl(basePath: String) : MutationService<NestToken
         return res.fee!!
     }
 
-    override fun sign(args: NestTokenRequest, seed: String): SubmitTxBody {
+    override fun sign(args: NestTokenRequest): SubmitTxBody {
         val signPayload = build(args)
-        return sign(signPayload, seed)
+        return sign(signPayload)
     }
 
-    override fun sign(args: UnsignedTxPayloadResponse, seed: String): SubmitTxBody {
+    override fun sign(args: UnsignedTxPayloadResponse): SubmitTxBody {
         val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw.data)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: NestTokenRequest, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: NestTokenRequest): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
@@ -72,13 +72,13 @@ class NestTokenMutationServiceImpl(basePath: String) : MutationService<NestToken
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: NestTokenRequest, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: NestTokenRequest): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
@@ -87,7 +87,7 @@ class NestTokenMutationServiceImpl(basePath: String) : MutationService<NestToken
             NestTokenRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), TokensApi.Use_nestToken.result
+            ), TokensApi.Use_nestToken.submit
         )
         return SubmitResultResponse(response.hash)
     }

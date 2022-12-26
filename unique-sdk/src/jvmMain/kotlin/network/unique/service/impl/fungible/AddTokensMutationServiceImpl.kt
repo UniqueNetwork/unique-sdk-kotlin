@@ -41,24 +41,24 @@ class AddTokensMutationServiceImpl(basePath: String) : MutationService<AddTokens
         return res.fee!!
     }
 
-    override fun sign(args: AddTokensMutationRequest, seed: String): SubmitTxBody {
+    override fun sign(args: AddTokensMutationRequest): SubmitTxBody {
         val signPayload = build(args)
-        return sign(signPayload, seed)
+        return sign(signPayload)
     }
 
-    override fun sign(args: UnsignedTxPayloadResponse, seed: String): SubmitTxBody {
+    override fun sign(args: UnsignedTxPayloadResponse): SubmitTxBody {
         val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw.data)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: AddTokensMutationRequest, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: AddTokensMutationRequest): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
@@ -72,13 +72,13 @@ class AddTokensMutationServiceImpl(basePath: String) : MutationService<AddTokens
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: AddTokensMutationRequest, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: AddTokensMutationRequest): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
@@ -87,7 +87,7 @@ class AddTokensMutationServiceImpl(basePath: String) : MutationService<AddTokens
             AddTokensMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), FungibleApi.Use_addTokensMutation.result
+            ), FungibleApi.Use_addTokensMutation.submit
         )
         return SubmitResultResponse(response.hash)
     }
