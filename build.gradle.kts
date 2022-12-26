@@ -4,7 +4,7 @@ plugins {
 
 allprojects {
     group = "network.unique"
-    version = "0.0.1"
+    version = "0.0.2"
 
     val rustBasePath = "${project.rootDir}/unique-sdk-java-signer/src/signer"
     project.ext.set("rust_base_path", rustBasePath)
