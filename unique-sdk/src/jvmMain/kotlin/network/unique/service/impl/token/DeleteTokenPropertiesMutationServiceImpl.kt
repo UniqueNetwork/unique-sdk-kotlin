@@ -6,23 +6,23 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class DeleteTokenPropertiesMutationServiceImpl(basePath: String) :
-    MutationService<DeleteTokenPropertiesBody>() {
+    MutationService<DeleteTokenPropertiesRequest>() {
 
     private val api: TokensApi = TokensApi(basePath)
 
-    override fun build(args: DeleteTokenPropertiesBody): UnsignedTxPayloadResponse {
+    override fun build(args: DeleteTokenPropertiesRequest): UnsignedTxPayloadResponse {
         val res = api.deleteTokenProperties(args, TokensApi.Use_deleteTokenProperties.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: DeleteTokenPropertiesBody): FeeResponse {
+    override fun getFee(args: DeleteTokenPropertiesRequest): FeeResponse {
         val res = api.deleteTokenProperties(args, TokensApi.Use_deleteTokenProperties.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
         val res = api.deleteTokenProperties(
-            DeleteTokenPropertiesBody(
+            DeleteTokenPropertiesRequest(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
@@ -34,7 +34,7 @@ class DeleteTokenPropertiesMutationServiceImpl(basePath: String) :
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
         val res = api.deleteTokenProperties(
-            DeleteTokenPropertiesBody(
+            DeleteTokenPropertiesRequest(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
             ), TokensApi.Use_deleteTokenProperties.build, true
@@ -42,7 +42,7 @@ class DeleteTokenPropertiesMutationServiceImpl(basePath: String) :
         return res.fee!!
     }
 
-    override fun sign(args: DeleteTokenPropertiesBody, seed: String): SubmitTxBody {
+    override fun sign(args: DeleteTokenPropertiesRequest, seed: String): SubmitTxBody {
         val signPayload = build(args)
         return sign(signPayload, seed)
     }
@@ -53,7 +53,7 @@ class DeleteTokenPropertiesMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: DeleteTokenPropertiesBody, seed: String): SubmitResultResponse {
+    override fun submit(args: DeleteTokenPropertiesRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submit(signedBody)
     }
@@ -65,7 +65,7 @@ class DeleteTokenPropertiesMutationServiceImpl(basePath: String) :
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
         val response = api.deleteTokenProperties(
-            DeleteTokenPropertiesBody(
+            DeleteTokenPropertiesRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), TokensApi.Use_deleteTokenProperties.submit
@@ -73,7 +73,7 @@ class DeleteTokenPropertiesMutationServiceImpl(basePath: String) :
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: DeleteTokenPropertiesBody, seed: String): SubmitResultResponse {
+    override fun submitWatch(args: DeleteTokenPropertiesRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submitWatch(signedBody)
     }
@@ -85,10 +85,10 @@ class DeleteTokenPropertiesMutationServiceImpl(basePath: String) :
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
         val response = api.deleteTokenProperties(
-            DeleteTokenPropertiesBody(
+            DeleteTokenPropertiesRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), TokensApi.Use_deleteTokenProperties.submitWatch
+            ), TokensApi.Use_deleteTokenProperties.result
         )
         return SubmitResultResponse(response.hash)
     }

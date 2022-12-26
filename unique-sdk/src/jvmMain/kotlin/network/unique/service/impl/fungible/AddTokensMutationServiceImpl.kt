@@ -5,23 +5,23 @@ import network.unique.model.*
 import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
-class AddTokensMutationServiceImpl(basePath: String) : MutationService<AddTokensArgsDto>() {
+class AddTokensMutationServiceImpl(basePath: String) : MutationService<AddTokensMutationRequest>() {
 
     private val api: FungibleApi = FungibleApi(basePath)
 
-    override fun build(args: AddTokensArgsDto): UnsignedTxPayloadResponse {
+    override fun build(args: AddTokensMutationRequest): UnsignedTxPayloadResponse {
         val res = api.addTokensMutation(args, FungibleApi.Use_addTokensMutation.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: AddTokensArgsDto): FeeResponse {
+    override fun getFee(args: AddTokensMutationRequest): FeeResponse {
         val res = api.addTokensMutation(args, FungibleApi.Use_addTokensMutation.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
         val res = api.addTokensMutation(
-            AddTokensArgsDto(
+            AddTokensMutationRequest(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
@@ -33,7 +33,7 @@ class AddTokensMutationServiceImpl(basePath: String) : MutationService<AddTokens
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
         val res = api.addTokensMutation(
-            AddTokensArgsDto(
+            AddTokensMutationRequest(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
             ), FungibleApi.Use_addTokensMutation.build, true
@@ -41,7 +41,7 @@ class AddTokensMutationServiceImpl(basePath: String) : MutationService<AddTokens
         return res.fee!!
     }
 
-    override fun sign(args: AddTokensArgsDto, seed: String): SubmitTxBody {
+    override fun sign(args: AddTokensMutationRequest, seed: String): SubmitTxBody {
         val signPayload = build(args)
         return sign(signPayload, seed)
     }
@@ -52,7 +52,7 @@ class AddTokensMutationServiceImpl(basePath: String) : MutationService<AddTokens
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: AddTokensArgsDto, seed: String): SubmitResultResponse {
+    override fun submit(args: AddTokensMutationRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submit(signedBody)
     }
@@ -64,7 +64,7 @@ class AddTokensMutationServiceImpl(basePath: String) : MutationService<AddTokens
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
         val response = api.addTokensMutation(
-            AddTokensArgsDto(
+            AddTokensMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), FungibleApi.Use_addTokensMutation.submit
@@ -72,7 +72,7 @@ class AddTokensMutationServiceImpl(basePath: String) : MutationService<AddTokens
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: AddTokensArgsDto, seed: String): SubmitResultResponse {
+    override fun submitWatch(args: AddTokensMutationRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submitWatch(signedBody)
     }
@@ -84,10 +84,10 @@ class AddTokensMutationServiceImpl(basePath: String) : MutationService<AddTokens
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
         val response = api.addTokensMutation(
-            AddTokensArgsDto(
+            AddTokensMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), FungibleApi.Use_addTokensMutation.submitWatch
+            ), FungibleApi.Use_addTokensMutation.result
         )
         return SubmitResultResponse(response.hash)
     }

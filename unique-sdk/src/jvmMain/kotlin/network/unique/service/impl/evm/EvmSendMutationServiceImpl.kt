@@ -6,23 +6,23 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class EvmSendMutationServiceImpl(basePath: String) :
-    MutationService<EvmSendArgumentsDto>() {
+    MutationService<EvmSendMutationRequest>() {
 
     private val api: EvmApi = EvmApi(basePath)
 
-    override fun build(args: EvmSendArgumentsDto): UnsignedTxPayloadResponse {
+    override fun build(args: EvmSendMutationRequest): UnsignedTxPayloadResponse {
         val res = api.evmSendMutation(args, EvmApi.Use_evmSendMutation.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: EvmSendArgumentsDto): FeeResponse {
+    override fun getFee(args: EvmSendMutationRequest): FeeResponse {
         val res = api.evmSendMutation(args, EvmApi.Use_evmSendMutation.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
         val res = api.evmSendMutation(
-            EvmSendArgumentsDto(
+            EvmSendMutationRequest(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
@@ -34,7 +34,7 @@ class EvmSendMutationServiceImpl(basePath: String) :
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
         val res = api.evmSendMutation(
-            EvmSendArgumentsDto(
+            EvmSendMutationRequest(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
             ), EvmApi.Use_evmSendMutation.build, true
@@ -42,7 +42,7 @@ class EvmSendMutationServiceImpl(basePath: String) :
         return res.fee!!
     }
 
-    override fun sign(args: EvmSendArgumentsDto, seed: String): SubmitTxBody {
+    override fun sign(args: EvmSendMutationRequest, seed: String): SubmitTxBody {
         val signPayload = build(args)
         return sign(signPayload, seed)
     }
@@ -53,7 +53,7 @@ class EvmSendMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: EvmSendArgumentsDto, seed: String): SubmitResultResponse {
+    override fun submit(args: EvmSendMutationRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submit(signedBody)
     }
@@ -65,7 +65,7 @@ class EvmSendMutationServiceImpl(basePath: String) :
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
         val response = api.evmSendMutation(
-            EvmSendArgumentsDto(
+            EvmSendMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), EvmApi.Use_evmSendMutation.submit
@@ -73,7 +73,7 @@ class EvmSendMutationServiceImpl(basePath: String) :
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: EvmSendArgumentsDto, seed: String): SubmitResultResponse {
+    override fun submitWatch(args: EvmSendMutationRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submitWatch(signedBody)
     }
@@ -85,10 +85,10 @@ class EvmSendMutationServiceImpl(basePath: String) :
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
         val response = api.evmSendMutation(
-            EvmSendArgumentsDto(
+            EvmSendMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), EvmApi.Use_evmSendMutation.submitWatch
+            ), EvmApi.Use_evmSendMutation.result
         )
         return SubmitResultResponse(response.hash)
     }

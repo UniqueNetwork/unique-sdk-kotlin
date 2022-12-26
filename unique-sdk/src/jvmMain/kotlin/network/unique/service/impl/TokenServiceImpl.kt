@@ -11,21 +11,21 @@ class TokenServiceImpl(basePath: String) : TokenService {
 
     private val api: TokensApi = TokensApi(basePath)
 
-    private val approveTokenMutationService: MutationService<ApproveTokenBody> =
+    private val approveTokenMutationService: MutationService<ApproveRequest> =
         ApproveTokenMutationServiceImpl(basePath)
-    private val burnTokenMutationService: MutationService<BurnTokenBody> = BurnTokenMutationServiceImpl(basePath)
-    private val createMultipleTokensMutationService: MutationService<CreateMultipleTokensBody> =
+    private val burnTokenMutationService: MutationService<BurnTokenRequest> = BurnTokenMutationServiceImpl(basePath)
+    private val createMultipleTokensMutationService: MutationService<CreateMultipleTokensMutationRequest> =
         CreateMultipleTokensMutationServiceImpl(basePath)
-    private val createTokenMutationService: MutationService<CreateTokenBody> =
+    private val createTokenMutationService: MutationService<CreateNewTokenMutationRequest> =
         CreateTokenMutationServiceImpl(basePath)
-    private val deleteTokenPropertiesMutationService: MutationService<DeleteTokenPropertiesBody> =
+    private val deleteTokenPropertiesMutationService: MutationService<DeleteTokenPropertiesRequest> =
         DeleteTokenPropertiesMutationServiceImpl(basePath)
-    private val nestTokenMutationService: MutationService<NestTokenBody> = NestTokenMutationServiceImpl(basePath)
-    private val setTokenPropertiesMutationService: MutationService<SetTokenPropertiesBody> =
+    private val nestTokenMutationService: MutationService<NestTokenRequest> = NestTokenMutationServiceImpl(basePath)
+    private val setTokenPropertiesMutationService: MutationService<SetTokenPropertiesRequest> =
         SetTokenPropertiesMutationServiceImpl(basePath)
-    private val transferTokenMutationService: MutationService<TransferTokenBody> =
+    private val transferTokenMutationService: MutationService<TransferTokenRequest> =
         TransferTokenMutationServiceImpl(basePath)
-    private val unnsetTokenMutationService: MutationService<UnnestTokenBody> =
+    private val unnsetTokenMutationService: MutationService<UnnestTokenRequest> =
         UnnestTokenMutationServiceImpl(basePath)
 
     override fun getToken(tokenId: BigDecimal, collectionId: BigDecimal, at: String): TokenByIdResponse {
@@ -95,39 +95,39 @@ class TokenServiceImpl(basePath: String) : TokenService {
         return api.newTokenControllerGetBalance(collectionId, tokenId, address, at)
     }
 
-    override fun getApproveToken(): MutationService<ApproveTokenBody> {
+    override fun getApproveToken(): MutationService<ApproveRequest> {
         return approveTokenMutationService
     }
 
-    override fun getBurnToken(): MutationService<BurnTokenBody> {
+    override fun getBurnToken(): MutationService<BurnTokenRequest> {
         return burnTokenMutationService
     }
 
-    override fun getCreateMultipleTokens(): MutationService<CreateMultipleTokensBody> {
+    override fun getCreateMultipleTokens(): MutationService<CreateMultipleTokensMutationRequest> {
         return createMultipleTokensMutationService
     }
 
-    override fun getCreateToken(): MutationService<CreateTokenBody> {
+    override fun getCreateToken(): MutationService<CreateNewTokenMutationRequest> {
         return createTokenMutationService
     }
 
-    override fun getDeleteTokenProperties(): MutationService<DeleteTokenPropertiesBody> {
+    override fun getDeleteTokenProperties(): MutationService<DeleteTokenPropertiesRequest> {
         return deleteTokenPropertiesMutationService
     }
 
-    override fun getNestToken(): MutationService<NestTokenBody> {
+    override fun getNestToken(): MutationService<NestTokenRequest> {
         return nestTokenMutationService
     }
 
-    override fun getSetTokenProperties(): MutationService<SetTokenPropertiesBody> {
+    override fun getSetTokenProperties(): MutationService<SetTokenPropertiesRequest> {
         return setTokenPropertiesMutationService
     }
 
-    override fun getTransferToken(): MutationService<TransferTokenBody> {
+    override fun getTransferToken(): MutationService<TransferTokenRequest> {
         return transferTokenMutationService
     }
 
-    override fun getUnnestToken(): MutationService<UnnestTokenBody> {
+    override fun getUnnestToken(): MutationService<UnnestTokenRequest> {
         return unnsetTokenMutationService
     }
 

@@ -6,23 +6,23 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class DestroyCollectionMutationServiceImpl(basePath: String) :
-    MutationService<DestroyCollectionBody>() {
+    MutationService<DestroyRequest>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
-    override fun build(args: DestroyCollectionBody): UnsignedTxPayloadResponse {
+    override fun build(args: DestroyRequest): UnsignedTxPayloadResponse {
         val res = api.destroy(args, CollectionsApi.Use_destroy.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: DestroyCollectionBody): FeeResponse {
+    override fun getFee(args: DestroyRequest): FeeResponse {
         val res = api.destroy(args, CollectionsApi.Use_destroy.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
         val res = api.destroy(
-            DestroyCollectionBody(
+            DestroyRequest(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
@@ -34,7 +34,7 @@ class DestroyCollectionMutationServiceImpl(basePath: String) :
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
         val res = api.destroy(
-            DestroyCollectionBody(
+            DestroyRequest(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
             ), CollectionsApi.Use_destroy.build, true
@@ -42,7 +42,7 @@ class DestroyCollectionMutationServiceImpl(basePath: String) :
         return res.fee!!
     }
 
-    override fun sign(args: DestroyCollectionBody, seed: String): SubmitTxBody {
+    override fun sign(args: DestroyRequest, seed: String): SubmitTxBody {
         val signPayload = build(args)
         return sign(signPayload, seed)
     }
@@ -53,7 +53,7 @@ class DestroyCollectionMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: DestroyCollectionBody, seed: String): SubmitResultResponse {
+    override fun submit(args: DestroyRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submit(signedBody)
     }
@@ -65,7 +65,7 @@ class DestroyCollectionMutationServiceImpl(basePath: String) :
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
         val response = api.destroy(
-            DestroyCollectionBody(
+            DestroyRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_destroy.submit
@@ -73,7 +73,7 @@ class DestroyCollectionMutationServiceImpl(basePath: String) :
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: DestroyCollectionBody, seed: String): SubmitResultResponse {
+    override fun submitWatch(args: DestroyRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submitWatch(signedBody)
     }
@@ -85,10 +85,10 @@ class DestroyCollectionMutationServiceImpl(basePath: String) :
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
         val response = api.destroy(
-            DestroyCollectionBody(
+            DestroyRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), CollectionsApi.Use_destroy.submitWatch
+            ), CollectionsApi.Use_destroy.result
         )
         return SubmitResultResponse(response.hash)
     }

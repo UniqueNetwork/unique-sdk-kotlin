@@ -6,23 +6,23 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class ApproveTokenMutationServiceImpl(basePath: String) :
-    MutationService<ApproveTokenBody>() {
+    MutationService<ApproveRequest>() {
 
     private val api: TokensApi = TokensApi(basePath)
 
-    override fun build(args: ApproveTokenBody): UnsignedTxPayloadResponse {
+    override fun build(args: ApproveRequest): UnsignedTxPayloadResponse {
         val res = api.approve(args, TokensApi.Use_approve.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: ApproveTokenBody): FeeResponse {
+    override fun getFee(args: ApproveRequest): FeeResponse {
         val res = api.approve(args, TokensApi.Use_approve.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
         val res = api.approve(
-            ApproveTokenBody(
+            ApproveRequest(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
@@ -34,7 +34,7 @@ class ApproveTokenMutationServiceImpl(basePath: String) :
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
         val res = api.approve(
-            ApproveTokenBody(
+            ApproveRequest(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
             ), TokensApi.Use_approve.build, true
@@ -42,7 +42,7 @@ class ApproveTokenMutationServiceImpl(basePath: String) :
         return res.fee!!
     }
 
-    override fun sign(args: ApproveTokenBody, seed: String): SubmitTxBody {
+    override fun sign(args: ApproveRequest, seed: String): SubmitTxBody {
         val signPayload = build(args)
         return sign(signPayload, seed)
     }
@@ -53,7 +53,7 @@ class ApproveTokenMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: ApproveTokenBody, seed: String): SubmitResultResponse {
+    override fun submit(args: ApproveRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submit(signedBody)
     }
@@ -65,7 +65,7 @@ class ApproveTokenMutationServiceImpl(basePath: String) :
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
         val response = api.approve(
-            ApproveTokenBody(
+            ApproveRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), TokensApi.Use_approve.submit
@@ -73,7 +73,7 @@ class ApproveTokenMutationServiceImpl(basePath: String) :
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: ApproveTokenBody, seed: String): SubmitResultResponse {
+    override fun submitWatch(args: ApproveRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submitWatch(signedBody)
     }
@@ -85,10 +85,10 @@ class ApproveTokenMutationServiceImpl(basePath: String) :
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
         val response = api.approve(
-            ApproveTokenBody(
+            ApproveRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), TokensApi.Use_approve.submitWatch
+            ), TokensApi.Use_approve.result
         )
         return SubmitResultResponse(response.hash)
     }

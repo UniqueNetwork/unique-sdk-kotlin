@@ -6,23 +6,23 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class SetCollectionPermissionsMutationServiceImpl(basePath: String) :
-    MutationService<SetCollectionPermissionsBody>() {
+    MutationService<SetPermissionsRequest>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
-    override fun build(args: SetCollectionPermissionsBody): UnsignedTxPayloadResponse {
+    override fun build(args: SetPermissionsRequest): UnsignedTxPayloadResponse {
         val res = api.setPermissions(args, CollectionsApi.Use_setPermissions.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: SetCollectionPermissionsBody): FeeResponse {
+    override fun getFee(args: SetPermissionsRequest): FeeResponse {
         val res = api.setPermissions(args, CollectionsApi.Use_setPermissions.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
         val res = api.setPermissions(
-            SetCollectionPermissionsBody(
+            SetPermissionsRequest(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
@@ -34,7 +34,7 @@ class SetCollectionPermissionsMutationServiceImpl(basePath: String) :
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
         val res = api.setPermissions(
-            SetCollectionPermissionsBody(
+            SetPermissionsRequest(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
             ), CollectionsApi.Use_setPermissions.build, true
@@ -42,7 +42,7 @@ class SetCollectionPermissionsMutationServiceImpl(basePath: String) :
         return res.fee!!
     }
 
-    override fun sign(args: SetCollectionPermissionsBody, seed: String): SubmitTxBody {
+    override fun sign(args: SetPermissionsRequest, seed: String): SubmitTxBody {
         val signPayload = build(args)
         return sign(signPayload, seed)
     }
@@ -53,7 +53,7 @@ class SetCollectionPermissionsMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: SetCollectionPermissionsBody, seed: String): SubmitResultResponse {
+    override fun submit(args: SetPermissionsRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submit(signedBody)
     }
@@ -65,7 +65,7 @@ class SetCollectionPermissionsMutationServiceImpl(basePath: String) :
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
         val response = api.setPermissions(
-            SetCollectionPermissionsBody(
+            SetPermissionsRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_setPermissions.submit
@@ -73,7 +73,7 @@ class SetCollectionPermissionsMutationServiceImpl(basePath: String) :
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: SetCollectionPermissionsBody, seed: String): SubmitResultResponse {
+    override fun submitWatch(args: SetPermissionsRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submitWatch(signedBody)
     }
@@ -85,10 +85,10 @@ class SetCollectionPermissionsMutationServiceImpl(basePath: String) :
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
         val response = api.setPermissions(
-            SetCollectionPermissionsBody(
+            SetPermissionsRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), CollectionsApi.Use_setPermissions.submitWatch
+            ), CollectionsApi.Use_setPermissions.result
         )
         return SubmitResultResponse(response.hash)
     }

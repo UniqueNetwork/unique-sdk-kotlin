@@ -6,23 +6,23 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class DeleteCollectionPropertiesMutationServiceImpl(basePath: String) :
-    MutationService<DeleteCollectionPropertiesBody>() {
+    MutationService<DeleteCollectionPropertiesRequest>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
-    override fun build(args: DeleteCollectionPropertiesBody): UnsignedTxPayloadResponse {
+    override fun build(args: DeleteCollectionPropertiesRequest): UnsignedTxPayloadResponse {
         val res = api.deleteCollectionProperties(args, CollectionsApi.Use_deleteCollectionProperties.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: DeleteCollectionPropertiesBody): FeeResponse {
+    override fun getFee(args: DeleteCollectionPropertiesRequest): FeeResponse {
         val res = api.deleteCollectionProperties(args, CollectionsApi.Use_deleteCollectionProperties.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
         val res = api.deleteCollectionProperties(
-            DeleteCollectionPropertiesBody(
+            DeleteCollectionPropertiesRequest(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
@@ -34,7 +34,7 @@ class DeleteCollectionPropertiesMutationServiceImpl(basePath: String) :
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
         val res = api.deleteCollectionProperties(
-            DeleteCollectionPropertiesBody(
+            DeleteCollectionPropertiesRequest(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
             ), CollectionsApi.Use_deleteCollectionProperties.build, true
@@ -42,7 +42,7 @@ class DeleteCollectionPropertiesMutationServiceImpl(basePath: String) :
         return res.fee!!
     }
 
-    override fun sign(args: DeleteCollectionPropertiesBody, seed: String): SubmitTxBody {
+    override fun sign(args: DeleteCollectionPropertiesRequest, seed: String): SubmitTxBody {
         val signPayload = build(args)
         return sign(signPayload, seed)
     }
@@ -53,7 +53,7 @@ class DeleteCollectionPropertiesMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: DeleteCollectionPropertiesBody, seed: String): SubmitResultResponse {
+    override fun submit(args: DeleteCollectionPropertiesRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submit(signedBody)
     }
@@ -65,7 +65,7 @@ class DeleteCollectionPropertiesMutationServiceImpl(basePath: String) :
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
         val response = api.deleteCollectionProperties(
-            DeleteCollectionPropertiesBody(
+            DeleteCollectionPropertiesRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_deleteCollectionProperties.submit
@@ -73,7 +73,7 @@ class DeleteCollectionPropertiesMutationServiceImpl(basePath: String) :
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: DeleteCollectionPropertiesBody, seed: String): SubmitResultResponse {
+    override fun submitWatch(args: DeleteCollectionPropertiesRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submitWatch(signedBody)
     }
@@ -85,10 +85,10 @@ class DeleteCollectionPropertiesMutationServiceImpl(basePath: String) :
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
         val response = api.deleteCollectionProperties(
-            DeleteCollectionPropertiesBody(
+            DeleteCollectionPropertiesRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), CollectionsApi.Use_deleteCollectionProperties.submitWatch
+            ), CollectionsApi.Use_deleteCollectionProperties.result
         )
         return SubmitResultResponse(response.hash)
     }

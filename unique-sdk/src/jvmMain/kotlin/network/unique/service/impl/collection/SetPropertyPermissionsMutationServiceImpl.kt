@@ -6,23 +6,23 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class SetPropertyPermissionsMutationServiceImpl(basePath: String) :
-    MutationService<SetPropertyPermissionsBody>() {
+    MutationService<SetPropertyPermissionsRequest>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
-    override fun build(args: SetPropertyPermissionsBody): UnsignedTxPayloadResponse {
+    override fun build(args: SetPropertyPermissionsRequest): UnsignedTxPayloadResponse {
         val res = api.setPropertyPermissions(args, CollectionsApi.Use_setPropertyPermissions.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: SetPropertyPermissionsBody): FeeResponse {
+    override fun getFee(args: SetPropertyPermissionsRequest): FeeResponse {
         val res = api.setPropertyPermissions(args, CollectionsApi.Use_setPropertyPermissions.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
         val res = api.setPropertyPermissions(
-            SetPropertyPermissionsBody(
+            SetPropertyPermissionsRequest(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
@@ -34,7 +34,7 @@ class SetPropertyPermissionsMutationServiceImpl(basePath: String) :
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
         val res = api.setPropertyPermissions(
-            SetPropertyPermissionsBody(
+            SetPropertyPermissionsRequest(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
             ), CollectionsApi.Use_setPropertyPermissions.build, true
@@ -42,7 +42,7 @@ class SetPropertyPermissionsMutationServiceImpl(basePath: String) :
         return res.fee!!
     }
 
-    override fun sign(args: SetPropertyPermissionsBody, seed: String): SubmitTxBody {
+    override fun sign(args: SetPropertyPermissionsRequest, seed: String): SubmitTxBody {
         val signPayload = build(args)
         return sign(signPayload, seed)
     }
@@ -53,7 +53,7 @@ class SetPropertyPermissionsMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: SetPropertyPermissionsBody, seed: String): SubmitResultResponse {
+    override fun submit(args: SetPropertyPermissionsRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submit(signedBody)
     }
@@ -65,7 +65,7 @@ class SetPropertyPermissionsMutationServiceImpl(basePath: String) :
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
         val response = api.setPropertyPermissions(
-            SetPropertyPermissionsBody(
+            SetPropertyPermissionsRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_setPropertyPermissions.submit
@@ -73,7 +73,7 @@ class SetPropertyPermissionsMutationServiceImpl(basePath: String) :
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: SetPropertyPermissionsBody, seed: String): SubmitResultResponse {
+    override fun submitWatch(args: SetPropertyPermissionsRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submitWatch(signedBody)
     }
@@ -85,10 +85,10 @@ class SetPropertyPermissionsMutationServiceImpl(basePath: String) :
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
         val response = api.setPropertyPermissions(
-            SetPropertyPermissionsBody(
+            SetPropertyPermissionsRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), CollectionsApi.Use_setPropertyPermissions.submitWatch
+            ), CollectionsApi.Use_setPropertyPermissions.result
         )
         return SubmitResultResponse(response.hash)
     }

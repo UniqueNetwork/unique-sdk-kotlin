@@ -40,26 +40,29 @@ data class SetTransfersEnabledRequest (
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal,
+    val collectionId: java.math.BigDecimal? = null,
 
     @Json(name = "isEnabled")
-    val isEnabled: kotlin.Boolean,
+    val isEnabled: kotlin.Boolean? = null,
 
     @Json(name = "signerPayloadJSON")
-    val signerPayloadJSON: SignerPayloadJSONDto,
+    val signerPayloadJSON: SignerPayloadJSONDto? = null,
 
     @Json(name = "signerPayloadRaw")
-    val signerPayloadRaw: SignerPayloadRawDto,
+    val signerPayloadRaw: SignerPayloadRawDto? = null,
 
     @Json(name = "signerPayloadHex")
-    val signerPayloadHex: kotlin.String,
+    val signerPayloadHex: kotlin.String? = null,
+
+    @Json(name = "fee")
+    val fee: FeeResponse? = null,
 
     /* Warning: Signature must be with SignatureType! */
     @Json(name = "signature")
-    val signature: kotlin.String
+    val signature: kotlin.String? = null
 
 )
 

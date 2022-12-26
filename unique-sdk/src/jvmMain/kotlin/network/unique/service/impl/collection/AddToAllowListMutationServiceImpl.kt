@@ -6,23 +6,23 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class AddToAllowListMutationServiceImpl(basePath: String) :
-    MutationService<AddToAllowListBody>() {
+    MutationService<AddToAllowListRequest>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
-    override fun build(args: AddToAllowListBody): UnsignedTxPayloadResponse {
+    override fun build(args: AddToAllowListRequest): UnsignedTxPayloadResponse {
         val res = api.addToAllowList(args, CollectionsApi.Use_addToAllowList.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: AddToAllowListBody): FeeResponse {
+    override fun getFee(args: AddToAllowListRequest): FeeResponse {
         val res = api.addToAllowList(args, CollectionsApi.Use_addToAllowList.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
         val res = api.addToAllowList(
-            AddToAllowListBody(
+            AddToAllowListRequest(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
@@ -34,7 +34,7 @@ class AddToAllowListMutationServiceImpl(basePath: String) :
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
         val res = api.addToAllowList(
-            AddToAllowListBody(
+            AddToAllowListRequest(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
             ), CollectionsApi.Use_addToAllowList.build, true
@@ -42,7 +42,7 @@ class AddToAllowListMutationServiceImpl(basePath: String) :
         return res.fee!!
     }
 
-    override fun sign(args: AddToAllowListBody, seed: String): SubmitTxBody {
+    override fun sign(args: AddToAllowListRequest, seed: String): SubmitTxBody {
         val signPayload = build(args)
         return sign(signPayload, seed)
     }
@@ -53,7 +53,7 @@ class AddToAllowListMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: AddToAllowListBody, seed: String): SubmitResultResponse {
+    override fun submit(args: AddToAllowListRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submit(signedBody)
     }
@@ -65,7 +65,7 @@ class AddToAllowListMutationServiceImpl(basePath: String) :
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
         val response = api.addToAllowList(
-            AddToAllowListBody(
+            AddToAllowListRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_addToAllowList.submit
@@ -73,7 +73,7 @@ class AddToAllowListMutationServiceImpl(basePath: String) :
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: AddToAllowListBody, seed: String): SubmitResultResponse {
+    override fun submitWatch(args: AddToAllowListRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submitWatch(signedBody)
     }
@@ -85,10 +85,10 @@ class AddToAllowListMutationServiceImpl(basePath: String) :
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
         val response = api.addToAllowList(
-            AddToAllowListBody(
+            AddToAllowListRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), CollectionsApi.Use_addToAllowList.submitWatch
+            ), CollectionsApi.Use_addToAllowList.result
         )
         return SubmitResultResponse(response.hash)
     }

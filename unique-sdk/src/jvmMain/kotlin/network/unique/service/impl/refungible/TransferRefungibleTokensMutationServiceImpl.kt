@@ -87,7 +87,7 @@ class TransferRefungibleTokensMutationServiceImpl(basePath: String) : MutationSe
             TransferTokensMutationRequest1(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), RefungibleApi.Use_transferTokensMutation.submit
+            ), RefungibleApi.Use_transferTokensMutation.result
         )
         return SubmitResultResponse(response.hash)
     }

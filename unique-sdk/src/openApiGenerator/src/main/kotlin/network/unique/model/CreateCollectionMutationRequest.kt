@@ -55,30 +55,33 @@ import com.squareup.moshi.Json
 data class CreateCollectionMutationRequest (
 
     @Json(name = "name")
-    val name: kotlin.String,
+    val name: kotlin.String? = null,
 
     @Json(name = "description")
-    val description: kotlin.String,
+    val description: kotlin.String? = null,
 
     @Json(name = "tokenPrefix")
-    val tokenPrefix: kotlin.String,
+    val tokenPrefix: kotlin.String? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
     @Json(name = "signerPayloadJSON")
-    val signerPayloadJSON: SignerPayloadJSONDto,
+    val signerPayloadJSON: SignerPayloadJSONDto? = null,
 
     @Json(name = "signerPayloadRaw")
-    val signerPayloadRaw: SignerPayloadRawDto,
+    val signerPayloadRaw: SignerPayloadRawDto? = null,
 
     @Json(name = "signerPayloadHex")
-    val signerPayloadHex: kotlin.String,
+    val signerPayloadHex: kotlin.String? = null,
+
+    @Json(name = "fee")
+    val fee: FeeResponse? = null,
 
     /* Warning: Signature must be with SignatureType! */
     @Json(name = "signature")
-    val signature: kotlin.String,
+    val signature: kotlin.String? = null,
 
     @Json(name = "mode")
     val mode: CreateCollectionMutationRequest.Mode? = null,

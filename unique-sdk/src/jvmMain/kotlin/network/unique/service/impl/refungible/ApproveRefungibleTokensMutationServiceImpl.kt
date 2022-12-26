@@ -87,7 +87,7 @@ class ApproveRefungibleTokensMutationServiceImpl(basePath: String) : MutationSer
             ApproveTokensMutationRequest1(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), RefungibleApi.Use_approveTokensMutation.submit
+            ), RefungibleApi.Use_approveTokensMutation.result
         )
         return SubmitResultResponse(response.hash)
     }

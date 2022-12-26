@@ -5,11 +5,11 @@ import network.unique.model.*
 import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
-class TransferMutationServiceImpl(basePath: String) : MutationService<TransferBody>() {
+class TransferMutationServiceImpl(basePath: String) : MutationService<TransferMutationRequest>() {
 
     private val api: BalanceApi = BalanceApi(basePath)
 
-    override fun build(args: TransferBody): UnsignedTxPayloadResponse {
+    override fun build(args: TransferMutationRequest): UnsignedTxPayloadResponse {
         val res = api.transferMutation(args, BalanceApi.Use_transferMutation.build)
         return UnsignedTxPayloadResponse(
             res.signerPayloadJSON!!,
@@ -19,14 +19,14 @@ class TransferMutationServiceImpl(basePath: String) : MutationService<TransferBo
         )
     }
 
-    override fun getFee(args: TransferBody): FeeResponse {
+    override fun getFee(args: TransferMutationRequest): FeeResponse {
         val res = api.transferMutation(args, BalanceApi.Use_transferMutation.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
         val res = api.transferMutation(
-            TransferBody(
+            TransferMutationRequest(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
@@ -38,7 +38,7 @@ class TransferMutationServiceImpl(basePath: String) : MutationService<TransferBo
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
         val res = api.transferMutation(
-            TransferBody(
+            TransferMutationRequest(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
             ), BalanceApi.Use_transferMutation.build, true
@@ -46,7 +46,7 @@ class TransferMutationServiceImpl(basePath: String) : MutationService<TransferBo
         return res.fee!!
     }
 
-    override fun sign(args: TransferBody, seed: String): SubmitTxBody {
+    override fun sign(args: TransferMutationRequest, seed: String): SubmitTxBody {
         val signPayload = build(args)
         return sign(signPayload, seed)
     }
@@ -57,7 +57,7 @@ class TransferMutationServiceImpl(basePath: String) : MutationService<TransferBo
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: TransferBody, seed: String): SubmitResultResponse {
+    override fun submit(args: TransferMutationRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submit(signedBody)
     }
@@ -69,7 +69,7 @@ class TransferMutationServiceImpl(basePath: String) : MutationService<TransferBo
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
         val response = api.transferMutation(
-            TransferBody(
+            TransferMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), BalanceApi.Use_transferMutation.submit
@@ -77,7 +77,7 @@ class TransferMutationServiceImpl(basePath: String) : MutationService<TransferBo
         return SubmitResultResponse(response.hash!!)
     }
 
-    override fun submitWatch(args: TransferBody, seed: String): SubmitResultResponse {
+    override fun submitWatch(args: TransferMutationRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submitWatch(signedBody)
     }
@@ -89,10 +89,10 @@ class TransferMutationServiceImpl(basePath: String) : MutationService<TransferBo
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
         val response = api.transferMutation(
-            TransferBody(
+            TransferMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), BalanceApi.Use_transferMutation.submitWatch
+            ), BalanceApi.Use_transferMutation.result
         )
         return SubmitResultResponse(response.hash!!)
     }

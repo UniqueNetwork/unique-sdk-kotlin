@@ -87,7 +87,7 @@ class CreateRefungibleTokensMutationServiceImpl(basePath: String) : MutationServ
             AddTokensMutationRequest1(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), RefungibleApi.Use_addTokensMutation.submit
+            ), RefungibleApi.Use_addTokensMutation.result
         )
         return SubmitResultResponse(response.hash)
     }

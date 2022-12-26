@@ -6,23 +6,23 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class UnnestTokenMutationServiceImpl(basePath: String) :
-    MutationService<UnnestTokenBody>() {
+    MutationService<UnnestTokenRequest>() {
 
     private val api: TokensApi = TokensApi(basePath)
 
-    override fun build(args: UnnestTokenBody): UnsignedTxPayloadResponse {
+    override fun build(args: UnnestTokenRequest): UnsignedTxPayloadResponse {
         val res = api.unnestToken(args, TokensApi.Use_unnestToken.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: UnnestTokenBody): FeeResponse {
+    override fun getFee(args: UnnestTokenRequest): FeeResponse {
         val res = api.unnestToken(args, TokensApi.Use_unnestToken.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
         val res = api.unnestToken(
-            UnnestTokenBody(
+            UnnestTokenRequest(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
@@ -34,7 +34,7 @@ class UnnestTokenMutationServiceImpl(basePath: String) :
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
         val res = api.unnestToken(
-            UnnestTokenBody(
+            UnnestTokenRequest(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
             ), TokensApi.Use_unnestToken.build, true
@@ -42,7 +42,7 @@ class UnnestTokenMutationServiceImpl(basePath: String) :
         return res.fee!!
     }
 
-    override fun sign(args: UnnestTokenBody, seed: String): SubmitTxBody {
+    override fun sign(args: UnnestTokenRequest, seed: String): SubmitTxBody {
         val signPayload = build(args)
         return sign(signPayload, seed)
     }
@@ -53,7 +53,7 @@ class UnnestTokenMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: UnnestTokenBody, seed: String): SubmitResultResponse {
+    override fun submit(args: UnnestTokenRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submit(signedBody)
     }
@@ -65,7 +65,7 @@ class UnnestTokenMutationServiceImpl(basePath: String) :
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
         val response = api.unnestToken(
-            UnnestTokenBody(
+            UnnestTokenRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), TokensApi.Use_unnestToken.submit
@@ -73,7 +73,7 @@ class UnnestTokenMutationServiceImpl(basePath: String) :
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: UnnestTokenBody, seed: String): SubmitResultResponse {
+    override fun submitWatch(args: UnnestTokenRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submitWatch(signedBody)
     }
@@ -85,10 +85,10 @@ class UnnestTokenMutationServiceImpl(basePath: String) :
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
         val response = api.unnestToken(
-            UnnestTokenBody(
+            UnnestTokenRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), TokensApi.Use_unnestToken.submitWatch
+            ), TokensApi.Use_unnestToken.result
         )
         return SubmitResultResponse(response.hash)
     }

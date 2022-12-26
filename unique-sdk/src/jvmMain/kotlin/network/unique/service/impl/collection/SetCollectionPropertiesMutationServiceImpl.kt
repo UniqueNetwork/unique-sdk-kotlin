@@ -6,23 +6,23 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class SetCollectionPropertiesMutationServiceImpl(basePath: String) :
-    MutationService<SetCollectionPropertiesBody>() {
+    MutationService<SetCollectionPropertiesRequest>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
-    override fun build(args: SetCollectionPropertiesBody): UnsignedTxPayloadResponse {
+    override fun build(args: SetCollectionPropertiesRequest): UnsignedTxPayloadResponse {
         val res = api.setCollectionProperties(args, CollectionsApi.Use_setCollectionProperties.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: SetCollectionPropertiesBody): FeeResponse {
+    override fun getFee(args: SetCollectionPropertiesRequest): FeeResponse {
         val res = api.setCollectionProperties(args, CollectionsApi.Use_setCollectionProperties.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
         val res = api.setCollectionProperties(
-            SetCollectionPropertiesBody(
+            SetCollectionPropertiesRequest(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
@@ -34,7 +34,7 @@ class SetCollectionPropertiesMutationServiceImpl(basePath: String) :
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
         val res = api.setCollectionProperties(
-            SetCollectionPropertiesBody(
+            SetCollectionPropertiesRequest(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
             ), CollectionsApi.Use_setCollectionProperties.build, true
@@ -42,7 +42,7 @@ class SetCollectionPropertiesMutationServiceImpl(basePath: String) :
         return res.fee!!
     }
 
-    override fun sign(args: SetCollectionPropertiesBody, seed: String): SubmitTxBody {
+    override fun sign(args: SetCollectionPropertiesRequest, seed: String): SubmitTxBody {
         val signPayload = build(args)
         return sign(signPayload, seed)
     }
@@ -53,7 +53,7 @@ class SetCollectionPropertiesMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: SetCollectionPropertiesBody, seed: String): SubmitResultResponse {
+    override fun submit(args: SetCollectionPropertiesRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submit(signedBody)
     }
@@ -65,7 +65,7 @@ class SetCollectionPropertiesMutationServiceImpl(basePath: String) :
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
         val response = api.setCollectionProperties(
-            SetCollectionPropertiesBody(
+            SetCollectionPropertiesRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_setCollectionProperties.submit
@@ -73,7 +73,7 @@ class SetCollectionPropertiesMutationServiceImpl(basePath: String) :
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: SetCollectionPropertiesBody, seed: String): SubmitResultResponse {
+    override fun submitWatch(args: SetCollectionPropertiesRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submitWatch(signedBody)
     }
@@ -85,10 +85,10 @@ class SetCollectionPropertiesMutationServiceImpl(basePath: String) :
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
         val response = api.setCollectionProperties(
-            SetCollectionPropertiesBody(
+            SetCollectionPropertiesRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), CollectionsApi.Use_setCollectionProperties.submitWatch
+            ), CollectionsApi.Use_setCollectionProperties.result
         )
         return SubmitResultResponse(response.hash)
     }

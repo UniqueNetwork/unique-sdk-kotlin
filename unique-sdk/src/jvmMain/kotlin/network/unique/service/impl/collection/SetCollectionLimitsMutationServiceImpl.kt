@@ -6,23 +6,23 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class SetCollectionLimitsMutationServiceImpl(basePath: String) :
-    MutationService<SetCollectionLimitsBody>() {
+    MutationService<SetCollectionLimitsRequest>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
-    override fun build(args: SetCollectionLimitsBody): UnsignedTxPayloadResponse {
+    override fun build(args: SetCollectionLimitsRequest): UnsignedTxPayloadResponse {
         val res = api.setCollectionLimits(args, CollectionsApi.Use_setCollectionLimits.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: SetCollectionLimitsBody): FeeResponse {
+    override fun getFee(args: SetCollectionLimitsRequest): FeeResponse {
         val res = api.setCollectionLimits(args, CollectionsApi.Use_setCollectionLimits.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
         val res = api.setCollectionLimits(
-            SetCollectionLimitsBody(
+            SetCollectionLimitsRequest(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
@@ -34,7 +34,7 @@ class SetCollectionLimitsMutationServiceImpl(basePath: String) :
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
         val res = api.setCollectionLimits(
-            SetCollectionLimitsBody(
+            SetCollectionLimitsRequest(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
             ), CollectionsApi.Use_setCollectionLimits.build, true
@@ -42,7 +42,7 @@ class SetCollectionLimitsMutationServiceImpl(basePath: String) :
         return res.fee!!
     }
 
-    override fun sign(args: SetCollectionLimitsBody, seed: String): SubmitTxBody {
+    override fun sign(args: SetCollectionLimitsRequest, seed: String): SubmitTxBody {
         val signPayload = build(args)
         return sign(signPayload, seed)
     }
@@ -53,7 +53,7 @@ class SetCollectionLimitsMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: SetCollectionLimitsBody, seed: String): SubmitResultResponse {
+    override fun submit(args: SetCollectionLimitsRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submit(signedBody)
     }
@@ -65,7 +65,7 @@ class SetCollectionLimitsMutationServiceImpl(basePath: String) :
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
         val response = api.setCollectionLimits(
-            SetCollectionLimitsBody(
+            SetCollectionLimitsRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_setCollectionLimits.submit
@@ -73,7 +73,7 @@ class SetCollectionLimitsMutationServiceImpl(basePath: String) :
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: SetCollectionLimitsBody, seed: String): SubmitResultResponse {
+    override fun submitWatch(args: SetCollectionLimitsRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submitWatch(signedBody)
     }
@@ -85,10 +85,10 @@ class SetCollectionLimitsMutationServiceImpl(basePath: String) :
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
         val response = api.setCollectionLimits(
-            SetCollectionLimitsBody(
+            SetCollectionLimitsRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), CollectionsApi.Use_setCollectionLimits.submitWatch
+            ), CollectionsApi.Use_setCollectionLimits.result
         )
         return SubmitResultResponse(response.hash)
     }

@@ -92,7 +92,7 @@ class BurnRefungibleMutationServiceImpl(basePath: String) : MutationService<Burn
             BurnRequest1(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), RefungibleApi.Use_burn.submit
+            ), RefungibleApi.Use_burn.result
         )
         return SubmitResultResponse(response.hash)
     }

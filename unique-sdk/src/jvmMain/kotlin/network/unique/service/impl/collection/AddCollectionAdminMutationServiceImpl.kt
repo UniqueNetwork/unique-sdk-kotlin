@@ -6,23 +6,23 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class AddCollectionAdminMutationServiceImpl(basePath: String) :
-    MutationService<AddCollectionAdminBody>() {
+    MutationService<AddAdminRequest>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
-    override fun build(args: AddCollectionAdminBody): UnsignedTxPayloadResponse {
+    override fun build(args: AddAdminRequest): UnsignedTxPayloadResponse {
         val res = api.addAdmin(args, CollectionsApi.Use_addAdmin.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: AddCollectionAdminBody): FeeResponse {
+    override fun getFee(args: AddAdminRequest): FeeResponse {
         val res = api.addAdmin(args, CollectionsApi.Use_addAdmin.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
         val res = api.addAdmin(
-            AddCollectionAdminBody(
+            AddAdminRequest(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
@@ -34,7 +34,7 @@ class AddCollectionAdminMutationServiceImpl(basePath: String) :
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
         val res = api.addAdmin(
-            AddCollectionAdminBody(
+            AddAdminRequest(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
             ), CollectionsApi.Use_addAdmin.build, true
@@ -42,7 +42,7 @@ class AddCollectionAdminMutationServiceImpl(basePath: String) :
         return res.fee!!
     }
 
-    override fun sign(args: AddCollectionAdminBody, seed: String): SubmitTxBody {
+    override fun sign(args: AddAdminRequest, seed: String): SubmitTxBody {
         val signPayload = build(args)
         return sign(signPayload, seed)
     }
@@ -53,7 +53,7 @@ class AddCollectionAdminMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: AddCollectionAdminBody, seed: String): SubmitResultResponse {
+    override fun submit(args: AddAdminRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submit(signedBody)
     }
@@ -65,7 +65,7 @@ class AddCollectionAdminMutationServiceImpl(basePath: String) :
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
         val response = api.addAdmin(
-            AddCollectionAdminBody(
+            AddAdminRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_addAdmin.submit
@@ -73,7 +73,7 @@ class AddCollectionAdminMutationServiceImpl(basePath: String) :
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: AddCollectionAdminBody, seed: String): SubmitResultResponse {
+    override fun submitWatch(args: AddAdminRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submitWatch(signedBody)
     }
@@ -85,10 +85,10 @@ class AddCollectionAdminMutationServiceImpl(basePath: String) :
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
         val response = api.addAdmin(
-            AddCollectionAdminBody(
+            AddAdminRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), CollectionsApi.Use_addAdmin.submitWatch
+            ), CollectionsApi.Use_addAdmin.result
         )
         return SubmitResultResponse(response.hash)
     }

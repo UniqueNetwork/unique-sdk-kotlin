@@ -6,23 +6,23 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class TransferCollectionMutationServiceImpl(basePath: String) :
-    MutationService<TransferCollectionBody>() {
+    MutationService<TransferRequest>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
-    override fun build(args: TransferCollectionBody): UnsignedTxPayloadResponse {
+    override fun build(args: TransferRequest): UnsignedTxPayloadResponse {
         val res = api.transfer(args, CollectionsApi.Use_transfer.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: TransferCollectionBody): FeeResponse {
+    override fun getFee(args: TransferRequest): FeeResponse {
         val res = api.transfer(args, CollectionsApi.Use_transfer.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
         val res = api.transfer(
-            TransferCollectionBody(
+            TransferRequest(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
@@ -34,7 +34,7 @@ class TransferCollectionMutationServiceImpl(basePath: String) :
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
         val res = api.transfer(
-            TransferCollectionBody(
+            TransferRequest(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
             ), CollectionsApi.Use_transfer.build, true
@@ -42,7 +42,7 @@ class TransferCollectionMutationServiceImpl(basePath: String) :
         return res.fee!!
     }
 
-    override fun sign(args: TransferCollectionBody, seed: String): SubmitTxBody {
+    override fun sign(args: TransferRequest, seed: String): SubmitTxBody {
         val signPayload = build(args)
         return sign(signPayload, seed)
     }
@@ -53,7 +53,7 @@ class TransferCollectionMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: TransferCollectionBody, seed: String): SubmitResultResponse {
+    override fun submit(args: TransferRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submit(signedBody)
     }
@@ -65,7 +65,7 @@ class TransferCollectionMutationServiceImpl(basePath: String) :
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
         val response = api.transfer(
-            TransferCollectionBody(
+            TransferRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_transfer.submit
@@ -73,7 +73,7 @@ class TransferCollectionMutationServiceImpl(basePath: String) :
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: TransferCollectionBody, seed: String): SubmitResultResponse {
+    override fun submitWatch(args: TransferRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submitWatch(signedBody)
     }
@@ -85,10 +85,10 @@ class TransferCollectionMutationServiceImpl(basePath: String) :
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
         val response = api.transfer(
-            TransferCollectionBody(
+            TransferRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), CollectionsApi.Use_transfer.submitWatch
+            ), CollectionsApi.Use_transfer.result
         )
         return SubmitResultResponse(response.hash)
     }

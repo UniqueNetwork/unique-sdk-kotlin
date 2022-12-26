@@ -87,7 +87,7 @@ class RepartitionTokensMutationServiceImpl(basePath: String) : MutationService<R
             RepartitionTokenMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), RefungibleApi.Use_repartitionTokenMutation.submit
+            ), RefungibleApi.Use_repartitionTokenMutation.result
         )
         return SubmitResultResponse(response.hash)
     }

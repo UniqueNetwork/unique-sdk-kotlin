@@ -93,7 +93,7 @@ class CreateRefungibleCollectionMutationServiceImpl(basePath: String) :
             CreateRefungibleCollectionMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), RefungibleApi.Use_createRefungibleCollectionMutation.submit
+            ), RefungibleApi.Use_createRefungibleCollectionMutation.result
         )
         return SubmitResultResponse(response.hash)
     }

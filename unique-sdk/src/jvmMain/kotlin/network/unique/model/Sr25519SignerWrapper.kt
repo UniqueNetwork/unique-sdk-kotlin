@@ -5,26 +5,22 @@ import com.squareup.moshi.Moshi
 import network.unique.signer.CryptoScheme
 import network.unique.signer.Pair
 
-class Sr25519SignerWrapper : SignerWrapper {
+class Sr25519SignerWrapper(seed: String, password: String?, generate: Boolean) : SignerWrapper {
 
     private var pair: Pair
 
-    constructor(entry: String?, generate: Boolean) {
+    init {
         pair = if (generate) {
-            val pairStr = Pair.generate(CryptoScheme.Sr25519, entry)
+            val pairStr = Pair.generate(CryptoScheme.Sr25519, password)
             val moshi: Moshi = Moshi.Builder().build()
             val jsonAdapter: JsonAdapter<NativePairWrapper> = moshi.adapter(NativePairWrapper::class.java)
 
             val pairInfo: NativePairWrapper = jsonAdapter.fromJson(pairStr)!!
 
-            Pair.fromSuri(CryptoScheme.Sr25519, pairInfo.secretSeed, entry)
+            Pair.fromSuri(CryptoScheme.Sr25519, pairInfo.secretSeed, password)
         } else {
-            Pair.fromSuri(CryptoScheme.Sr25519, entry, null)
+            Pair.fromSuri(CryptoScheme.Sr25519, seed, password)
         }
-    }
-
-    constructor(seed: String, password: String) {
-        pair = Pair.fromSuri(CryptoScheme.Sr25519, seed, password)
     }
 
     override fun sign(data: String): String {

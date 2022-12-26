@@ -42,23 +42,26 @@ data class UnnestTokenRequest (
 
     /* The ss-58 encoded or Ethereum address */
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
     @Json(name = "nested")
-    val nested: NestTokenBodyNested,
+    val nested: NestTokenBodyNested? = null,
 
     @Json(name = "signerPayloadJSON")
-    val signerPayloadJSON: SignerPayloadJSONDto,
+    val signerPayloadJSON: SignerPayloadJSONDto? = null,
 
     @Json(name = "signerPayloadRaw")
-    val signerPayloadRaw: SignerPayloadRawDto,
+    val signerPayloadRaw: SignerPayloadRawDto? = null,
 
     @Json(name = "signerPayloadHex")
-    val signerPayloadHex: kotlin.String,
+    val signerPayloadHex: kotlin.String? = null,
+
+    @Json(name = "fee")
+    val fee: FeeResponse? = null,
 
     /* Warning: Signature must be with SignatureType! */
     @Json(name = "signature")
-    val signature: kotlin.String,
+    val signature: kotlin.String? = null,
 
     /* The ss-58 encoded or Ethereum address */
     @Json(name = "to")

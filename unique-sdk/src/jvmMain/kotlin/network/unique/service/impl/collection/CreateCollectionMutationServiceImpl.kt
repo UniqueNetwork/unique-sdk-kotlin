@@ -6,23 +6,23 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class CreateCollectionMutationServiceImpl(basePath: String) :
-    MutationService<CreateCollectionBody>() {
+    MutationService<CreateCollectionMutationRequest>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
-    override fun build(args: CreateCollectionBody): UnsignedTxPayloadResponse {
+    override fun build(args: CreateCollectionMutationRequest): UnsignedTxPayloadResponse {
         val res = api.createCollectionMutation(args, CollectionsApi.Use_createCollectionMutation.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: CreateCollectionBody): FeeResponse {
+    override fun getFee(args: CreateCollectionMutationRequest): FeeResponse {
         val res = api.createCollectionMutation(args, CollectionsApi.Use_createCollectionMutation.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
         val res = api.createCollectionMutation(
-            CreateCollectionBody(
+            CreateCollectionMutationRequest(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
@@ -34,7 +34,7 @@ class CreateCollectionMutationServiceImpl(basePath: String) :
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
         val res = api.createCollectionMutation(
-            CreateCollectionBody(
+            CreateCollectionMutationRequest(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
             ), CollectionsApi.Use_createCollectionMutation.build, true
@@ -42,7 +42,7 @@ class CreateCollectionMutationServiceImpl(basePath: String) :
         return res.fee!!
     }
 
-    override fun sign(args: CreateCollectionBody, seed: String): SubmitTxBody {
+    override fun sign(args: CreateCollectionMutationRequest, seed: String): SubmitTxBody {
         val signPayload = build(args)
         return sign(signPayload, seed)
     }
@@ -53,7 +53,7 @@ class CreateCollectionMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: CreateCollectionBody, seed: String): SubmitResultResponse {
+    override fun submit(args: CreateCollectionMutationRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submit(signedBody)
     }
@@ -65,7 +65,7 @@ class CreateCollectionMutationServiceImpl(basePath: String) :
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
         val response = api.createCollectionMutation(
-            CreateCollectionBody(
+            CreateCollectionMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_createCollectionMutation.submit
@@ -73,7 +73,7 @@ class CreateCollectionMutationServiceImpl(basePath: String) :
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: CreateCollectionBody, seed: String): SubmitResultResponse {
+    override fun submitWatch(args: CreateCollectionMutationRequest, seed: String): SubmitResultResponse {
         val signedBody = sign(args, seed)
         return submitWatch(signedBody)
     }
@@ -85,10 +85,10 @@ class CreateCollectionMutationServiceImpl(basePath: String) :
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
         val response = api.createCollectionMutation(
-            CreateCollectionBody(
+            CreateCollectionMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), CollectionsApi.Use_createCollectionMutation.submitWatch
+            ), CollectionsApi.Use_createCollectionMutation.result
         )
         return SubmitResultResponse(response.hash)
     }

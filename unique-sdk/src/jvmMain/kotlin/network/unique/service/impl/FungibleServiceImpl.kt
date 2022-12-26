@@ -13,10 +13,10 @@ class FungibleServiceImpl(basePath: String) : FungibleService {
 
     private val api: FungibleApi = FungibleApi(basePath)
 
-    private val addTokensMutationService: MutationService<AddTokensArgsDto> = AddTokensMutationServiceImpl(basePath)
-    private val createFungibleCollectionMutationService: MutationService<CreateFungibleCollectionRequest> =
+    private val addTokensMutationService: MutationService<AddTokensMutationRequest> = AddTokensMutationServiceImpl(basePath)
+    private val createFungibleCollectionMutationService: MutationService<CreateFungibleCollectionMutationRequest> =
         CreateFungibleCollectionMutationServiceImpl(basePath)
-    private val transferTokensMutationService: MutationService<TransferTokensArgsDto> =
+    private val transferTokensMutationService: MutationService<TransferTokensMutationRequest> =
         TransferTokensMutationServiceImpl(basePath)
 
     override fun getFungibleCollectionInfo(collectionId: BigDecimal, at: String): FungibleCollectionInfoDto {
@@ -27,15 +27,15 @@ class FungibleServiceImpl(basePath: String) : FungibleService {
         return api.fungibleControllerGetBalance(address, collectionId, at)
     }
 
-    override fun getAddTokens(): MutationService<AddTokensArgsDto> {
+    override fun getAddTokens(): MutationService<AddTokensMutationRequest> {
         return addTokensMutationService
     }
 
-    override fun getCreateFungibleCollection(): MutationService<CreateFungibleCollectionRequest> {
+    override fun getCreateFungibleCollection(): MutationService<CreateFungibleCollectionMutationRequest> {
         return createFungibleCollectionMutationService
     }
 
-    override fun getTransferTokens(): MutationService<TransferTokensArgsDto> {
+    override fun getTransferTokens(): MutationService<TransferTokensMutationRequest> {
         return transferTokensMutationService
     }
 

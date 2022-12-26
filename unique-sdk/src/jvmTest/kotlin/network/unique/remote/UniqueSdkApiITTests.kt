@@ -2,6 +2,7 @@ package network.unique.remote
 
 import kotlinx.coroutines.runBlocking
 import network.unique.model.*
+import network.unique.sdk.UniqueSdk
 import network.unique.service.impl.ExtrinsicServiceImpl
 import network.unique.service.impl.balance.TransferMutationServiceImpl
 import org.junit.jupiter.api.Assertions
@@ -12,14 +13,14 @@ import java.math.BigDecimal
 class ApiClientITTests {
 
     @Test
-    @Disabled
     fun transferFlowITTest() {
         runBlocking {
-            val signerWrapper = Sr25519SignerWrapper("//Bob", null);
-            val transferService = TransferMutationServiceImpl(signerWrapper, "https://rest.opal.uniquenetwork.dev")
+            val signerWrapper = Sr25519SignerWrapper("//Bob", null, false)
+            UniqueSdk.signerWrapper = signerWrapper
+            val transferService = TransferMutationServiceImpl("https://rest.opal.uniquenetwork.dev")
             val extrinsicService = ExtrinsicServiceImpl("https://rest.opal.uniquenetwork.dev")
-            val transferBody = TransferBody(
-                "5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty",
+            val transferBody = TransferMutationRequest(
+                "5DnUE1uV7iW25bUriWVPHY67KMm2t6g5v23GzVbZCUc8fyBD",
                 "unjKJQJrRd238pkUZZvzDQrfKuM39zBSnQ5zjAGAGcdRhaJTx",
                 BigDecimal("0.01")
             )
