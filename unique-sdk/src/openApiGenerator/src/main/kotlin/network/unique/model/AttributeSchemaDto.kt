@@ -53,9 +53,10 @@ data class AttributeSchemaDto (
     /**
      * 
      *
-     * Values: integer,float,boolean,timestamp,string,url,isoDate,time,colorRgba
+     * Values: number,integer,float,boolean,timestamp,string,url,isoDate,time,colorRgba
      */
     enum class Type(val value: kotlin.String) {
+        @Json(name = "number") number("number"),
         @Json(name = "integer") integer("integer"),
         @Json(name = "float") float("float"),
         @Json(name = "boolean") boolean("boolean"),

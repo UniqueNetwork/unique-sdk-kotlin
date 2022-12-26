@@ -45,7 +45,7 @@ import com.squareup.moshi.Json
 data class CreateERC721CollectionBody (
 
     @Json(name = "name")
-    val name: kotlin.String? = null,
+    val name: kotlin.String,
 
     @Json(name = "description")
     val description: kotlin.String? = null,
@@ -105,10 +105,10 @@ data class CreateERC721CollectionBody (
     /**
      * 
      *
-     * Values: nft,fungible,reFungible
+     * Values: nFT,fungible,reFungible
      */
     enum class Mode(val value: kotlin.String) {
-        @Json(name = "Nft") nft("Nft"),
+        @Json(name = "NFT") nFT("NFT"),
         @Json(name = "Fungible") fungible("Fungible"),
         @Json(name = "ReFungible") reFungible("ReFungible");
     }

@@ -43,6 +43,7 @@ import com.squareup.moshi.Json
  * @param permissions 
  * @param readOnly 
  * @param schema 
+ * @param knownSchema 
  */
 
 
@@ -92,17 +93,20 @@ data class CollectionInfoWithSchemaResponse (
     val readOnly: kotlin.Boolean? = null,
 
     @Json(name = "schema")
-    val schema: UniqueCollectionSchemaDecodedDto? = null
+    val schema: UniqueCollectionSchemaDecodedDto? = null,
+
+    @Json(name = "knownSchema")
+    val knownSchema: CollectionInfoWithSchemaResponse.KnownSchema? = null
 
 ) {
 
     /**
      * 
      *
-     * Values: nft,fungible,reFungible
+     * Values: nFT,fungible,reFungible
      */
     enum class Mode(val value: kotlin.String) {
-        @Json(name = "Nft") nft("Nft"),
+        @Json(name = "NFT") nFT("NFT"),
         @Json(name = "Fungible") fungible("Fungible"),
         @Json(name = "ReFungible") reFungible("ReFungible");
     }
@@ -115,6 +119,16 @@ data class CollectionInfoWithSchemaResponse (
         @Json(name = "ItemOwner") itemOwner("ItemOwner"),
         @Json(name = "Admin") admin("Admin"),
         @Json(name = "None") none("None");
+    }
+    /**
+     * 
+     *
+     * Values: unique,old,eRC721Metadata
+     */
+    enum class KnownSchema(val value: kotlin.String) {
+        @Json(name = "unique") unique("unique"),
+        @Json(name = "_old_") old("_old_"),
+        @Json(name = "ERC721Metadata") eRC721Metadata("ERC721Metadata");
     }
 }
 
