@@ -15,23 +15,25 @@
 
 package network.unique.model
 
+import network.unique.model.BlockResult
 import network.unique.model.ExtrinsicResultEvent
 import network.unique.model.FeeResponse
+import network.unique.model.MethodNameDto
 
 import com.squareup.moshi.Json
 
 /**
  * 
  *
- * @param status 
  * @param isCompleted 
- * @param isError 
- * @param blockHash 
+ * @param hash 
  * @param blockIndex 
  * @param error 
  * @param events 
  * @param callbackUrl 
- * @param useMethod 
+ * @param createdAt 
+ * @param block 
+ * @param callMethod 
  * @param parsed 
  * @param fee 
  */
@@ -39,17 +41,11 @@ import com.squareup.moshi.Json
 
 data class ExtrinsicResultResponse (
 
-    @Json(name = "status")
-    val status: kotlin.String?,
-
     @Json(name = "isCompleted")
     val isCompleted: kotlin.Boolean?,
 
-    @Json(name = "isError")
-    val isError: kotlin.Boolean?,
-
-    @Json(name = "blockHash")
-    val blockHash: kotlin.String?,
+    @Json(name = "hash")
+    val hash: kotlin.String?,
 
     @Json(name = "blockIndex")
     val blockIndex: java.math.BigDecimal?,
@@ -63,8 +59,14 @@ data class ExtrinsicResultResponse (
     @Json(name = "callbackUrl")
     val callbackUrl: kotlin.String?,
 
-    @Json(name = "useMethod")
-    val useMethod: kotlin.Boolean = false,
+    @Json(name = "createdAt")
+    val createdAt: java.math.BigDecimal?,
+
+    @Json(name = "block")
+    val block: BlockResult?,
+
+    @Json(name = "callMethod")
+    val callMethod: MethodNameDto?,
 
     @Json(name = "parsed")
     val parsed: kotlin.Any? = null,

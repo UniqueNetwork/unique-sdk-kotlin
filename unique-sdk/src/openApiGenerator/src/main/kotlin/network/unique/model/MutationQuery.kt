@@ -35,6 +35,7 @@ data class MutationQuery (
     val use: MutationQuery.Use? = null,
 
     @Json(name = "withFee")
+    @Deprecated(message = "This property is deprecated.")
     val withFee: kotlin.Boolean? = false,
 
     @Json(name = "verify")
@@ -51,15 +52,15 @@ data class MutationQuery (
     /**
      * 
      *
-     * Values: build,buildBatch,sign,submit,submitWatch,result
+     * Values: build,buildBatch,sign,submit,result,getFee
      */
     enum class Use(val value: kotlin.String) {
         @Json(name = "Build") build("Build"),
         @Json(name = "BuildBatch") buildBatch("BuildBatch"),
         @Json(name = "Sign") sign("Sign"),
         @Json(name = "Submit") submit("Submit"),
-        @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-        @Json(name = "Result") result("Result");
+        @Json(name = "Result") result("Result"),
+        @Json(name = "GetFee") getFee("GetFee");
     }
 }
 
