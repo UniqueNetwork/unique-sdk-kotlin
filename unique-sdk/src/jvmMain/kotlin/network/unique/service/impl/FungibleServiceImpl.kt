@@ -9,16 +9,15 @@ import network.unique.service.impl.fungible.CreateFungibleCollectionMutationServ
 import network.unique.service.impl.fungible.TransferTokensMutationServiceImpl
 import java.math.BigDecimal
 
-class FungibleServiceImpl(signerWrapper: SignerWrapper, basePath: String) : FungibleService {
+class FungibleServiceImpl(basePath: String) : FungibleService {
 
     private val api: FungibleApi = FungibleApi(basePath)
 
-    private val addTokensMutationService: MutationService<AddTokensArgsDto> =
-        AddTokensMutationServiceImpl(signerWrapper, basePath)
-    private val createFungibleCollectionMutationService: MutationService<CreateFungibleCollectionRequest> =
-        CreateFungibleCollectionMutationServiceImpl(signerWrapper, basePath)
-    private val transferTokensMutationService: MutationService<TransferTokensArgsDto> =
-        TransferTokensMutationServiceImpl(signerWrapper, basePath)
+    private val addTokensMutationService: MutationService<AddTokensMutationRequest> = AddTokensMutationServiceImpl(basePath)
+    private val createFungibleCollectionMutationService: MutationService<CreateFungibleCollectionMutationRequest> =
+        CreateFungibleCollectionMutationServiceImpl(basePath)
+    private val transferTokensMutationService: MutationService<TransferTokensMutationRequest> =
+        TransferTokensMutationServiceImpl(basePath)
 
     override fun getFungibleCollectionInfo(collectionId: BigDecimal, at: String): FungibleCollectionInfoDto {
         return api.fungibleControllerGetCollection(collectionId, at)
@@ -28,15 +27,15 @@ class FungibleServiceImpl(signerWrapper: SignerWrapper, basePath: String) : Fung
         return api.fungibleControllerGetBalance(address, collectionId, at)
     }
 
-    override fun getAddTokensMutationService(): MutationService<AddTokensArgsDto> {
+    override fun getAddTokens(): MutationService<AddTokensMutationRequest> {
         return addTokensMutationService
     }
 
-    override fun getCreateFungibleCollectionMutationService(): MutationService<CreateFungibleCollectionRequest> {
+    override fun getCreateFungibleCollection(): MutationService<CreateFungibleCollectionMutationRequest> {
         return createFungibleCollectionMutationService
     }
 
-    override fun getTransferTokensMutationService(): MutationService<TransferTokensArgsDto> {
+    override fun getTransferTokens(): MutationService<TransferTokensMutationRequest> {
         return transferTokensMutationService
     }
 

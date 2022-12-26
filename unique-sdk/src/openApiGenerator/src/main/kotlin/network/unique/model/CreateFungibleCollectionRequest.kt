@@ -47,20 +47,20 @@ import com.squareup.moshi.Json
 data class CreateFungibleCollectionRequest (
 
     @Json(name = "name")
-    val name: kotlin.String? = null,
+    val name: kotlin.String,
 
     @Json(name = "description")
-    val description: kotlin.String? = null,
+    val description: kotlin.String,
 
     @Json(name = "tokenPrefix")
-    val tokenPrefix: kotlin.String? = null,
+    val tokenPrefix: kotlin.String,
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String? = null,
+    val address: kotlin.String,
 
     @Json(name = "decimals")
-    val decimals: kotlin.Int? = null,
+    val decimals: kotlin.Int,
 
     @Json(name = "mode")
     val mode: CreateFungibleCollectionRequest.Mode? = null,
@@ -87,33 +87,17 @@ data class CreateFungibleCollectionRequest (
     val properties: kotlin.collections.List<CollectionProperty>? = null,
 
     @Json(name = "tokenPropertyPermissions")
-    val tokenPropertyPermissions: kotlin.collections.List<PropertyKeyPermission>? = null,
-
-    @Json(name = "signerPayloadJSON")
-    val signerPayloadJSON: SignerPayloadJSONDto? = null,
-
-    /* Warning: Signature must be with SignatureType! */
-    @Json(name = "signature")
-    val signature: kotlin.String? = null,
-
-    @Json(name = "signerPayloadRaw")
-    val signerPayloadRaw: SignerPayloadRawDto? = null,
-
-    @Json(name = "signerPayloadHex")
-    val signerPayloadHex: kotlin.String? = null,
-
-    @Json(name = "fee")
-    val fee: FeeResponse? = null
+    val tokenPropertyPermissions: kotlin.collections.List<PropertyKeyPermission>? = null
 
 ) {
 
     /**
      * 
      *
-     * Values: nft,fungible,reFungible
+     * Values: nFT,fungible,reFungible
      */
     enum class Mode(val value: kotlin.String) {
-        @Json(name = "Nft") nft("Nft"),
+        @Json(name = "NFT") nFT("NFT"),
         @Json(name = "Fungible") fungible("Fungible"),
         @Json(name = "ReFungible") reFungible("ReFungible");
     }

@@ -15,6 +15,13 @@
 
 package network.unique.model
 
+import network.unique.model.CollectionLimitsDto
+import network.unique.model.CollectionPermissionsDto
+import network.unique.model.CollectionProperty
+import network.unique.model.CollectionSponsorship
+import network.unique.model.PropertyKeyPermission
+import network.unique.model.UniqueCollectionSchemaToCreateDto
+
 import com.squareup.moshi.Json
 
 /**
@@ -99,10 +106,10 @@ data class CreateCollectionBody (
     /**
      * 
      *
-     * Values: nft,fungible,reFungible
+     * Values: nFT,fungible,reFungible
      */
     enum class Mode(val value: kotlin.String) {
-        @Json(name = "Nft") nft("Nft"),
+        @Json(name = "NFT") nFT("NFT"),
         @Json(name = "Fungible") fungible("Fungible"),
         @Json(name = "ReFungible") reFungible("ReFungible");
     }

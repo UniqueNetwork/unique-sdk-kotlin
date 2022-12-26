@@ -8,4 +8,5 @@ public class Signer {
     static native long jPairInitSuri(int scheme, String suri, String password);
     static native void jPairFree(long nativeHandle);
     static native byte[] jPairSign(long nativeHandle, byte[] message);
+    static native String jPairGenerate(int scheme, String password);
 }

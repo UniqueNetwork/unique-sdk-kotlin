@@ -2,26 +2,27 @@ package network.unique.service.impl.collection
 
 import network.unique.api.CollectionsApi
 import network.unique.model.*
+import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
-class RemoveSponsorshipMutationServiceImpl(private val signerWrapper: SignerWrapper, basePath: String) :
-    MutationService<RemoveSponsorshipBody>() {
+class RemoveSponsorshipMutationServiceImpl(basePath: String) :
+    MutationService<RemoveSponsorshipRequest>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
-    override fun build(args: RemoveSponsorshipBody): UnsignedTxPayloadResponse {
+    override fun build(args: RemoveSponsorshipRequest): UnsignedTxPayloadResponse {
         val res = api.removeSponsorship(args, CollectionsApi.Use_removeSponsorship.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: RemoveSponsorshipBody): FeeResponse {
+    override fun getFee(args: RemoveSponsorshipRequest): FeeResponse {
         val res = api.removeSponsorship(args, CollectionsApi.Use_removeSponsorship.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
         val res = api.removeSponsorship(
-            RemoveSponsorshipBody(
+            RemoveSponsorshipRequest(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
@@ -33,7 +34,7 @@ class RemoveSponsorshipMutationServiceImpl(private val signerWrapper: SignerWrap
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
         val res = api.removeSponsorship(
-            RemoveSponsorshipBody(
+            RemoveSponsorshipRequest(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
             ), CollectionsApi.Use_removeSponsorship.build, true
@@ -41,30 +42,30 @@ class RemoveSponsorshipMutationServiceImpl(private val signerWrapper: SignerWrap
         return res.fee!!
     }
 
-    override fun sign(args: RemoveSponsorshipBody, seed: String): SubmitTxBody {
+    override fun sign(args: RemoveSponsorshipRequest): SubmitTxBody {
         val signPayload = build(args)
-        return sign(signPayload, seed)
+        return sign(signPayload)
     }
 
-    override fun sign(args: UnsignedTxPayloadResponse, seed: String): SubmitTxBody {
-        val signature = signerWrapper.sign(args.signerPayloadRaw.data)
+    override fun sign(args: UnsignedTxPayloadResponse): SubmitTxBody {
+        val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw.data)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: RemoveSponsorshipBody, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: RemoveSponsorshipRequest): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
         val response = api.removeSponsorship(
-            RemoveSponsorshipBody(
+            RemoveSponsorshipRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_removeSponsorship.submit
@@ -72,22 +73,22 @@ class RemoveSponsorshipMutationServiceImpl(private val signerWrapper: SignerWrap
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: RemoveSponsorshipBody, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: RemoveSponsorshipRequest): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
         val response = api.removeSponsorship(
-            RemoveSponsorshipBody(
+            RemoveSponsorshipRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), CollectionsApi.Use_removeSponsorship.submitWatch
+            ), CollectionsApi.Use_removeSponsorship.submit
         )
         return SubmitResultResponse(response.hash)
     }

@@ -65,7 +65,7 @@ configurations.all {
 //    modelPackage.set("network.unique.model")
 //    skipValidateSpec.set(true)
 //}
-
+//
 //tasks.create("downloadSpec", org.jetbrains.kotlin.de.undercouch.gradle.tasks.download.Download::class.java) {
 //    src("https://rest.opal.uniquenetwork.dev/swagger-yaml")
 //    dest(File(projectDir, "specs/opal-spec.yml"))

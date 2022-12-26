@@ -15,19 +15,19 @@ abstract class MutationService<A> {
 
     abstract fun getFee(args: SubmitTxBody): FeeResponse
 
-    abstract fun sign(args: A, seed: String): SubmitTxBody
+    abstract fun sign(args: A): SubmitTxBody
 
-    abstract fun sign(args: UnsignedTxPayloadResponse, seed: String): SubmitTxBody
+    abstract fun sign(args: UnsignedTxPayloadResponse): SubmitTxBody
 
-    abstract fun submit(args: A, seed: String): SubmitResultResponse
+    abstract fun submit(args: A): SubmitResultResponse
 
-    abstract fun submit(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse
+    abstract fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse
 
     abstract fun submit(args: SubmitTxBody): SubmitResultResponse
 
-    abstract fun submitWatch(args: A, seed: String): SubmitResultResponse
+    abstract fun submitWatch(args: A): SubmitResultResponse
 
-    abstract fun submitWatch(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse
+    abstract fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse
 
     abstract fun submitWatch(args: SubmitTxBody): SubmitResultResponse
 

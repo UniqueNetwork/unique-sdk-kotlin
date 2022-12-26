@@ -7,42 +7,42 @@ import network.unique.service.MutationService
 import network.unique.service.impl.collection.*
 import java.math.BigDecimal
 
-class CollectionServiceImpl(signerWrapper: SignerWrapper, basePath: String) : CollectionService {
+class CollectionServiceImpl(basePath: String) : CollectionService {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
-    private val addCollectionAdminMutationService: MutationService<AddCollectionAdminBody> =
-        AddCollectionAdminMutationServiceImpl(signerWrapper, basePath)
-    private val addToAllowLIstMutationService: MutationService<AddToAllowListBody> =
-        AddToAllowListMutationServiceImpl(signerWrapper, basePath)
-    private val confirmSponsorshipMutationService: MutationService<ConfirmSponsorshipBody> =
-        ConfirmSponsorshipMutationServiceImpl(signerWrapper, basePath)
-    private val createCollectionMutationService: MutationService<CreateCollectionBody> =
-        CreateCollectionMutationServiceImpl(signerWrapper, basePath)
-    private val deleteCollectionPropertiesMutationService: MutationService<DeleteCollectionPropertiesBody> =
-        DeleteCollectionPropertiesMutationServiceImpl(signerWrapper, basePath)
-    private val destroyCollectionMutationService: MutationService<DestroyCollectionBody> =
-        DestroyCollectionMutationServiceImpl(signerWrapper, basePath)
-    private val removeCollectionAdminMutationService: MutationService<RemoveCollectionAdminBody> =
-        RemoveCollectionAdminMutationServiceImpl(signerWrapper, basePath)
-    private val removeFromAllowListMutationService: MutationService<RemoveFromAllowListBody> =
-        RemoveFromAllowListMutationServiceImpl(signerWrapper, basePath)
-    private val removeSponsorshipMutationService: MutationService<RemoveSponsorshipBody> =
-        RemoveSponsorshipMutationServiceImpl(signerWrapper, basePath)
-    private val setCollectionLimitsMutationService: MutationService<SetCollectionLimitsBody> =
-        SetCollectionLimitsMutationServiceImpl(signerWrapper, basePath)
-    private val setCollectionPermissionsMutationService: MutationService<SetCollectionPermissionsBody> =
-        SetCollectionPermissionsMutationServiceImpl(signerWrapper, basePath)
-    private val setCollectionPropertiesMutationService: MutationService<SetCollectionPropertiesBody> =
-        SetCollectionPropertiesMutationServiceImpl(signerWrapper, basePath)
-    private val setPropertyPermissionMutationService: MutationService<SetPropertyPermissionsBody> =
-        SetPropertyPermissionsMutationServiceImpl(signerWrapper, basePath)
-    private val setSponsorshipMutationService: MutationService<SetSponsorshipBody> =
-        SetSponsorshipMutationServiceImpl(signerWrapper, basePath)
-    private val setTransfersEnabledMutationService: MutationService<SetTransfersEnabledBody> =
-        SetTransfersEnabledMutationServiceImpl(signerWrapper, basePath)
-    private val transferCollectionMutationService: MutationService<TransferCollectionBody> =
-        TransferCollectionMutationServiceImpl(signerWrapper, basePath)
+    private val addCollectionAdminMutationService: MutationService<AddAdminRequest> =
+        AddCollectionAdminMutationServiceImpl(basePath)
+    private val addToAllowLIstMutationService: MutationService<AddToAllowListRequest> =
+        AddToAllowListMutationServiceImpl(basePath)
+    private val confirmSponsorshipMutationService: MutationService<ConfirmSponsorshipRequest> =
+        ConfirmSponsorshipMutationServiceImpl(basePath)
+    private val createCollectionMutationService: MutationService<CreateCollectionMutationRequest> =
+        CreateCollectionMutationServiceImpl(basePath)
+    private val deleteCollectionPropertiesMutationService: MutationService<DeleteCollectionPropertiesRequest> =
+        DeleteCollectionPropertiesMutationServiceImpl(basePath)
+    private val destroyCollectionMutationService: MutationService<DestroyRequest> =
+        DestroyCollectionMutationServiceImpl(basePath)
+    private val removeCollectionAdminMutationService: MutationService<RemoveAdminRequest> =
+        RemoveCollectionAdminMutationServiceImpl(basePath)
+    private val removeFromAllowListMutationService: MutationService<RemoveFromAllowListRequest> =
+        RemoveFromAllowListMutationServiceImpl(basePath)
+    private val removeSponsorshipMutationService: MutationService<RemoveSponsorshipRequest> =
+        RemoveSponsorshipMutationServiceImpl(basePath)
+    private val setCollectionLimitsMutationService: MutationService<SetCollectionLimitsRequest> =
+        SetCollectionLimitsMutationServiceImpl(basePath)
+    private val setCollectionPermissionsMutationService: MutationService<SetPermissionsRequest> =
+        SetCollectionPermissionsMutationServiceImpl(basePath)
+    private val setCollectionPropertiesMutationService: MutationService<SetCollectionPropertiesRequest> =
+        SetCollectionPropertiesMutationServiceImpl(basePath)
+    private val setPropertyPermissionMutationService: MutationService<SetPropertyPermissionsRequest> =
+        SetPropertyPermissionsMutationServiceImpl(basePath)
+    private val setSponsorshipMutationService: MutationService<SetSponsorshipRequest> =
+        SetSponsorshipMutationServiceImpl(basePath)
+    private val setTransfersEnabledMutationService: MutationService<SetTransfersEnabledRequest> =
+        SetTransfersEnabledMutationServiceImpl(basePath)
+    private val transferCollectionMutationService: MutationService<TransferRequest> =
+        TransferCollectionMutationServiceImpl(basePath)
 
     override fun getCollections(collectionId: BigDecimal, at: String): CollectionInfoWithSchemaResponse {
         return api.collectionControllerGetCollection(collectionId, at)
@@ -101,67 +101,67 @@ class CollectionServiceImpl(signerWrapper: SignerWrapper, basePath: String) : Co
         return api.collectionControllerTotalSupply(collectionId, at)
     }
 
-    override fun getAddCollectionAdminMutationService(): MutationService<AddCollectionAdminBody> {
+    override fun getAddCollectionAdmin(): MutationService<AddAdminRequest> {
         return addCollectionAdminMutationService
     }
 
-    override fun getAddToAllowListMutationService(): MutationService<AddToAllowListBody> {
+    override fun getAddToAllowList(): MutationService<AddToAllowListRequest> {
         return addToAllowLIstMutationService
     }
 
-    override fun getConfirmSponsorshipMutationService(): MutationService<ConfirmSponsorshipBody> {
+    override fun getConfirmSponsorship(): MutationService<ConfirmSponsorshipRequest> {
         return confirmSponsorshipMutationService
     }
 
-    override fun getCreateCollectionMutationService(): MutationService<CreateCollectionBody> {
+    override fun getCreateCollection(): MutationService<CreateCollectionMutationRequest> {
         return createCollectionMutationService
     }
 
-    override fun getDestroyCollectionMutationService(): MutationService<DestroyCollectionBody> {
+    override fun getDestroyCollection(): MutationService<DestroyRequest> {
         return destroyCollectionMutationService
     }
 
-    override fun getDeleteCollectionPropertiesMutationService(): MutationService<DeleteCollectionPropertiesBody> {
+    override fun getDeleteCollectionProperties(): MutationService<DeleteCollectionPropertiesRequest> {
         return deleteCollectionPropertiesMutationService
     }
 
-    override fun getRemoveCollectionAdminMutationService(): MutationService<RemoveCollectionAdminBody> {
+    override fun getRemoveCollectionAdmin(): MutationService<RemoveAdminRequest> {
         return removeCollectionAdminMutationService
     }
 
-    override fun getRemoveFromAllowListMutationService(): MutationService<RemoveFromAllowListBody> {
+    override fun getRemoveFromAllowList(): MutationService<RemoveFromAllowListRequest> {
         return removeFromAllowListMutationService
     }
 
-    override fun getRemoveSponsorshipMutationService(): MutationService<RemoveSponsorshipBody> {
+    override fun getRemoveSponsorship(): MutationService<RemoveSponsorshipRequest> {
         return removeSponsorshipMutationService
     }
 
-    override fun getSetCollectionLimitsMutationService(): MutationService<SetCollectionLimitsBody> {
+    override fun getSetCollectionLimits(): MutationService<SetCollectionLimitsRequest> {
         return setCollectionLimitsMutationService
     }
 
-    override fun getSetCollectionPermissionsMutationService(): MutationService<SetCollectionPermissionsBody> {
+    override fun getSetCollectionPermissions(): MutationService<SetPermissionsRequest> {
         return setCollectionPermissionsMutationService
     }
 
-    override fun getSetCollectionPropertiesMutationService(): MutationService<SetCollectionPropertiesBody> {
+    override fun getSetCollectionProperties(): MutationService<SetCollectionPropertiesRequest> {
         return setCollectionPropertiesMutationService
     }
 
-    override fun getSetPropertyPermissionsMutationService(): MutationService<SetPropertyPermissionsBody> {
+    override fun getSetPropertyPermissions(): MutationService<SetPropertyPermissionsRequest> {
         return setPropertyPermissionMutationService
     }
 
-    override fun getSetSponsorshipMutationService(): MutationService<SetSponsorshipBody> {
+    override fun getSetSponsorship(): MutationService<SetSponsorshipRequest> {
         return setSponsorshipMutationService
     }
 
-    override fun getSetTransfersEnabledMutationService(): MutationService<SetTransfersEnabledBody> {
+    override fun getSetTransfersEnabled(): MutationService<SetTransfersEnabledRequest> {
         return setTransfersEnabledMutationService
     }
 
-    override fun getTransferCollectionMutationService(): MutationService<TransferCollectionBody> {
+    override fun getTransferCollection(): MutationService<TransferRequest> {
         return transferCollectionMutationService
     }
 }

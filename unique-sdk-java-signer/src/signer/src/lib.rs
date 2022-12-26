@@ -4,10 +4,12 @@ use jni::{
     errors::Error as JniError,
     objects::{JClass, JString},
     strings::JavaStr,
-    sys::{jbyteArray, jlong},
+    sys::{jbyteArray, jlong, jstring},
     JNIEnv,
 };
-use sp_core::{crypto::SecretStringError, Pair};
+use serde_json::json;
+use sp_core::{crypto::{SecretStringError, default_ss58_version, Ss58Codec}, Pair, hexdisplay::HexDisplay};
+use sp_runtime::{traits::IdentifyAccount, MultiSigner};
 
 type Result<T, E = Error> = result::Result<T, E>;
 
@@ -157,4 +159,88 @@ pub unsafe extern "system" fn Java_network_unique_signer_Signer_jPairSign(
             null_mut()
         }
     }
+}
+
+/// Seed type for Runtime
+pub type SeedFor<P> = <P as sp_core::Pair>::Seed;
+
+/// Public key type for Runtime
+pub type PublicFor<P> = <P as sp_core::Pair>::Public;
+
+/// formats seed as hex
+pub fn format_seed<P: sp_core::Pair>(seed: SeedFor<P>) -> String {
+	format!("0x{}", HexDisplay::from(&seed.as_ref()))
+}
+
+/// formats public key as hex
+fn format_public_key<P: sp_core::Pair>(public_key: PublicFor<P>) -> String {
+	format!("0x{}", HexDisplay::from(&public_key.as_ref()))
+}
+
+/// formats public key as accountId as hex
+fn format_account_id<P: sp_core::Pair>(public_key: PublicFor<P>) -> String
+where
+	PublicFor<P>: Into<MultiSigner>,
+{
+	format!("0x{}", HexDisplay::from(&public_key.into().into_account().as_ref()))
+}
+
+fn generate<P: Pair>(env: JNIEnv, password: JString) -> Result<String>
+where
+    P: sp_core::Pair,
+    P::Public: Into<MultiSigner>,
+{
+    let password = get_string(&env, password)?;
+    let password = password
+        .as_ref()
+        .map(|s| s.to_str())
+        .transpose()
+        .map_err(|e| Error::InvalidUtf8("password", e))?;
+
+    let (pair, phrase, seed) = P::generate_with_phrase(password);
+    let public_key = pair.public();
+    let network_override = default_ss58_version();
+    
+    let json = json!({
+        "secretPhrase": phrase,
+        "networkId": String::from(network_override),
+        "secretSeed": format_seed::<P>(seed),
+        "publicKey": format_public_key::<P>(public_key.clone()),
+        "ss58PublicKey": public_key.to_ss58check_with_version(network_override),
+        "accountId": format_account_id::<P>(public_key),
+        "ss58Address": pair.public().into().into_account().to_ss58check_with_version(network_override),
+    });
+    Ok(serde_json::to_string_pretty(&json).expect("Json pretty print failed"))
+}
+
+/// # Safety
+/// JPair should be obtained from jPairInit* methods
+#[no_mangle]
+pub unsafe extern "system" fn Java_network_unique_signer_Signer_jPairGenerate(
+    env: JNIEnv,
+    _class: JClass,
+    pair_type: CryptoScheme,
+    password: JString
+) -> jstring {
+    let result = match pair_type {
+        CryptoScheme::Ed25519 => generate::<sp_core::ed25519::Pair>(env, password),
+        CryptoScheme::Sr25519 => generate::<sp_core::sr25519::Pair>(env, password),
+        CryptoScheme::EcDSA => generate::<sp_core::ecdsa::Pair>(env, password),
+    };
+
+    match result {
+        Ok(json) => {
+            let output = env.new_string(format!("{}", json))
+                .expect("Couldn't create java string!");
+
+            return output.into_raw()
+        },
+        Err(e) => {
+            e.into_env(env);
+            let output = env.new_string(format!("{}", "Error"))
+                .expect("Couldn't create java string!");
+
+            return output.into_raw()
+        }
+    };
 }

@@ -19,14 +19,19 @@ import java.io.IOException
 import okhttp3.OkHttpClient
 import okhttp3.HttpUrl
 
-import network.unique.model.AddTokensArgsDto
 import network.unique.model.AddTokensMutationDefaultResponse
+import network.unique.model.AddTokensMutationRequest
+import network.unique.model.ApproveTokensMutationDefaultResponse
+import network.unique.model.ApproveTokensMutationRequest
 import network.unique.model.BalanceResponse
+import network.unique.model.BurnDefaultResponse
+import network.unique.model.BurnRequest
 import network.unique.model.CreateCollectionMutationDefaultResponse
-import network.unique.model.CreateFungibleCollectionRequest
+import network.unique.model.CreateFungibleCollectionMutationRequest
 import network.unique.model.FungibleCollectionInfoDto
-import network.unique.model.TransferTokensArgsDto
+import network.unique.model.GetTotalPiecesResultDto
 import network.unique.model.TransferTokensMutationDefaultResponse
+import network.unique.model.TransferTokensMutationRequest
 
 import com.squareup.moshi.Json
 
@@ -60,14 +65,18 @@ class FungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClien
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param addTokensArgsDto 
+     * @param addTokensMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -82,8 +91,8 @@ class FungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun addTokensMutation(addTokensArgsDto: AddTokensArgsDto, use: Use_addTokensMutation? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : AddTokensMutationDefaultResponse {
-        val localVarResponse = addTokensMutationWithHttpInfo(addTokensArgsDto = addTokensArgsDto, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun addTokensMutation(addTokensMutationRequest: AddTokensMutationRequest, use: Use_addTokensMutation? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : AddTokensMutationDefaultResponse {
+        val localVarResponse = addTokensMutationWithHttpInfo(addTokensMutationRequest = addTokensMutationRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as AddTokensMutationDefaultResponse
@@ -103,7 +112,7 @@ class FungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClien
     /**
      * 
      * 
-     * @param addTokensArgsDto 
+     * @param addTokensMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -115,10 +124,10 @@ class FungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun addTokensMutationWithHttpInfo(addTokensArgsDto: AddTokensArgsDto, use: Use_addTokensMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<AddTokensMutationDefaultResponse?> {
-        val localVariableConfig = addTokensMutationRequestConfig(addTokensArgsDto = addTokensArgsDto, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun addTokensMutationWithHttpInfo(addTokensMutationRequest: AddTokensMutationRequest, use: Use_addTokensMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<AddTokensMutationDefaultResponse?> {
+        val localVariableConfig = addTokensMutationRequestConfig(addTokensMutationRequest = addTokensMutationRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<AddTokensArgsDto, AddTokensMutationDefaultResponse>(
+        return request<AddTokensMutationRequest, AddTokensMutationDefaultResponse>(
             localVariableConfig
         )
     }
@@ -126,7 +135,7 @@ class FungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClien
     /**
      * To obtain the request config of the operation addTokensMutation
      *
-     * @param addTokensArgsDto 
+     * @param addTokensMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -134,8 +143,8 @@ class FungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClien
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun addTokensMutationRequestConfig(addTokensArgsDto: AddTokensArgsDto, use: Use_addTokensMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<AddTokensArgsDto> {
-        val localVariableBody = addTokensArgsDto
+    fun addTokensMutationRequestConfig(addTokensMutationRequest: AddTokensMutationRequest, use: Use_addTokensMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<AddTokensMutationRequest> {
+        val localVariableBody = addTokensMutationRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -170,19 +179,261 @@ class FungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClien
     /**
      * enum for parameter use
      */
-     enum class Use_createCollectionMutation(val value: kotlin.String) {
+     enum class Use_approveTokensMutation(val value: kotlin.String) {
          @Json(name = "Build") build("Build"),
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param createFungibleCollectionRequest 
+     * @param approveTokensMutationRequest 
+     * @param use  (optional)
+     * @param withFee  (optional, default to false)
+     * @param verify  (optional, default to false)
+     * @param callbackUrl  (optional)
+     * @param nonce  (optional)
+     * @return ApproveTokensMutationDefaultResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun approveTokensMutation(approveTokensMutationRequest: ApproveTokensMutationRequest, use: Use_approveTokensMutation? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : ApproveTokensMutationDefaultResponse {
+        val localVarResponse = approveTokensMutationWithHttpInfo(approveTokensMutationRequest = approveTokensMutationRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as ApproveTokensMutationDefaultResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * 
+     * 
+     * @param approveTokensMutationRequest 
+     * @param use  (optional)
+     * @param withFee  (optional, default to false)
+     * @param verify  (optional, default to false)
+     * @param callbackUrl  (optional)
+     * @param nonce  (optional)
+     * @return ApiResponse<ApproveTokensMutationDefaultResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun approveTokensMutationWithHttpInfo(approveTokensMutationRequest: ApproveTokensMutationRequest, use: Use_approveTokensMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<ApproveTokensMutationDefaultResponse?> {
+        val localVariableConfig = approveTokensMutationRequestConfig(approveTokensMutationRequest = approveTokensMutationRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+
+        return request<ApproveTokensMutationRequest, ApproveTokensMutationDefaultResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation approveTokensMutation
+     *
+     * @param approveTokensMutationRequest 
+     * @param use  (optional)
+     * @param withFee  (optional, default to false)
+     * @param verify  (optional, default to false)
+     * @param callbackUrl  (optional)
+     * @param nonce  (optional)
+     * @return RequestConfig
+     */
+    fun approveTokensMutationRequestConfig(approveTokensMutationRequest: ApproveTokensMutationRequest, use: Use_approveTokensMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<ApproveTokensMutationRequest> {
+        val localVariableBody = approveTokensMutationRequest
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                if (use != null) {
+                    put("use", listOf(use.toString()))
+                }
+                if (withFee != null) {
+                    put("withFee", listOf(withFee.toString()))
+                }
+                if (verify != null) {
+                    put("verify", listOf(verify.toString()))
+                }
+                if (callbackUrl != null) {
+                    put("callbackUrl", listOf(callbackUrl.toString()))
+                }
+                if (nonce != null) {
+                    put("nonce", listOf(nonce.toString()))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.POST,
+            path = "/v1/fungible/tokens/approve",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * enum for parameter use
+     */
+     enum class Use_burn(val value: kotlin.String) {
+         @Json(name = "Build") build("Build"),
+         @Json(name = "BuildBatch") buildBatch("BuildBatch"),
+         @Json(name = "Sign") sign("Sign"),
+         @Json(name = "Submit") submit("Submit"),
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
+     }
+
+    /**
+     * 
+     * 
+     * @param burnRequest 
+     * @param use  (optional)
+     * @param withFee  (optional, default to false)
+     * @param verify  (optional, default to false)
+     * @param callbackUrl  (optional)
+     * @param nonce  (optional)
+     * @return BurnDefaultResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun burn(burnRequest: BurnRequest, use: Use_burn? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : BurnDefaultResponse {
+        val localVarResponse = burnWithHttpInfo(burnRequest = burnRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as BurnDefaultResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * 
+     * 
+     * @param burnRequest 
+     * @param use  (optional)
+     * @param withFee  (optional, default to false)
+     * @param verify  (optional, default to false)
+     * @param callbackUrl  (optional)
+     * @param nonce  (optional)
+     * @return ApiResponse<BurnDefaultResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun burnWithHttpInfo(burnRequest: BurnRequest, use: Use_burn?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<BurnDefaultResponse?> {
+        val localVariableConfig = burnRequestConfig(burnRequest = burnRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+
+        return request<BurnRequest, BurnDefaultResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation burn
+     *
+     * @param burnRequest 
+     * @param use  (optional)
+     * @param withFee  (optional, default to false)
+     * @param verify  (optional, default to false)
+     * @param callbackUrl  (optional)
+     * @param nonce  (optional)
+     * @return RequestConfig
+     */
+    fun burnRequestConfig(burnRequest: BurnRequest, use: Use_burn?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<BurnRequest> {
+        val localVariableBody = burnRequest
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                if (use != null) {
+                    put("use", listOf(use.toString()))
+                }
+                if (withFee != null) {
+                    put("withFee", listOf(withFee.toString()))
+                }
+                if (verify != null) {
+                    put("verify", listOf(verify.toString()))
+                }
+                if (callbackUrl != null) {
+                    put("callbackUrl", listOf(callbackUrl.toString()))
+                }
+                if (nonce != null) {
+                    put("nonce", listOf(nonce.toString()))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.DELETE,
+            path = "/v1/fungible",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * enum for parameter use
+     */
+     enum class Use_createFungibleCollectionMutation(val value: kotlin.String) {
+         @Json(name = "Build") build("Build"),
+         @Json(name = "BuildBatch") buildBatch("BuildBatch"),
+         @Json(name = "Sign") sign("Sign"),
+         @Json(name = "Submit") submit("Submit"),
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
+     }
+
+    /**
+     * 
+     * 
+     * @param createFungibleCollectionMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -197,8 +448,8 @@ class FungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createCollectionMutation(createFungibleCollectionRequest: CreateFungibleCollectionRequest, use: Use_createCollectionMutation? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : CreateCollectionMutationDefaultResponse {
-        val localVarResponse = createCollectionMutationWithHttpInfo(createFungibleCollectionRequest = createFungibleCollectionRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun createFungibleCollectionMutation(createFungibleCollectionMutationRequest: CreateFungibleCollectionMutationRequest, use: Use_createFungibleCollectionMutation? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : CreateCollectionMutationDefaultResponse {
+        val localVarResponse = createFungibleCollectionMutationWithHttpInfo(createFungibleCollectionMutationRequest = createFungibleCollectionMutationRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as CreateCollectionMutationDefaultResponse
@@ -218,7 +469,7 @@ class FungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClien
     /**
      * 
      * 
-     * @param createFungibleCollectionRequest 
+     * @param createFungibleCollectionMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -230,18 +481,18 @@ class FungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createCollectionMutationWithHttpInfo(createFungibleCollectionRequest: CreateFungibleCollectionRequest, use: Use_createCollectionMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<CreateCollectionMutationDefaultResponse?> {
-        val localVariableConfig = createCollectionMutationRequestConfig(createFungibleCollectionRequest = createFungibleCollectionRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun createFungibleCollectionMutationWithHttpInfo(createFungibleCollectionMutationRequest: CreateFungibleCollectionMutationRequest, use: Use_createFungibleCollectionMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<CreateCollectionMutationDefaultResponse?> {
+        val localVariableConfig = createFungibleCollectionMutationRequestConfig(createFungibleCollectionMutationRequest = createFungibleCollectionMutationRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<CreateFungibleCollectionRequest, CreateCollectionMutationDefaultResponse>(
+        return request<CreateFungibleCollectionMutationRequest, CreateCollectionMutationDefaultResponse>(
             localVariableConfig
         )
     }
 
     /**
-     * To obtain the request config of the operation createCollectionMutation
+     * To obtain the request config of the operation createFungibleCollectionMutation
      *
-     * @param createFungibleCollectionRequest 
+     * @param createFungibleCollectionMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -249,8 +500,8 @@ class FungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClien
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun createCollectionMutationRequestConfig(createFungibleCollectionRequest: CreateFungibleCollectionRequest, use: Use_createCollectionMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<CreateFungibleCollectionRequest> {
-        val localVariableBody = createFungibleCollectionRequest
+    fun createFungibleCollectionMutationRequestConfig(createFungibleCollectionMutationRequest: CreateFungibleCollectionMutationRequest, use: Use_createFungibleCollectionMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<CreateFungibleCollectionMutationRequest> {
+        val localVariableBody = createFungibleCollectionMutationRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -276,6 +527,93 @@ class FungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClien
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/v1/fungible/collection",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * 
+     * 
+     * @param collectionId 
+     * @param from The ss-58 encoded address
+     * @param to The ss-58 encoded address
+     * @param at Hash of execution block (optional)
+     * @return BalanceResponse
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun fungibleControllerAllowanceTokens(collectionId: java.math.BigDecimal, from: kotlin.String, to: kotlin.String, at: kotlin.String? = null) : BalanceResponse {
+        val localVarResponse = fungibleControllerAllowanceTokensWithHttpInfo(collectionId = collectionId, from = from, to = to, at = at)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as BalanceResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * 
+     * 
+     * @param collectionId 
+     * @param from The ss-58 encoded address
+     * @param to The ss-58 encoded address
+     * @param at Hash of execution block (optional)
+     * @return ApiResponse<BalanceResponse?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun fungibleControllerAllowanceTokensWithHttpInfo(collectionId: java.math.BigDecimal, from: kotlin.String, to: kotlin.String, at: kotlin.String?) : ApiResponse<BalanceResponse?> {
+        val localVariableConfig = fungibleControllerAllowanceTokensRequestConfig(collectionId = collectionId, from = from, to = to, at = at)
+
+        return request<Unit, BalanceResponse>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation fungibleControllerAllowanceTokens
+     *
+     * @param collectionId 
+     * @param from The ss-58 encoded address
+     * @param to The ss-58 encoded address
+     * @param at Hash of execution block (optional)
+     * @return RequestConfig
+     */
+    fun fungibleControllerAllowanceTokensRequestConfig(collectionId: java.math.BigDecimal, from: kotlin.String, to: kotlin.String, at: kotlin.String?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                if (at != null) {
+                    put("at", listOf(at.toString()))
+                }
+                put("collectionId", listOf(collectionId.toString()))
+                put("from", listOf(from.toString()))
+                put("to", listOf(to.toString()))
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/v1/fungible/tokens/allowance",
             query = localVariableQuery,
             headers = localVariableHeaders,
             body = localVariableBody
@@ -445,6 +783,85 @@ class FungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClien
     }
 
     /**
+     * 
+     * 
+     * @param collectionId 
+     * @param at Hash of execution block (optional)
+     * @return GetTotalPiecesResultDto
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun fungibleControllerGetTotalPieces(collectionId: java.math.BigDecimal, at: kotlin.String? = null) : GetTotalPiecesResultDto {
+        val localVarResponse = fungibleControllerGetTotalPiecesWithHttpInfo(collectionId = collectionId, at = at)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as GetTotalPiecesResultDto
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * 
+     * 
+     * @param collectionId 
+     * @param at Hash of execution block (optional)
+     * @return ApiResponse<GetTotalPiecesResultDto?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun fungibleControllerGetTotalPiecesWithHttpInfo(collectionId: java.math.BigDecimal, at: kotlin.String?) : ApiResponse<GetTotalPiecesResultDto?> {
+        val localVariableConfig = fungibleControllerGetTotalPiecesRequestConfig(collectionId = collectionId, at = at)
+
+        return request<Unit, GetTotalPiecesResultDto>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation fungibleControllerGetTotalPieces
+     *
+     * @param collectionId 
+     * @param at Hash of execution block (optional)
+     * @return RequestConfig
+     */
+    fun fungibleControllerGetTotalPiecesRequestConfig(collectionId: java.math.BigDecimal, at: kotlin.String?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                if (at != null) {
+                    put("at", listOf(at.toString()))
+                }
+                put("collectionId", listOf(collectionId.toString()))
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/v1/fungible/total-pieces",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+    }
+
+    /**
      * enum for parameter use
      */
      enum class Use_transferTokensMutation(val value: kotlin.String) {
@@ -452,14 +869,18 @@ class FungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClien
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param transferTokensArgsDto 
+     * @param transferTokensMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -474,8 +895,8 @@ class FungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun transferTokensMutation(transferTokensArgsDto: TransferTokensArgsDto, use: Use_transferTokensMutation? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : TransferTokensMutationDefaultResponse {
-        val localVarResponse = transferTokensMutationWithHttpInfo(transferTokensArgsDto = transferTokensArgsDto, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun transferTokensMutation(transferTokensMutationRequest: TransferTokensMutationRequest, use: Use_transferTokensMutation? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : TransferTokensMutationDefaultResponse {
+        val localVarResponse = transferTokensMutationWithHttpInfo(transferTokensMutationRequest = transferTokensMutationRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as TransferTokensMutationDefaultResponse
@@ -495,7 +916,7 @@ class FungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClien
     /**
      * 
      * 
-     * @param transferTokensArgsDto 
+     * @param transferTokensMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -507,10 +928,10 @@ class FungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun transferTokensMutationWithHttpInfo(transferTokensArgsDto: TransferTokensArgsDto, use: Use_transferTokensMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<TransferTokensMutationDefaultResponse?> {
-        val localVariableConfig = transferTokensMutationRequestConfig(transferTokensArgsDto = transferTokensArgsDto, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun transferTokensMutationWithHttpInfo(transferTokensMutationRequest: TransferTokensMutationRequest, use: Use_transferTokensMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<TransferTokensMutationDefaultResponse?> {
+        val localVariableConfig = transferTokensMutationRequestConfig(transferTokensMutationRequest = transferTokensMutationRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<TransferTokensArgsDto, TransferTokensMutationDefaultResponse>(
+        return request<TransferTokensMutationRequest, TransferTokensMutationDefaultResponse>(
             localVariableConfig
         )
     }
@@ -518,7 +939,7 @@ class FungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClien
     /**
      * To obtain the request config of the operation transferTokensMutation
      *
-     * @param transferTokensArgsDto 
+     * @param transferTokensMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -526,8 +947,8 @@ class FungibleApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClien
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun transferTokensMutationRequestConfig(transferTokensArgsDto: TransferTokensArgsDto, use: Use_transferTokensMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<TransferTokensArgsDto> {
-        val localVariableBody = transferTokensArgsDto
+    fun transferTokensMutationRequestConfig(transferTokensMutationRequest: TransferTokensMutationRequest, use: Use_transferTokensMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<TransferTokensMutationRequest> {
+        val localVariableBody = transferTokensMutationRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {

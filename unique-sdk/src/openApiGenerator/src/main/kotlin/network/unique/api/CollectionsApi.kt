@@ -20,22 +20,22 @@ import okhttp3.OkHttpClient
 import okhttp3.HttpUrl
 
 import network.unique.model.AddAdminDefaultResponse
-import network.unique.model.AddCollectionAdminBody
-import network.unique.model.AddToAllowListBody
+import network.unique.model.AddAdminRequest
 import network.unique.model.AddToAllowListDefaultResponse
+import network.unique.model.AddToAllowListRequest
 import network.unique.model.AdminlistResponse
 import network.unique.model.AllowListBodyResult
 import network.unique.model.AllowedResponse
 import network.unique.model.CollectionInfoWithSchemaResponse
 import network.unique.model.CollectionPropertiesResponse
-import network.unique.model.ConfirmSponsorshipBody
 import network.unique.model.ConfirmSponsorshipDefaultResponse
-import network.unique.model.CreateCollectionBody
+import network.unique.model.ConfirmSponsorshipRequest
 import network.unique.model.CreateCollectionMutationDefaultResponse
-import network.unique.model.DeleteCollectionPropertiesBody
+import network.unique.model.CreateCollectionMutationRequest
 import network.unique.model.DeleteCollectionPropertiesDefaultResponse
-import network.unique.model.DestroyCollectionBody
+import network.unique.model.DeleteCollectionPropertiesRequest
 import network.unique.model.DestroyDefaultResponse
+import network.unique.model.DestroyRequest
 import network.unique.model.EffectiveCollectionLimitsResponse
 import network.unique.model.GetCollectionTokensResponse
 import network.unique.model.GetStatsResponse
@@ -43,26 +43,26 @@ import network.unique.model.LastTokenIdResultDto
 import network.unique.model.NextSponsoredResponse
 import network.unique.model.PropertyPermissionsResponse
 import network.unique.model.RemoveAdminDefaultResponse
-import network.unique.model.RemoveCollectionAdminBody
-import network.unique.model.RemoveFromAllowListBody
+import network.unique.model.RemoveAdminRequest
 import network.unique.model.RemoveFromAllowListDefaultResponse
-import network.unique.model.RemoveSponsorshipBody
+import network.unique.model.RemoveFromAllowListRequest
 import network.unique.model.RemoveSponsorshipDefaultResponse
-import network.unique.model.SetCollectionLimitsBody
+import network.unique.model.RemoveSponsorshipRequest
 import network.unique.model.SetCollectionLimitsDefaultResponse
-import network.unique.model.SetCollectionPermissionsBody
-import network.unique.model.SetCollectionPropertiesBody
+import network.unique.model.SetCollectionLimitsRequest
 import network.unique.model.SetCollectionPropertiesDefaultResponse
+import network.unique.model.SetCollectionPropertiesRequest
 import network.unique.model.SetPermissionsDefaultResponse
-import network.unique.model.SetPropertyPermissionsBody
+import network.unique.model.SetPermissionsRequest
 import network.unique.model.SetPropertyPermissionsDefaultResponse
-import network.unique.model.SetSponsorshipBody
+import network.unique.model.SetPropertyPermissionsRequest
 import network.unique.model.SetSponsorshipDefaultResponse
-import network.unique.model.SetTransfersEnabledBody
+import network.unique.model.SetSponsorshipRequest
 import network.unique.model.SetTransfersEnabledDefaultResponse
+import network.unique.model.SetTransfersEnabledRequest
 import network.unique.model.TotalSupplyResponse
-import network.unique.model.TransferCollectionBody
 import network.unique.model.TransferDefaultResponse
+import network.unique.model.TransferRequest
 
 import com.squareup.moshi.Json
 
@@ -73,6 +73,7 @@ import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
 import org.openapitools.client.infrastructure.ServerError
 import org.openapitools.client.infrastructure.MultiValueMap
+import org.openapitools.client.infrastructure.PartConfig
 import org.openapitools.client.infrastructure.RequestConfig
 import org.openapitools.client.infrastructure.RequestMethod
 import org.openapitools.client.infrastructure.ResponseType
@@ -95,14 +96,18 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param addCollectionAdminBody 
+     * @param addAdminRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -117,8 +122,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun addAdmin(addCollectionAdminBody: AddCollectionAdminBody, use: Use_addAdmin? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : AddAdminDefaultResponse {
-        val localVarResponse = addAdminWithHttpInfo(addCollectionAdminBody = addCollectionAdminBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun addAdmin(addAdminRequest: AddAdminRequest, use: Use_addAdmin? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : AddAdminDefaultResponse {
+        val localVarResponse = addAdminWithHttpInfo(addAdminRequest = addAdminRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as AddAdminDefaultResponse
@@ -138,7 +143,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * 
      * 
-     * @param addCollectionAdminBody 
+     * @param addAdminRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -150,10 +155,10 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun addAdminWithHttpInfo(addCollectionAdminBody: AddCollectionAdminBody, use: Use_addAdmin?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<AddAdminDefaultResponse?> {
-        val localVariableConfig = addAdminRequestConfig(addCollectionAdminBody = addCollectionAdminBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun addAdminWithHttpInfo(addAdminRequest: AddAdminRequest, use: Use_addAdmin?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<AddAdminDefaultResponse?> {
+        val localVariableConfig = addAdminRequestConfig(addAdminRequest = addAdminRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<AddCollectionAdminBody, AddAdminDefaultResponse>(
+        return request<AddAdminRequest, AddAdminDefaultResponse>(
             localVariableConfig
         )
     }
@@ -161,7 +166,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * To obtain the request config of the operation addAdmin
      *
-     * @param addCollectionAdminBody 
+     * @param addAdminRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -169,8 +174,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun addAdminRequestConfig(addCollectionAdminBody: AddCollectionAdminBody, use: Use_addAdmin?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<AddCollectionAdminBody> {
-        val localVariableBody = addCollectionAdminBody
+    fun addAdminRequestConfig(addAdminRequest: AddAdminRequest, use: Use_addAdmin?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<AddAdminRequest> {
+        val localVariableBody = addAdminRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -210,14 +215,18 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param addToAllowListBody 
+     * @param addToAllowListRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -232,8 +241,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun addToAllowList(addToAllowListBody: AddToAllowListBody, use: Use_addToAllowList? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : AddToAllowListDefaultResponse {
-        val localVarResponse = addToAllowListWithHttpInfo(addToAllowListBody = addToAllowListBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun addToAllowList(addToAllowListRequest: AddToAllowListRequest, use: Use_addToAllowList? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : AddToAllowListDefaultResponse {
+        val localVarResponse = addToAllowListWithHttpInfo(addToAllowListRequest = addToAllowListRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as AddToAllowListDefaultResponse
@@ -253,7 +262,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * 
      * 
-     * @param addToAllowListBody 
+     * @param addToAllowListRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -265,10 +274,10 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun addToAllowListWithHttpInfo(addToAllowListBody: AddToAllowListBody, use: Use_addToAllowList?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<AddToAllowListDefaultResponse?> {
-        val localVariableConfig = addToAllowListRequestConfig(addToAllowListBody = addToAllowListBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun addToAllowListWithHttpInfo(addToAllowListRequest: AddToAllowListRequest, use: Use_addToAllowList?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<AddToAllowListDefaultResponse?> {
+        val localVariableConfig = addToAllowListRequestConfig(addToAllowListRequest = addToAllowListRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<AddToAllowListBody, AddToAllowListDefaultResponse>(
+        return request<AddToAllowListRequest, AddToAllowListDefaultResponse>(
             localVariableConfig
         )
     }
@@ -276,7 +285,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * To obtain the request config of the operation addToAllowList
      *
-     * @param addToAllowListBody 
+     * @param addToAllowListRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -284,8 +293,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun addToAllowListRequestConfig(addToAllowListBody: AddToAllowListBody, use: Use_addToAllowList?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<AddToAllowListBody> {
-        val localVariableBody = addToAllowListBody
+    fun addToAllowListRequestConfig(addToAllowListRequest: AddToAllowListRequest, use: Use_addToAllowList?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<AddToAllowListRequest> {
+        val localVariableBody = addToAllowListRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -1287,14 +1296,18 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param confirmSponsorshipBody 
+     * @param confirmSponsorshipRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1309,8 +1322,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun confirmSponsorship(confirmSponsorshipBody: ConfirmSponsorshipBody, use: Use_confirmSponsorship? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : ConfirmSponsorshipDefaultResponse {
-        val localVarResponse = confirmSponsorshipWithHttpInfo(confirmSponsorshipBody = confirmSponsorshipBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun confirmSponsorship(confirmSponsorshipRequest: ConfirmSponsorshipRequest, use: Use_confirmSponsorship? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : ConfirmSponsorshipDefaultResponse {
+        val localVarResponse = confirmSponsorshipWithHttpInfo(confirmSponsorshipRequest = confirmSponsorshipRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as ConfirmSponsorshipDefaultResponse
@@ -1330,7 +1343,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * 
      * 
-     * @param confirmSponsorshipBody 
+     * @param confirmSponsorshipRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1342,10 +1355,10 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun confirmSponsorshipWithHttpInfo(confirmSponsorshipBody: ConfirmSponsorshipBody, use: Use_confirmSponsorship?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<ConfirmSponsorshipDefaultResponse?> {
-        val localVariableConfig = confirmSponsorshipRequestConfig(confirmSponsorshipBody = confirmSponsorshipBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun confirmSponsorshipWithHttpInfo(confirmSponsorshipRequest: ConfirmSponsorshipRequest, use: Use_confirmSponsorship?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<ConfirmSponsorshipDefaultResponse?> {
+        val localVariableConfig = confirmSponsorshipRequestConfig(confirmSponsorshipRequest = confirmSponsorshipRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<ConfirmSponsorshipBody, ConfirmSponsorshipDefaultResponse>(
+        return request<ConfirmSponsorshipRequest, ConfirmSponsorshipDefaultResponse>(
             localVariableConfig
         )
     }
@@ -1353,7 +1366,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * To obtain the request config of the operation confirmSponsorship
      *
-     * @param confirmSponsorshipBody 
+     * @param confirmSponsorshipRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1361,8 +1374,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun confirmSponsorshipRequestConfig(confirmSponsorshipBody: ConfirmSponsorshipBody, use: Use_confirmSponsorship?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<ConfirmSponsorshipBody> {
-        val localVariableBody = confirmSponsorshipBody
+    fun confirmSponsorshipRequestConfig(confirmSponsorshipRequest: ConfirmSponsorshipRequest, use: Use_confirmSponsorship?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<ConfirmSponsorshipRequest> {
+        val localVariableBody = confirmSponsorshipRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -1402,14 +1415,19 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param collectionBody
+     * @param createCollectionMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1424,8 +1442,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createCollectionMutation(collectionBody: CreateCollectionBody, use: Use_createCollectionMutation? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : CreateCollectionMutationDefaultResponse {
-        val localVarResponse = createCollectionMutationWithHttpInfo(collectionBody = collectionBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun createCollectionMutation(createCollectionMutationRequest: CreateCollectionMutationRequest, use: Use_createCollectionMutation? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : CreateCollectionMutationDefaultResponse {
+        val localVarResponse = createCollectionMutationWithHttpInfo(createCollectionMutationRequest = createCollectionMutationRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as CreateCollectionMutationDefaultResponse
@@ -1445,7 +1463,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * 
      * 
-     * @param collectionBody
+     * @param createCollectionMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1457,10 +1475,10 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createCollectionMutationWithHttpInfo(collectionBody: CreateCollectionBody, use: Use_createCollectionMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<CreateCollectionMutationDefaultResponse?> {
-        val localVariableConfig = createCollectionMutationRequestConfig(collectionBody = collectionBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun createCollectionMutationWithHttpInfo(createCollectionMutationRequest: CreateCollectionMutationRequest, use: Use_createCollectionMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<CreateCollectionMutationDefaultResponse?> {
+        val localVariableConfig = createCollectionMutationRequestConfig(createCollectionMutationRequest = createCollectionMutationRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<CreateCollectionBody, CreateCollectionMutationDefaultResponse>(
+        return request<CreateCollectionMutationRequest, CreateCollectionMutationDefaultResponse>(
             localVariableConfig
         )
     }
@@ -1468,7 +1486,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * To obtain the request config of the operation createCollectionMutation
      *
-     * @param collectionBody
+     * @param createCollectionMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1476,8 +1494,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun createCollectionMutationRequestConfig(collectionBody: CreateCollectionBody, use: Use_createCollectionMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<CreateCollectionBody> {
-        val localVariableBody = collectionBody
+    fun createCollectionMutationRequestConfig(createCollectionMutationRequest: CreateCollectionMutationRequest, use: Use_createCollectionMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<CreateCollectionMutationRequest> {
+        val localVariableBody = createCollectionMutationRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -1517,14 +1535,18 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param deleteCollectionPropertiesBody 
+     * @param deleteCollectionPropertiesRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1539,8 +1561,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deleteCollectionProperties(deleteCollectionPropertiesBody: DeleteCollectionPropertiesBody, use: Use_deleteCollectionProperties? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : DeleteCollectionPropertiesDefaultResponse {
-        val localVarResponse = deleteCollectionPropertiesWithHttpInfo(deleteCollectionPropertiesBody = deleteCollectionPropertiesBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun deleteCollectionProperties(deleteCollectionPropertiesRequest: DeleteCollectionPropertiesRequest, use: Use_deleteCollectionProperties? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : DeleteCollectionPropertiesDefaultResponse {
+        val localVarResponse = deleteCollectionPropertiesWithHttpInfo(deleteCollectionPropertiesRequest = deleteCollectionPropertiesRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as DeleteCollectionPropertiesDefaultResponse
@@ -1560,7 +1582,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * 
      * 
-     * @param deleteCollectionPropertiesBody 
+     * @param deleteCollectionPropertiesRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1572,10 +1594,10 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun deleteCollectionPropertiesWithHttpInfo(deleteCollectionPropertiesBody: DeleteCollectionPropertiesBody, use: Use_deleteCollectionProperties?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<DeleteCollectionPropertiesDefaultResponse?> {
-        val localVariableConfig = deleteCollectionPropertiesRequestConfig(deleteCollectionPropertiesBody = deleteCollectionPropertiesBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun deleteCollectionPropertiesWithHttpInfo(deleteCollectionPropertiesRequest: DeleteCollectionPropertiesRequest, use: Use_deleteCollectionProperties?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<DeleteCollectionPropertiesDefaultResponse?> {
+        val localVariableConfig = deleteCollectionPropertiesRequestConfig(deleteCollectionPropertiesRequest = deleteCollectionPropertiesRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<DeleteCollectionPropertiesBody, DeleteCollectionPropertiesDefaultResponse>(
+        return request<DeleteCollectionPropertiesRequest, DeleteCollectionPropertiesDefaultResponse>(
             localVariableConfig
         )
     }
@@ -1583,7 +1605,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * To obtain the request config of the operation deleteCollectionProperties
      *
-     * @param deleteCollectionPropertiesBody 
+     * @param deleteCollectionPropertiesRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1591,8 +1613,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun deleteCollectionPropertiesRequestConfig(deleteCollectionPropertiesBody: DeleteCollectionPropertiesBody, use: Use_deleteCollectionProperties?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<DeleteCollectionPropertiesBody> {
-        val localVariableBody = deleteCollectionPropertiesBody
+    fun deleteCollectionPropertiesRequestConfig(deleteCollectionPropertiesRequest: DeleteCollectionPropertiesRequest, use: Use_deleteCollectionProperties?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<DeleteCollectionPropertiesRequest> {
+        val localVariableBody = deleteCollectionPropertiesRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -1632,14 +1654,18 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param destroyCollectionBody 
+     * @param destroyRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1654,8 +1680,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun destroy(destroyCollectionBody: DestroyCollectionBody, use: Use_destroy? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : DestroyDefaultResponse {
-        val localVarResponse = destroyWithHttpInfo(destroyCollectionBody = destroyCollectionBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun destroy(destroyRequest: DestroyRequest, use: Use_destroy? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : DestroyDefaultResponse {
+        val localVarResponse = destroyWithHttpInfo(destroyRequest = destroyRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as DestroyDefaultResponse
@@ -1675,7 +1701,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * 
      * 
-     * @param destroyCollectionBody 
+     * @param destroyRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1687,10 +1713,10 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun destroyWithHttpInfo(destroyCollectionBody: DestroyCollectionBody, use: Use_destroy?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<DestroyDefaultResponse?> {
-        val localVariableConfig = destroyRequestConfig(destroyCollectionBody = destroyCollectionBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun destroyWithHttpInfo(destroyRequest: DestroyRequest, use: Use_destroy?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<DestroyDefaultResponse?> {
+        val localVariableConfig = destroyRequestConfig(destroyRequest = destroyRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<DestroyCollectionBody, DestroyDefaultResponse>(
+        return request<DestroyRequest, DestroyDefaultResponse>(
             localVariableConfig
         )
     }
@@ -1698,7 +1724,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * To obtain the request config of the operation destroy
      *
-     * @param destroyCollectionBody 
+     * @param destroyRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1706,8 +1732,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun destroyRequestConfig(destroyCollectionBody: DestroyCollectionBody, use: Use_destroy?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<DestroyCollectionBody> {
-        val localVariableBody = destroyCollectionBody
+    fun destroyRequestConfig(destroyRequest: DestroyRequest, use: Use_destroy?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<DestroyRequest> {
+        val localVariableBody = destroyRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -1747,14 +1773,18 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param removeCollectionAdminBody 
+     * @param removeAdminRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1769,8 +1799,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun removeAdmin(removeCollectionAdminBody: RemoveCollectionAdminBody, use: Use_removeAdmin? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : RemoveAdminDefaultResponse {
-        val localVarResponse = removeAdminWithHttpInfo(removeCollectionAdminBody = removeCollectionAdminBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun removeAdmin(removeAdminRequest: RemoveAdminRequest, use: Use_removeAdmin? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : RemoveAdminDefaultResponse {
+        val localVarResponse = removeAdminWithHttpInfo(removeAdminRequest = removeAdminRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as RemoveAdminDefaultResponse
@@ -1790,7 +1820,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * 
      * 
-     * @param removeCollectionAdminBody 
+     * @param removeAdminRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1802,10 +1832,10 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun removeAdminWithHttpInfo(removeCollectionAdminBody: RemoveCollectionAdminBody, use: Use_removeAdmin?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<RemoveAdminDefaultResponse?> {
-        val localVariableConfig = removeAdminRequestConfig(removeCollectionAdminBody = removeCollectionAdminBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun removeAdminWithHttpInfo(removeAdminRequest: RemoveAdminRequest, use: Use_removeAdmin?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<RemoveAdminDefaultResponse?> {
+        val localVariableConfig = removeAdminRequestConfig(removeAdminRequest = removeAdminRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<RemoveCollectionAdminBody, RemoveAdminDefaultResponse>(
+        return request<RemoveAdminRequest, RemoveAdminDefaultResponse>(
             localVariableConfig
         )
     }
@@ -1813,7 +1843,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * To obtain the request config of the operation removeAdmin
      *
-     * @param removeCollectionAdminBody 
+     * @param removeAdminRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1821,8 +1851,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun removeAdminRequestConfig(removeCollectionAdminBody: RemoveCollectionAdminBody, use: Use_removeAdmin?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<RemoveCollectionAdminBody> {
-        val localVariableBody = removeCollectionAdminBody
+    fun removeAdminRequestConfig(removeAdminRequest: RemoveAdminRequest, use: Use_removeAdmin?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<RemoveAdminRequest> {
+        val localVariableBody = removeAdminRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -1862,14 +1892,18 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param removeFromAllowListBody 
+     * @param removeFromAllowListRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1884,8 +1918,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun removeFromAllowList(removeFromAllowListBody: RemoveFromAllowListBody, use: Use_removeFromAllowList? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : RemoveFromAllowListDefaultResponse {
-        val localVarResponse = removeFromAllowListWithHttpInfo(removeFromAllowListBody = removeFromAllowListBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun removeFromAllowList(removeFromAllowListRequest: RemoveFromAllowListRequest, use: Use_removeFromAllowList? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : RemoveFromAllowListDefaultResponse {
+        val localVarResponse = removeFromAllowListWithHttpInfo(removeFromAllowListRequest = removeFromAllowListRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as RemoveFromAllowListDefaultResponse
@@ -1905,7 +1939,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * 
      * 
-     * @param removeFromAllowListBody 
+     * @param removeFromAllowListRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1917,10 +1951,10 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun removeFromAllowListWithHttpInfo(removeFromAllowListBody: RemoveFromAllowListBody, use: Use_removeFromAllowList?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<RemoveFromAllowListDefaultResponse?> {
-        val localVariableConfig = removeFromAllowListRequestConfig(removeFromAllowListBody = removeFromAllowListBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun removeFromAllowListWithHttpInfo(removeFromAllowListRequest: RemoveFromAllowListRequest, use: Use_removeFromAllowList?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<RemoveFromAllowListDefaultResponse?> {
+        val localVariableConfig = removeFromAllowListRequestConfig(removeFromAllowListRequest = removeFromAllowListRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<RemoveFromAllowListBody, RemoveFromAllowListDefaultResponse>(
+        return request<RemoveFromAllowListRequest, RemoveFromAllowListDefaultResponse>(
             localVariableConfig
         )
     }
@@ -1928,7 +1962,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * To obtain the request config of the operation removeFromAllowList
      *
-     * @param removeFromAllowListBody 
+     * @param removeFromAllowListRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1936,8 +1970,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun removeFromAllowListRequestConfig(removeFromAllowListBody: RemoveFromAllowListBody, use: Use_removeFromAllowList?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<RemoveFromAllowListBody> {
-        val localVariableBody = removeFromAllowListBody
+    fun removeFromAllowListRequestConfig(removeFromAllowListRequest: RemoveFromAllowListRequest, use: Use_removeFromAllowList?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<RemoveFromAllowListRequest> {
+        val localVariableBody = removeFromAllowListRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -1977,14 +2011,18 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param removeSponsorshipBody 
+     * @param removeSponsorshipRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1999,8 +2037,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun removeSponsorship(removeSponsorshipBody: RemoveSponsorshipBody, use: Use_removeSponsorship? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : RemoveSponsorshipDefaultResponse {
-        val localVarResponse = removeSponsorshipWithHttpInfo(removeSponsorshipBody = removeSponsorshipBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun removeSponsorship(removeSponsorshipRequest: RemoveSponsorshipRequest, use: Use_removeSponsorship? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : RemoveSponsorshipDefaultResponse {
+        val localVarResponse = removeSponsorshipWithHttpInfo(removeSponsorshipRequest = removeSponsorshipRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as RemoveSponsorshipDefaultResponse
@@ -2020,7 +2058,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * 
      * 
-     * @param removeSponsorshipBody 
+     * @param removeSponsorshipRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2032,10 +2070,10 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun removeSponsorshipWithHttpInfo(removeSponsorshipBody: RemoveSponsorshipBody, use: Use_removeSponsorship?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<RemoveSponsorshipDefaultResponse?> {
-        val localVariableConfig = removeSponsorshipRequestConfig(removeSponsorshipBody = removeSponsorshipBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun removeSponsorshipWithHttpInfo(removeSponsorshipRequest: RemoveSponsorshipRequest, use: Use_removeSponsorship?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<RemoveSponsorshipDefaultResponse?> {
+        val localVariableConfig = removeSponsorshipRequestConfig(removeSponsorshipRequest = removeSponsorshipRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<RemoveSponsorshipBody, RemoveSponsorshipDefaultResponse>(
+        return request<RemoveSponsorshipRequest, RemoveSponsorshipDefaultResponse>(
             localVariableConfig
         )
     }
@@ -2043,7 +2081,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * To obtain the request config of the operation removeSponsorship
      *
-     * @param removeSponsorshipBody 
+     * @param removeSponsorshipRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2051,8 +2089,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun removeSponsorshipRequestConfig(removeSponsorshipBody: RemoveSponsorshipBody, use: Use_removeSponsorship?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<RemoveSponsorshipBody> {
-        val localVariableBody = removeSponsorshipBody
+    fun removeSponsorshipRequestConfig(removeSponsorshipRequest: RemoveSponsorshipRequest, use: Use_removeSponsorship?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<RemoveSponsorshipRequest> {
+        val localVariableBody = removeSponsorshipRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -2092,14 +2130,18 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param setCollectionLimitsBody 
+     * @param setCollectionLimitsRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2114,8 +2156,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun setCollectionLimits(setCollectionLimitsBody: SetCollectionLimitsBody, use: Use_setCollectionLimits? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : SetCollectionLimitsDefaultResponse {
-        val localVarResponse = setCollectionLimitsWithHttpInfo(setCollectionLimitsBody = setCollectionLimitsBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun setCollectionLimits(setCollectionLimitsRequest: SetCollectionLimitsRequest, use: Use_setCollectionLimits? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : SetCollectionLimitsDefaultResponse {
+        val localVarResponse = setCollectionLimitsWithHttpInfo(setCollectionLimitsRequest = setCollectionLimitsRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as SetCollectionLimitsDefaultResponse
@@ -2135,7 +2177,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * 
      * 
-     * @param setCollectionLimitsBody 
+     * @param setCollectionLimitsRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2147,10 +2189,10 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun setCollectionLimitsWithHttpInfo(setCollectionLimitsBody: SetCollectionLimitsBody, use: Use_setCollectionLimits?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<SetCollectionLimitsDefaultResponse?> {
-        val localVariableConfig = setCollectionLimitsRequestConfig(setCollectionLimitsBody = setCollectionLimitsBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun setCollectionLimitsWithHttpInfo(setCollectionLimitsRequest: SetCollectionLimitsRequest, use: Use_setCollectionLimits?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<SetCollectionLimitsDefaultResponse?> {
+        val localVariableConfig = setCollectionLimitsRequestConfig(setCollectionLimitsRequest = setCollectionLimitsRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<SetCollectionLimitsBody, SetCollectionLimitsDefaultResponse>(
+        return request<SetCollectionLimitsRequest, SetCollectionLimitsDefaultResponse>(
             localVariableConfig
         )
     }
@@ -2158,7 +2200,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * To obtain the request config of the operation setCollectionLimits
      *
-     * @param setCollectionLimitsBody 
+     * @param setCollectionLimitsRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2166,8 +2208,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun setCollectionLimitsRequestConfig(setCollectionLimitsBody: SetCollectionLimitsBody, use: Use_setCollectionLimits?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<SetCollectionLimitsBody> {
-        val localVariableBody = setCollectionLimitsBody
+    fun setCollectionLimitsRequestConfig(setCollectionLimitsRequest: SetCollectionLimitsRequest, use: Use_setCollectionLimits?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<SetCollectionLimitsRequest> {
+        val localVariableBody = setCollectionLimitsRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -2207,14 +2249,18 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param setCollectionPropertiesBody 
+     * @param setCollectionPropertiesRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2229,8 +2275,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun setCollectionProperties(setCollectionPropertiesBody: SetCollectionPropertiesBody, use: Use_setCollectionProperties? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : SetCollectionPropertiesDefaultResponse {
-        val localVarResponse = setCollectionPropertiesWithHttpInfo(setCollectionPropertiesBody = setCollectionPropertiesBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun setCollectionProperties(setCollectionPropertiesRequest: SetCollectionPropertiesRequest, use: Use_setCollectionProperties? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : SetCollectionPropertiesDefaultResponse {
+        val localVarResponse = setCollectionPropertiesWithHttpInfo(setCollectionPropertiesRequest = setCollectionPropertiesRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as SetCollectionPropertiesDefaultResponse
@@ -2250,7 +2296,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * 
      * 
-     * @param setCollectionPropertiesBody 
+     * @param setCollectionPropertiesRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2262,10 +2308,10 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun setCollectionPropertiesWithHttpInfo(setCollectionPropertiesBody: SetCollectionPropertiesBody, use: Use_setCollectionProperties?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<SetCollectionPropertiesDefaultResponse?> {
-        val localVariableConfig = setCollectionPropertiesRequestConfig(setCollectionPropertiesBody = setCollectionPropertiesBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun setCollectionPropertiesWithHttpInfo(setCollectionPropertiesRequest: SetCollectionPropertiesRequest, use: Use_setCollectionProperties?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<SetCollectionPropertiesDefaultResponse?> {
+        val localVariableConfig = setCollectionPropertiesRequestConfig(setCollectionPropertiesRequest = setCollectionPropertiesRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<SetCollectionPropertiesBody, SetCollectionPropertiesDefaultResponse>(
+        return request<SetCollectionPropertiesRequest, SetCollectionPropertiesDefaultResponse>(
             localVariableConfig
         )
     }
@@ -2273,7 +2319,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * To obtain the request config of the operation setCollectionProperties
      *
-     * @param setCollectionPropertiesBody 
+     * @param setCollectionPropertiesRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2281,8 +2327,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun setCollectionPropertiesRequestConfig(setCollectionPropertiesBody: SetCollectionPropertiesBody, use: Use_setCollectionProperties?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<SetCollectionPropertiesBody> {
-        val localVariableBody = setCollectionPropertiesBody
+    fun setCollectionPropertiesRequestConfig(setCollectionPropertiesRequest: SetCollectionPropertiesRequest, use: Use_setCollectionProperties?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<SetCollectionPropertiesRequest> {
+        val localVariableBody = setCollectionPropertiesRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -2322,14 +2368,18 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param setCollectionPermissionsBody 
+     * @param setPermissionsRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2344,8 +2394,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun setPermissions(setCollectionPermissionsBody: SetCollectionPermissionsBody, use: Use_setPermissions? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : SetPermissionsDefaultResponse {
-        val localVarResponse = setPermissionsWithHttpInfo(setCollectionPermissionsBody = setCollectionPermissionsBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun setPermissions(setPermissionsRequest: SetPermissionsRequest, use: Use_setPermissions? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : SetPermissionsDefaultResponse {
+        val localVarResponse = setPermissionsWithHttpInfo(setPermissionsRequest = setPermissionsRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as SetPermissionsDefaultResponse
@@ -2365,7 +2415,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * 
      * 
-     * @param setCollectionPermissionsBody 
+     * @param setPermissionsRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2377,10 +2427,10 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun setPermissionsWithHttpInfo(setCollectionPermissionsBody: SetCollectionPermissionsBody, use: Use_setPermissions?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<SetPermissionsDefaultResponse?> {
-        val localVariableConfig = setPermissionsRequestConfig(setCollectionPermissionsBody = setCollectionPermissionsBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun setPermissionsWithHttpInfo(setPermissionsRequest: SetPermissionsRequest, use: Use_setPermissions?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<SetPermissionsDefaultResponse?> {
+        val localVariableConfig = setPermissionsRequestConfig(setPermissionsRequest = setPermissionsRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<SetCollectionPermissionsBody, SetPermissionsDefaultResponse>(
+        return request<SetPermissionsRequest, SetPermissionsDefaultResponse>(
             localVariableConfig
         )
     }
@@ -2388,7 +2438,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * To obtain the request config of the operation setPermissions
      *
-     * @param setCollectionPermissionsBody 
+     * @param setPermissionsRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2396,8 +2446,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun setPermissionsRequestConfig(setCollectionPermissionsBody: SetCollectionPermissionsBody, use: Use_setPermissions?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<SetCollectionPermissionsBody> {
-        val localVariableBody = setCollectionPermissionsBody
+    fun setPermissionsRequestConfig(setPermissionsRequest: SetPermissionsRequest, use: Use_setPermissions?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<SetPermissionsRequest> {
+        val localVariableBody = setPermissionsRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -2437,14 +2487,18 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param setPropertyPermissionsBody 
+     * @param setPropertyPermissionsRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2459,8 +2513,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun setPropertyPermissions(setPropertyPermissionsBody: SetPropertyPermissionsBody, use: Use_setPropertyPermissions? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : SetPropertyPermissionsDefaultResponse {
-        val localVarResponse = setPropertyPermissionsWithHttpInfo(setPropertyPermissionsBody = setPropertyPermissionsBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun setPropertyPermissions(setPropertyPermissionsRequest: SetPropertyPermissionsRequest, use: Use_setPropertyPermissions? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : SetPropertyPermissionsDefaultResponse {
+        val localVarResponse = setPropertyPermissionsWithHttpInfo(setPropertyPermissionsRequest = setPropertyPermissionsRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as SetPropertyPermissionsDefaultResponse
@@ -2480,7 +2534,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * 
      * 
-     * @param setPropertyPermissionsBody 
+     * @param setPropertyPermissionsRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2492,10 +2546,10 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun setPropertyPermissionsWithHttpInfo(setPropertyPermissionsBody: SetPropertyPermissionsBody, use: Use_setPropertyPermissions?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<SetPropertyPermissionsDefaultResponse?> {
-        val localVariableConfig = setPropertyPermissionsRequestConfig(setPropertyPermissionsBody = setPropertyPermissionsBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun setPropertyPermissionsWithHttpInfo(setPropertyPermissionsRequest: SetPropertyPermissionsRequest, use: Use_setPropertyPermissions?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<SetPropertyPermissionsDefaultResponse?> {
+        val localVariableConfig = setPropertyPermissionsRequestConfig(setPropertyPermissionsRequest = setPropertyPermissionsRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<SetPropertyPermissionsBody, SetPropertyPermissionsDefaultResponse>(
+        return request<SetPropertyPermissionsRequest, SetPropertyPermissionsDefaultResponse>(
             localVariableConfig
         )
     }
@@ -2503,7 +2557,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * To obtain the request config of the operation setPropertyPermissions
      *
-     * @param setPropertyPermissionsBody 
+     * @param setPropertyPermissionsRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2511,8 +2565,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun setPropertyPermissionsRequestConfig(setPropertyPermissionsBody: SetPropertyPermissionsBody, use: Use_setPropertyPermissions?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<SetPropertyPermissionsBody> {
-        val localVariableBody = setPropertyPermissionsBody
+    fun setPropertyPermissionsRequestConfig(setPropertyPermissionsRequest: SetPropertyPermissionsRequest, use: Use_setPropertyPermissions?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<SetPropertyPermissionsRequest> {
+        val localVariableBody = setPropertyPermissionsRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -2552,14 +2606,18 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param setSponsorshipBody 
+     * @param setSponsorshipRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2574,8 +2632,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun setSponsorship(setSponsorshipBody: SetSponsorshipBody, use: Use_setSponsorship? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : SetSponsorshipDefaultResponse {
-        val localVarResponse = setSponsorshipWithHttpInfo(setSponsorshipBody = setSponsorshipBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun setSponsorship(setSponsorshipRequest: SetSponsorshipRequest, use: Use_setSponsorship? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : SetSponsorshipDefaultResponse {
+        val localVarResponse = setSponsorshipWithHttpInfo(setSponsorshipRequest = setSponsorshipRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as SetSponsorshipDefaultResponse
@@ -2595,7 +2653,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * 
      * 
-     * @param setSponsorshipBody 
+     * @param setSponsorshipRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2607,10 +2665,10 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun setSponsorshipWithHttpInfo(setSponsorshipBody: SetSponsorshipBody, use: Use_setSponsorship?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<SetSponsorshipDefaultResponse?> {
-        val localVariableConfig = setSponsorshipRequestConfig(setSponsorshipBody = setSponsorshipBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun setSponsorshipWithHttpInfo(setSponsorshipRequest: SetSponsorshipRequest, use: Use_setSponsorship?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<SetSponsorshipDefaultResponse?> {
+        val localVariableConfig = setSponsorshipRequestConfig(setSponsorshipRequest = setSponsorshipRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<SetSponsorshipBody, SetSponsorshipDefaultResponse>(
+        return request<SetSponsorshipRequest, SetSponsorshipDefaultResponse>(
             localVariableConfig
         )
     }
@@ -2618,7 +2676,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * To obtain the request config of the operation setSponsorship
      *
-     * @param setSponsorshipBody 
+     * @param setSponsorshipRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2626,8 +2684,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun setSponsorshipRequestConfig(setSponsorshipBody: SetSponsorshipBody, use: Use_setSponsorship?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<SetSponsorshipBody> {
-        val localVariableBody = setSponsorshipBody
+    fun setSponsorshipRequestConfig(setSponsorshipRequest: SetSponsorshipRequest, use: Use_setSponsorship?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<SetSponsorshipRequest> {
+        val localVariableBody = setSponsorshipRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -2667,14 +2725,18 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param setTransfersEnabledBody 
+     * @param setTransfersEnabledRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2689,8 +2751,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun setTransfersEnabled(setTransfersEnabledBody: SetTransfersEnabledBody, use: Use_setTransfersEnabled? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : SetTransfersEnabledDefaultResponse {
-        val localVarResponse = setTransfersEnabledWithHttpInfo(setTransfersEnabledBody = setTransfersEnabledBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun setTransfersEnabled(setTransfersEnabledRequest: SetTransfersEnabledRequest, use: Use_setTransfersEnabled? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : SetTransfersEnabledDefaultResponse {
+        val localVarResponse = setTransfersEnabledWithHttpInfo(setTransfersEnabledRequest = setTransfersEnabledRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as SetTransfersEnabledDefaultResponse
@@ -2710,7 +2772,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * 
      * 
-     * @param setTransfersEnabledBody 
+     * @param setTransfersEnabledRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2722,10 +2784,10 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun setTransfersEnabledWithHttpInfo(setTransfersEnabledBody: SetTransfersEnabledBody, use: Use_setTransfersEnabled?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<SetTransfersEnabledDefaultResponse?> {
-        val localVariableConfig = setTransfersEnabledRequestConfig(setTransfersEnabledBody = setTransfersEnabledBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun setTransfersEnabledWithHttpInfo(setTransfersEnabledRequest: SetTransfersEnabledRequest, use: Use_setTransfersEnabled?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<SetTransfersEnabledDefaultResponse?> {
+        val localVariableConfig = setTransfersEnabledRequestConfig(setTransfersEnabledRequest = setTransfersEnabledRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<SetTransfersEnabledBody, SetTransfersEnabledDefaultResponse>(
+        return request<SetTransfersEnabledRequest, SetTransfersEnabledDefaultResponse>(
             localVariableConfig
         )
     }
@@ -2733,7 +2795,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * To obtain the request config of the operation setTransfersEnabled
      *
-     * @param setTransfersEnabledBody 
+     * @param setTransfersEnabledRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2741,8 +2803,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun setTransfersEnabledRequestConfig(setTransfersEnabledBody: SetTransfersEnabledBody, use: Use_setTransfersEnabled?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<SetTransfersEnabledBody> {
-        val localVariableBody = setTransfersEnabledBody
+    fun setTransfersEnabledRequestConfig(setTransfersEnabledRequest: SetTransfersEnabledRequest, use: Use_setTransfersEnabled?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<SetTransfersEnabledRequest> {
+        val localVariableBody = setTransfersEnabledRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -2782,14 +2844,18 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param transferCollectionBody 
+     * @param transferRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2804,8 +2870,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun transfer(transferCollectionBody: TransferCollectionBody, use: Use_transfer? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : TransferDefaultResponse {
-        val localVarResponse = transferWithHttpInfo(transferCollectionBody = transferCollectionBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun transfer(transferRequest: TransferRequest, use: Use_transfer? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : TransferDefaultResponse {
+        val localVarResponse = transferWithHttpInfo(transferRequest = transferRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as TransferDefaultResponse
@@ -2825,7 +2891,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * 
      * 
-     * @param transferCollectionBody 
+     * @param transferRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2837,10 +2903,10 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun transferWithHttpInfo(transferCollectionBody: TransferCollectionBody, use: Use_transfer?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<TransferDefaultResponse?> {
-        val localVariableConfig = transferRequestConfig(transferCollectionBody = transferCollectionBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun transferWithHttpInfo(transferRequest: TransferRequest, use: Use_transfer?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<TransferDefaultResponse?> {
+        val localVariableConfig = transferRequestConfig(transferRequest = transferRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<TransferCollectionBody, TransferDefaultResponse>(
+        return request<TransferRequest, TransferDefaultResponse>(
             localVariableConfig
         )
     }
@@ -2848,7 +2914,7 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
     /**
      * To obtain the request config of the operation transfer
      *
-     * @param transferCollectionBody 
+     * @param transferRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2856,8 +2922,8 @@ class CollectionsApi(basePath: kotlin.String = defaultBasePath, client: OkHttpCl
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun transferRequestConfig(transferCollectionBody: TransferCollectionBody, use: Use_transfer?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<TransferCollectionBody> {
-        val localVariableBody = transferCollectionBody
+    fun transferRequestConfig(transferRequest: TransferRequest, use: Use_transfer?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<TransferRequest> {
+        val localVariableBody = transferRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {

@@ -56,8 +56,12 @@ class ERC721Api(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
@@ -171,8 +175,12 @@ class ERC721Api(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**

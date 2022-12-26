@@ -2,26 +2,27 @@ package network.unique.service.impl.collection
 
 import network.unique.api.CollectionsApi
 import network.unique.model.*
+import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
-class SetTransfersEnabledMutationServiceImpl(private val signerWrapper: SignerWrapper, basePath: String) :
-    MutationService<SetTransfersEnabledBody>() {
+class SetTransfersEnabledMutationServiceImpl(basePath: String) :
+    MutationService<SetTransfersEnabledRequest>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
-    override fun build(args: SetTransfersEnabledBody): UnsignedTxPayloadResponse {
+    override fun build(args: SetTransfersEnabledRequest): UnsignedTxPayloadResponse {
         val res = api.setTransfersEnabled(args, CollectionsApi.Use_setTransfersEnabled.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: SetTransfersEnabledBody): FeeResponse {
+    override fun getFee(args: SetTransfersEnabledRequest): FeeResponse {
         val res = api.setTransfersEnabled(args, CollectionsApi.Use_setTransfersEnabled.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
         val res = api.setTransfersEnabled(
-            SetTransfersEnabledBody(
+            SetTransfersEnabledRequest(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
@@ -33,7 +34,7 @@ class SetTransfersEnabledMutationServiceImpl(private val signerWrapper: SignerWr
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
         val res = api.setTransfersEnabled(
-            SetTransfersEnabledBody(
+            SetTransfersEnabledRequest(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
             ), CollectionsApi.Use_setTransfersEnabled.build, true
@@ -41,30 +42,30 @@ class SetTransfersEnabledMutationServiceImpl(private val signerWrapper: SignerWr
         return res.fee!!
     }
 
-    override fun sign(args: SetTransfersEnabledBody, seed: String): SubmitTxBody {
+    override fun sign(args: SetTransfersEnabledRequest): SubmitTxBody {
         val signPayload = build(args)
-        return sign(signPayload, seed)
+        return sign(signPayload)
     }
 
-    override fun sign(args: UnsignedTxPayloadResponse, seed: String): SubmitTxBody {
-        val signature = signerWrapper.sign(args.signerPayloadRaw.data)
+    override fun sign(args: UnsignedTxPayloadResponse): SubmitTxBody {
+        val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw.data)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: SetTransfersEnabledBody, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: SetTransfersEnabledRequest): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
         val response = api.setTransfersEnabled(
-            SetTransfersEnabledBody(
+            SetTransfersEnabledRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_setTransfersEnabled.submit
@@ -72,22 +73,22 @@ class SetTransfersEnabledMutationServiceImpl(private val signerWrapper: SignerWr
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: SetTransfersEnabledBody, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: SetTransfersEnabledRequest): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
         val response = api.setTransfersEnabled(
-            SetTransfersEnabledBody(
+            SetTransfersEnabledRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), CollectionsApi.Use_setTransfersEnabled.submitWatch
+            ), CollectionsApi.Use_setTransfersEnabled.submit
         )
         return SubmitResultResponse(response.hash)
     }

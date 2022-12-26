@@ -38,6 +38,7 @@ import com.squareup.moshi.Json
  * @param audio 
  * @param spatialObject 
  * @param video 
+ * @param file 
  * @param attributesSchema 
  * @param attributesSchemaVersion 
  * @param coverPicturePreview 
@@ -73,6 +74,9 @@ data class UniqueCollectionSchemaDecodedDto (
 
     @Json(name = "video")
     val video: VideoDto,
+
+    @Json(name = "file")
+    val file: ImageDto,
 
     @Json(name = "attributesSchema")
     val attributesSchema: kotlin.collections.Map<kotlin.String, AttributeSchemaDto>? = null,

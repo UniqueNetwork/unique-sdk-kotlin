@@ -83,10 +83,10 @@ data class FungibleCollectionInfoDto (
     /**
      * 
      *
-     * Values: nft,fungible,reFungible
+     * Values: nFT,fungible,reFungible
      */
     enum class Mode(val value: kotlin.String) {
-        @Json(name = "Nft") nft("Nft"),
+        @Json(name = "NFT") nFT("NFT"),
         @Json(name = "Fungible") fungible("Fungible"),
         @Json(name = "ReFungible") reFungible("ReFungible");
     }

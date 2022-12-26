@@ -2,25 +2,26 @@ package network.unique.service.impl.token
 
 import network.unique.api.TokensApi
 import network.unique.model.*
+import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
-class NestTokenMutationServiceImpl(private val signerWrapper: SignerWrapper, basePath: String) : MutationService<NestTokenBody>() {
+class NestTokenMutationServiceImpl(basePath: String) : MutationService<NestTokenRequest>() {
 
     private val api: TokensApi = TokensApi(basePath)
 
-    override fun build(args: NestTokenBody): UnsignedTxPayloadResponse {
+    override fun build(args: NestTokenRequest): UnsignedTxPayloadResponse {
         val res = api.nestToken(args, TokensApi.Use_nestToken.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: NestTokenBody): FeeResponse {
+    override fun getFee(args: NestTokenRequest): FeeResponse {
         val res = api.nestToken(args, TokensApi.Use_nestToken.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
         val res = api.nestToken(
-            NestTokenBody(
+            NestTokenRequest(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
@@ -32,7 +33,7 @@ class NestTokenMutationServiceImpl(private val signerWrapper: SignerWrapper, bas
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
         val res = api.nestToken(
-            NestTokenBody(
+            NestTokenRequest(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
             ), TokensApi.Use_nestToken.build, true
@@ -40,30 +41,30 @@ class NestTokenMutationServiceImpl(private val signerWrapper: SignerWrapper, bas
         return res.fee!!
     }
 
-    override fun sign(args: NestTokenBody, seed: String): SubmitTxBody {
+    override fun sign(args: NestTokenRequest): SubmitTxBody {
         val signPayload = build(args)
-        return sign(signPayload, seed)
+        return sign(signPayload)
     }
 
-    override fun sign(args: UnsignedTxPayloadResponse, seed: String): SubmitTxBody {
-        val signature = signerWrapper.sign(args.signerPayloadRaw.data)
+    override fun sign(args: UnsignedTxPayloadResponse): SubmitTxBody {
+        val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw.data)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: NestTokenBody, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: NestTokenRequest): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
         val response = api.nestToken(
-            NestTokenBody(
+            NestTokenRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), TokensApi.Use_nestToken.submit
@@ -71,22 +72,22 @@ class NestTokenMutationServiceImpl(private val signerWrapper: SignerWrapper, bas
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: NestTokenBody, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: NestTokenRequest): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
         val response = api.nestToken(
-            NestTokenBody(
+            NestTokenRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), TokensApi.Use_nestToken.submitWatch
+            ), TokensApi.Use_nestToken.submit
         )
         return SubmitResultResponse(response.hash)
     }

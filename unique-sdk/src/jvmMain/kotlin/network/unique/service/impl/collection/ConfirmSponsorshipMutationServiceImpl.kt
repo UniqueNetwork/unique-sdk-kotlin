@@ -2,26 +2,27 @@ package network.unique.service.impl.collection
 
 import network.unique.api.CollectionsApi
 import network.unique.model.*
+import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
-class ConfirmSponsorshipMutationServiceImpl(private val signerWrapper: SignerWrapper, basePath: String) :
-    MutationService<ConfirmSponsorshipBody>() {
+class ConfirmSponsorshipMutationServiceImpl(basePath: String) :
+    MutationService<ConfirmSponsorshipRequest>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
-    override fun build(args: ConfirmSponsorshipBody): UnsignedTxPayloadResponse {
+    override fun build(args: ConfirmSponsorshipRequest): UnsignedTxPayloadResponse {
         val res = api.confirmSponsorship(args, CollectionsApi.Use_confirmSponsorship.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: ConfirmSponsorshipBody): FeeResponse {
+    override fun getFee(args: ConfirmSponsorshipRequest): FeeResponse {
         val res = api.confirmSponsorship(args, CollectionsApi.Use_confirmSponsorship.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
         val res = api.confirmSponsorship(
-            ConfirmSponsorshipBody(
+            ConfirmSponsorshipRequest(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
@@ -33,7 +34,7 @@ class ConfirmSponsorshipMutationServiceImpl(private val signerWrapper: SignerWra
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
         val res = api.confirmSponsorship(
-            ConfirmSponsorshipBody(
+            ConfirmSponsorshipRequest(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
             ), CollectionsApi.Use_confirmSponsorship.build, true
@@ -41,30 +42,30 @@ class ConfirmSponsorshipMutationServiceImpl(private val signerWrapper: SignerWra
         return res.fee!!
     }
 
-    override fun sign(args: ConfirmSponsorshipBody, seed: String): SubmitTxBody {
+    override fun sign(args: ConfirmSponsorshipRequest): SubmitTxBody {
         val signPayload = build(args)
-        return sign(signPayload, seed)
+        return sign(signPayload)
     }
 
-    override fun sign(args: UnsignedTxPayloadResponse, seed: String): SubmitTxBody {
-        val signature = signerWrapper.sign(args.signerPayloadRaw.data)
+    override fun sign(args: UnsignedTxPayloadResponse): SubmitTxBody {
+        val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw.data)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: ConfirmSponsorshipBody, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: ConfirmSponsorshipRequest): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
         val response = api.confirmSponsorship(
-            ConfirmSponsorshipBody(
+            ConfirmSponsorshipRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_confirmSponsorship.submit
@@ -72,22 +73,22 @@ class ConfirmSponsorshipMutationServiceImpl(private val signerWrapper: SignerWra
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: ConfirmSponsorshipBody, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: ConfirmSponsorshipRequest): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
         val response = api.confirmSponsorship(
-            ConfirmSponsorshipBody(
+            ConfirmSponsorshipRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), CollectionsApi.Use_confirmSponsorship.submitWatch
+            ), CollectionsApi.Use_confirmSponsorship.submit
         )
         return SubmitResultResponse(response.hash)
     }

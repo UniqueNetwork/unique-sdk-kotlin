@@ -22,20 +22,20 @@ import okhttp3.HttpUrl
 import network.unique.model.AccountTokensResponse
 import network.unique.model.AllowanceResultResponse
 import network.unique.model.ApproveDefaultResponse
-import network.unique.model.ApproveTokenBody
-import network.unique.model.BurnTokenBody
+import network.unique.model.ApproveRequest
 import network.unique.model.BurnTokenDefaultResponse
-import network.unique.model.CreateMultipleTokensBody
+import network.unique.model.BurnTokenRequest
+import network.unique.model.CreateMultipleTokensMutationRequest
 import network.unique.model.CreateNewTokenMutationDefaultResponse
-import network.unique.model.CreateTokenBody
-import network.unique.model.DeleteTokenPropertiesBody
+import network.unique.model.CreateNewTokenMutationRequest
 import network.unique.model.DeleteTokenPropertiesDefaultResponse
+import network.unique.model.DeleteTokenPropertiesRequest
 import network.unique.model.GetBundleResponse
 import network.unique.model.IsBundleResponse
-import network.unique.model.NestTokenBody
 import network.unique.model.NestTokenDefaultResponse
-import network.unique.model.SetTokenPropertiesBody
+import network.unique.model.NestTokenRequest
 import network.unique.model.SetTokenPropertiesDefaultResponse
+import network.unique.model.SetTokenPropertiesRequest
 import network.unique.model.TokenBalanceResponse
 import network.unique.model.TokenByIdResponse
 import network.unique.model.TokenChildrenResponse
@@ -44,10 +44,10 @@ import network.unique.model.TokenOwnerResponse
 import network.unique.model.TokenParentResponse
 import network.unique.model.TokenPropertiesResponse
 import network.unique.model.TopmostTokenOwnerResponse
-import network.unique.model.TransferTokenBody
 import network.unique.model.TransferTokenDefaultResponse
-import network.unique.model.UnnestTokenBody
+import network.unique.model.TransferTokenRequest
 import network.unique.model.UnnestTokenDefaultResponse
+import network.unique.model.UnnestTokenRequest
 
 import com.squareup.moshi.Json
 
@@ -81,14 +81,18 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param approveTokenBody 
+     * @param approveRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -103,8 +107,8 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun approve(approveTokenBody: ApproveTokenBody, use: Use_approve? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : ApproveDefaultResponse {
-        val localVarResponse = approveWithHttpInfo(approveTokenBody = approveTokenBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun approve(approveRequest: ApproveRequest, use: Use_approve? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : ApproveDefaultResponse {
+        val localVarResponse = approveWithHttpInfo(approveRequest = approveRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as ApproveDefaultResponse
@@ -124,7 +128,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
     /**
      * 
      * 
-     * @param approveTokenBody 
+     * @param approveRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -136,10 +140,10 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun approveWithHttpInfo(approveTokenBody: ApproveTokenBody, use: Use_approve?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<ApproveDefaultResponse?> {
-        val localVariableConfig = approveRequestConfig(approveTokenBody = approveTokenBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun approveWithHttpInfo(approveRequest: ApproveRequest, use: Use_approve?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<ApproveDefaultResponse?> {
+        val localVariableConfig = approveRequestConfig(approveRequest = approveRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<ApproveTokenBody, ApproveDefaultResponse>(
+        return request<ApproveRequest, ApproveDefaultResponse>(
             localVariableConfig
         )
     }
@@ -147,7 +151,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
     /**
      * To obtain the request config of the operation approve
      *
-     * @param approveTokenBody 
+     * @param approveRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -155,8 +159,8 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun approveRequestConfig(approveTokenBody: ApproveTokenBody, use: Use_approve?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<ApproveTokenBody> {
-        val localVariableBody = approveTokenBody
+    fun approveRequestConfig(approveRequest: ApproveRequest, use: Use_approve?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<ApproveRequest> {
+        val localVariableBody = approveRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -196,14 +200,18 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param burnTokenBody 
+     * @param burnTokenRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -218,8 +226,8 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun burnToken(burnTokenBody: BurnTokenBody, use: Use_burnToken? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : BurnTokenDefaultResponse {
-        val localVarResponse = burnTokenWithHttpInfo(burnTokenBody = burnTokenBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun burnToken(burnTokenRequest: BurnTokenRequest, use: Use_burnToken? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : BurnTokenDefaultResponse {
+        val localVarResponse = burnTokenWithHttpInfo(burnTokenRequest = burnTokenRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as BurnTokenDefaultResponse
@@ -239,7 +247,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
     /**
      * 
      * 
-     * @param burnTokenBody 
+     * @param burnTokenRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -251,10 +259,10 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun burnTokenWithHttpInfo(burnTokenBody: BurnTokenBody, use: Use_burnToken?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<BurnTokenDefaultResponse?> {
-        val localVariableConfig = burnTokenRequestConfig(burnTokenBody = burnTokenBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun burnTokenWithHttpInfo(burnTokenRequest: BurnTokenRequest, use: Use_burnToken?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<BurnTokenDefaultResponse?> {
+        val localVariableConfig = burnTokenRequestConfig(burnTokenRequest = burnTokenRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<BurnTokenBody, BurnTokenDefaultResponse>(
+        return request<BurnTokenRequest, BurnTokenDefaultResponse>(
             localVariableConfig
         )
     }
@@ -262,7 +270,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
     /**
      * To obtain the request config of the operation burnToken
      *
-     * @param burnTokenBody 
+     * @param burnTokenRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -270,8 +278,8 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun burnTokenRequestConfig(burnTokenBody: BurnTokenBody, use: Use_burnToken?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<BurnTokenBody> {
-        val localVariableBody = burnTokenBody
+    fun burnTokenRequestConfig(burnTokenRequest: BurnTokenRequest, use: Use_burnToken?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<BurnTokenRequest> {
+        val localVariableBody = burnTokenRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -311,14 +319,18 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param createMultipleTokensBody 
+     * @param createMultipleTokensMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -333,8 +345,8 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createMultipleTokensMutation(createMultipleTokensBody: CreateMultipleTokensBody, use: Use_createMultipleTokensMutation? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : CreateNewTokenMutationDefaultResponse {
-        val localVarResponse = createMultipleTokensMutationWithHttpInfo(createMultipleTokensBody = createMultipleTokensBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun createMultipleTokensMutation(createMultipleTokensMutationRequest: CreateMultipleTokensMutationRequest, use: Use_createMultipleTokensMutation? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : CreateNewTokenMutationDefaultResponse {
+        val localVarResponse = createMultipleTokensMutationWithHttpInfo(createMultipleTokensMutationRequest = createMultipleTokensMutationRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as CreateNewTokenMutationDefaultResponse
@@ -354,7 +366,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
     /**
      * 
      * 
-     * @param createMultipleTokensBody 
+     * @param createMultipleTokensMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -366,10 +378,10 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createMultipleTokensMutationWithHttpInfo(createMultipleTokensBody: CreateMultipleTokensBody, use: Use_createMultipleTokensMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<CreateNewTokenMutationDefaultResponse?> {
-        val localVariableConfig = createMultipleTokensMutationRequestConfig(createMultipleTokensBody = createMultipleTokensBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun createMultipleTokensMutationWithHttpInfo(createMultipleTokensMutationRequest: CreateMultipleTokensMutationRequest, use: Use_createMultipleTokensMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<CreateNewTokenMutationDefaultResponse?> {
+        val localVariableConfig = createMultipleTokensMutationRequestConfig(createMultipleTokensMutationRequest = createMultipleTokensMutationRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<CreateMultipleTokensBody, CreateNewTokenMutationDefaultResponse>(
+        return request<CreateMultipleTokensMutationRequest, CreateNewTokenMutationDefaultResponse>(
             localVariableConfig
         )
     }
@@ -377,7 +389,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
     /**
      * To obtain the request config of the operation createMultipleTokensMutation
      *
-     * @param createMultipleTokensBody 
+     * @param createMultipleTokensMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -385,8 +397,8 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun createMultipleTokensMutationRequestConfig(createMultipleTokensBody: CreateMultipleTokensBody, use: Use_createMultipleTokensMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<CreateMultipleTokensBody> {
-        val localVariableBody = createMultipleTokensBody
+    fun createMultipleTokensMutationRequestConfig(createMultipleTokensMutationRequest: CreateMultipleTokensMutationRequest, use: Use_createMultipleTokensMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<CreateMultipleTokensMutationRequest> {
+        val localVariableBody = createMultipleTokensMutationRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -426,14 +438,18 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param createTokenBody 
+     * @param createNewTokenMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -448,8 +464,8 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createNewTokenMutation(createTokenBody: CreateTokenBody, use: Use_createNewTokenMutation? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : CreateNewTokenMutationDefaultResponse {
-        val localVarResponse = createNewTokenMutationWithHttpInfo(createTokenBody = createTokenBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun createNewTokenMutation(createNewTokenMutationRequest: CreateNewTokenMutationRequest, use: Use_createNewTokenMutation? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : CreateNewTokenMutationDefaultResponse {
+        val localVarResponse = createNewTokenMutationWithHttpInfo(createNewTokenMutationRequest = createNewTokenMutationRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as CreateNewTokenMutationDefaultResponse
@@ -469,7 +485,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
     /**
      * 
      * 
-     * @param createTokenBody 
+     * @param createNewTokenMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -481,10 +497,10 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createNewTokenMutationWithHttpInfo(createTokenBody: CreateTokenBody, use: Use_createNewTokenMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<CreateNewTokenMutationDefaultResponse?> {
-        val localVariableConfig = createNewTokenMutationRequestConfig(createTokenBody = createTokenBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun createNewTokenMutationWithHttpInfo(createNewTokenMutationRequest: CreateNewTokenMutationRequest, use: Use_createNewTokenMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<CreateNewTokenMutationDefaultResponse?> {
+        val localVariableConfig = createNewTokenMutationRequestConfig(createNewTokenMutationRequest = createNewTokenMutationRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<CreateTokenBody, CreateNewTokenMutationDefaultResponse>(
+        return request<CreateNewTokenMutationRequest, CreateNewTokenMutationDefaultResponse>(
             localVariableConfig
         )
     }
@@ -492,7 +508,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
     /**
      * To obtain the request config of the operation createNewTokenMutation
      *
-     * @param createTokenBody 
+     * @param createNewTokenMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -500,8 +516,8 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun createNewTokenMutationRequestConfig(createTokenBody: CreateTokenBody, use: Use_createNewTokenMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<CreateTokenBody> {
-        val localVariableBody = createTokenBody
+    fun createNewTokenMutationRequestConfig(createNewTokenMutationRequest: CreateNewTokenMutationRequest, use: Use_createNewTokenMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<CreateNewTokenMutationRequest> {
+        val localVariableBody = createNewTokenMutationRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -541,14 +557,18 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param deleteTokenPropertiesBody 
+     * @param deleteTokenPropertiesRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -563,8 +583,8 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deleteTokenProperties(deleteTokenPropertiesBody: DeleteTokenPropertiesBody, use: Use_deleteTokenProperties? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : DeleteTokenPropertiesDefaultResponse {
-        val localVarResponse = deleteTokenPropertiesWithHttpInfo(deleteTokenPropertiesBody = deleteTokenPropertiesBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun deleteTokenProperties(deleteTokenPropertiesRequest: DeleteTokenPropertiesRequest, use: Use_deleteTokenProperties? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : DeleteTokenPropertiesDefaultResponse {
+        val localVarResponse = deleteTokenPropertiesWithHttpInfo(deleteTokenPropertiesRequest = deleteTokenPropertiesRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as DeleteTokenPropertiesDefaultResponse
@@ -584,7 +604,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
     /**
      * 
      * 
-     * @param deleteTokenPropertiesBody 
+     * @param deleteTokenPropertiesRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -596,10 +616,10 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun deleteTokenPropertiesWithHttpInfo(deleteTokenPropertiesBody: DeleteTokenPropertiesBody, use: Use_deleteTokenProperties?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<DeleteTokenPropertiesDefaultResponse?> {
-        val localVariableConfig = deleteTokenPropertiesRequestConfig(deleteTokenPropertiesBody = deleteTokenPropertiesBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun deleteTokenPropertiesWithHttpInfo(deleteTokenPropertiesRequest: DeleteTokenPropertiesRequest, use: Use_deleteTokenProperties?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<DeleteTokenPropertiesDefaultResponse?> {
+        val localVariableConfig = deleteTokenPropertiesRequestConfig(deleteTokenPropertiesRequest = deleteTokenPropertiesRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<DeleteTokenPropertiesBody, DeleteTokenPropertiesDefaultResponse>(
+        return request<DeleteTokenPropertiesRequest, DeleteTokenPropertiesDefaultResponse>(
             localVariableConfig
         )
     }
@@ -607,7 +627,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
     /**
      * To obtain the request config of the operation deleteTokenProperties
      *
-     * @param deleteTokenPropertiesBody 
+     * @param deleteTokenPropertiesRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -615,8 +635,8 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun deleteTokenPropertiesRequestConfig(deleteTokenPropertiesBody: DeleteTokenPropertiesBody, use: Use_deleteTokenProperties?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<DeleteTokenPropertiesBody> {
-        val localVariableBody = deleteTokenPropertiesBody
+    fun deleteTokenPropertiesRequestConfig(deleteTokenPropertiesRequest: DeleteTokenPropertiesRequest, use: Use_deleteTokenProperties?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<DeleteTokenPropertiesRequest> {
+        val localVariableBody = deleteTokenPropertiesRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -656,14 +676,18 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param nestTokenBody 
+     * @param nestTokenRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -678,8 +702,8 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun nestToken(nestTokenBody: NestTokenBody, use: Use_nestToken? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : NestTokenDefaultResponse {
-        val localVarResponse = nestTokenWithHttpInfo(nestTokenBody = nestTokenBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun nestToken(nestTokenRequest: NestTokenRequest, use: Use_nestToken? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : NestTokenDefaultResponse {
+        val localVarResponse = nestTokenWithHttpInfo(nestTokenRequest = nestTokenRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as NestTokenDefaultResponse
@@ -699,7 +723,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
     /**
      * 
      * 
-     * @param nestTokenBody 
+     * @param nestTokenRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -711,10 +735,10 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun nestTokenWithHttpInfo(nestTokenBody: NestTokenBody, use: Use_nestToken?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<NestTokenDefaultResponse?> {
-        val localVariableConfig = nestTokenRequestConfig(nestTokenBody = nestTokenBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun nestTokenWithHttpInfo(nestTokenRequest: NestTokenRequest, use: Use_nestToken?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<NestTokenDefaultResponse?> {
+        val localVariableConfig = nestTokenRequestConfig(nestTokenRequest = nestTokenRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<NestTokenBody, NestTokenDefaultResponse>(
+        return request<NestTokenRequest, NestTokenDefaultResponse>(
             localVariableConfig
         )
     }
@@ -722,7 +746,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
     /**
      * To obtain the request config of the operation nestToken
      *
-     * @param nestTokenBody 
+     * @param nestTokenRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -730,8 +754,8 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun nestTokenRequestConfig(nestTokenBody: NestTokenBody, use: Use_nestToken?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<NestTokenBody> {
-        val localVariableBody = nestTokenBody
+    fun nestTokenRequestConfig(nestTokenRequest: NestTokenRequest, use: Use_nestToken?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<NestTokenRequest> {
+        val localVariableBody = nestTokenRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -1779,14 +1803,18 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param setTokenPropertiesBody 
+     * @param setTokenPropertiesRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1801,8 +1829,8 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun setTokenProperties(setTokenPropertiesBody: SetTokenPropertiesBody, use: Use_setTokenProperties? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : SetTokenPropertiesDefaultResponse {
-        val localVarResponse = setTokenPropertiesWithHttpInfo(setTokenPropertiesBody = setTokenPropertiesBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun setTokenProperties(setTokenPropertiesRequest: SetTokenPropertiesRequest, use: Use_setTokenProperties? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : SetTokenPropertiesDefaultResponse {
+        val localVarResponse = setTokenPropertiesWithHttpInfo(setTokenPropertiesRequest = setTokenPropertiesRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as SetTokenPropertiesDefaultResponse
@@ -1822,7 +1850,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
     /**
      * 
      * 
-     * @param setTokenPropertiesBody 
+     * @param setTokenPropertiesRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1834,10 +1862,10 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun setTokenPropertiesWithHttpInfo(setTokenPropertiesBody: SetTokenPropertiesBody, use: Use_setTokenProperties?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<SetTokenPropertiesDefaultResponse?> {
-        val localVariableConfig = setTokenPropertiesRequestConfig(setTokenPropertiesBody = setTokenPropertiesBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun setTokenPropertiesWithHttpInfo(setTokenPropertiesRequest: SetTokenPropertiesRequest, use: Use_setTokenProperties?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<SetTokenPropertiesDefaultResponse?> {
+        val localVariableConfig = setTokenPropertiesRequestConfig(setTokenPropertiesRequest = setTokenPropertiesRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<SetTokenPropertiesBody, SetTokenPropertiesDefaultResponse>(
+        return request<SetTokenPropertiesRequest, SetTokenPropertiesDefaultResponse>(
             localVariableConfig
         )
     }
@@ -1845,7 +1873,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
     /**
      * To obtain the request config of the operation setTokenProperties
      *
-     * @param setTokenPropertiesBody 
+     * @param setTokenPropertiesRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1853,8 +1881,8 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun setTokenPropertiesRequestConfig(setTokenPropertiesBody: SetTokenPropertiesBody, use: Use_setTokenProperties?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<SetTokenPropertiesBody> {
-        val localVariableBody = setTokenPropertiesBody
+    fun setTokenPropertiesRequestConfig(setTokenPropertiesRequest: SetTokenPropertiesRequest, use: Use_setTokenProperties?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<SetTokenPropertiesRequest> {
+        val localVariableBody = setTokenPropertiesRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -1894,14 +1922,18 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param transferTokenBody 
+     * @param transferTokenRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1916,8 +1948,8 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun transferToken(transferTokenBody: TransferTokenBody, use: Use_transferToken? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : TransferTokenDefaultResponse {
-        val localVarResponse = transferTokenWithHttpInfo(transferTokenBody = transferTokenBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun transferToken(transferTokenRequest: TransferTokenRequest, use: Use_transferToken? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : TransferTokenDefaultResponse {
+        val localVarResponse = transferTokenWithHttpInfo(transferTokenRequest = transferTokenRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as TransferTokenDefaultResponse
@@ -1937,7 +1969,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
     /**
      * 
      * 
-     * @param transferTokenBody 
+     * @param transferTokenRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1949,10 +1981,10 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun transferTokenWithHttpInfo(transferTokenBody: TransferTokenBody, use: Use_transferToken?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<TransferTokenDefaultResponse?> {
-        val localVariableConfig = transferTokenRequestConfig(transferTokenBody = transferTokenBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun transferTokenWithHttpInfo(transferTokenRequest: TransferTokenRequest, use: Use_transferToken?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<TransferTokenDefaultResponse?> {
+        val localVariableConfig = transferTokenRequestConfig(transferTokenRequest = transferTokenRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<TransferTokenBody, TransferTokenDefaultResponse>(
+        return request<TransferTokenRequest, TransferTokenDefaultResponse>(
             localVariableConfig
         )
     }
@@ -1960,7 +1992,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
     /**
      * To obtain the request config of the operation transferToken
      *
-     * @param transferTokenBody 
+     * @param transferTokenRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -1968,8 +2000,8 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun transferTokenRequestConfig(transferTokenBody: TransferTokenBody, use: Use_transferToken?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<TransferTokenBody> {
-        val localVariableBody = transferTokenBody
+    fun transferTokenRequestConfig(transferTokenRequest: TransferTokenRequest, use: Use_transferToken?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<TransferTokenRequest> {
+        val localVariableBody = transferTokenRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
@@ -2009,14 +2041,18 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param unnestTokenBody 
+     * @param unnestTokenRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2031,8 +2067,8 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun unnestToken(unnestTokenBody: UnnestTokenBody, use: Use_unnestToken? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : UnnestTokenDefaultResponse {
-        val localVarResponse = unnestTokenWithHttpInfo(unnestTokenBody = unnestTokenBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun unnestToken(unnestTokenRequest: UnnestTokenRequest, use: Use_unnestToken? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : UnnestTokenDefaultResponse {
+        val localVarResponse = unnestTokenWithHttpInfo(unnestTokenRequest = unnestTokenRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as UnnestTokenDefaultResponse
@@ -2052,7 +2088,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
     /**
      * 
      * 
-     * @param unnestTokenBody 
+     * @param unnestTokenRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2064,10 +2100,10 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun unnestTokenWithHttpInfo(unnestTokenBody: UnnestTokenBody, use: Use_unnestToken?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<UnnestTokenDefaultResponse?> {
-        val localVariableConfig = unnestTokenRequestConfig(unnestTokenBody = unnestTokenBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun unnestTokenWithHttpInfo(unnestTokenRequest: UnnestTokenRequest, use: Use_unnestToken?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<UnnestTokenDefaultResponse?> {
+        val localVariableConfig = unnestTokenRequestConfig(unnestTokenRequest = unnestTokenRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<UnnestTokenBody, UnnestTokenDefaultResponse>(
+        return request<UnnestTokenRequest, UnnestTokenDefaultResponse>(
             localVariableConfig
         )
     }
@@ -2075,7 +2111,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
     /**
      * To obtain the request config of the operation unnestToken
      *
-     * @param unnestTokenBody 
+     * @param unnestTokenRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -2083,8 +2119,8 @@ class TokensApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient 
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun unnestTokenRequestConfig(unnestTokenBody: UnnestTokenBody, use: Use_unnestToken?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<UnnestTokenBody> {
-        val localVariableBody = unnestTokenBody
+    fun unnestTokenRequestConfig(unnestTokenRequest: UnnestTokenRequest, use: Use_unnestToken?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<UnnestTokenRequest> {
+        val localVariableBody = unnestTokenRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {

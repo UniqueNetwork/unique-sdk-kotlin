@@ -24,6 +24,8 @@ import com.squareup.moshi.Json
  * @param section 
  * @param method 
  * @param `data` 
+ * @param meta 
+ * @param index 
  */
 
 
@@ -36,7 +38,13 @@ data class ExtrinsicResultEvent (
     val method: kotlin.String,
 
     @Json(name = "data")
-    val `data`: kotlin.Any
+    val `data`: kotlin.Any,
+
+    @Json(name = "meta")
+    val meta: kotlin.Any,
+
+    @Json(name = "index")
+    val index: kotlin.String
 
 )
 

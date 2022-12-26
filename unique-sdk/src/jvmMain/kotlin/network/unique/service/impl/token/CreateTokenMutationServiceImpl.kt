@@ -2,26 +2,27 @@ package network.unique.service.impl.token
 
 import network.unique.api.TokensApi
 import network.unique.model.*
+import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
-class CreateTokenMutationServiceImpl(private val signerWrapper: SignerWrapper, basePath: String) :
-    MutationService<CreateTokenBody>() {
+class CreateTokenMutationServiceImpl(basePath: String) :
+    MutationService<CreateNewTokenMutationRequest>() {
 
     private val api: TokensApi = TokensApi(basePath)
 
-    override fun build(args: CreateTokenBody): UnsignedTxPayloadResponse {
+    override fun build(args: CreateNewTokenMutationRequest): UnsignedTxPayloadResponse {
         val res = api.createNewTokenMutation(args, TokensApi.Use_createNewTokenMutation.build)
         return UnsignedTxPayloadResponse(res.signerPayloadJSON, res.signerPayloadRaw, res.signerPayloadHex, res.fee)
     }
 
-    override fun getFee(args: CreateTokenBody): FeeResponse {
+    override fun getFee(args: CreateNewTokenMutationRequest): FeeResponse {
         val res = api.createNewTokenMutation(args, TokensApi.Use_createNewTokenMutation.build, true)
         return res.fee!!
     }
 
     override fun getFee(args: UnsignedTxPayloadResponse): FeeResponse {
         val res = api.createNewTokenMutation(
-            CreateTokenBody(
+            CreateNewTokenMutationRequest(
                 signerPayloadHex = args.signerPayloadHex,
                 signerPayloadRaw = args.signerPayloadRaw,
                 signerPayloadJSON = args.signerPayloadJSON,
@@ -33,7 +34,7 @@ class CreateTokenMutationServiceImpl(private val signerWrapper: SignerWrapper, b
 
     override fun getFee(args: SubmitTxBody): FeeResponse {
         val res = api.createNewTokenMutation(
-            CreateTokenBody(
+            CreateNewTokenMutationRequest(
                 signature = args.signature,
                 signerPayloadJSON = args.signerPayloadJSON,
             ), TokensApi.Use_createNewTokenMutation.build, true
@@ -41,30 +42,30 @@ class CreateTokenMutationServiceImpl(private val signerWrapper: SignerWrapper, b
         return res.fee!!
     }
 
-    override fun sign(args: CreateTokenBody, seed: String): SubmitTxBody {
+    override fun sign(args: CreateNewTokenMutationRequest): SubmitTxBody {
         val signPayload = build(args)
-        return sign(signPayload, seed)
+        return sign(signPayload)
     }
 
-    override fun sign(args: UnsignedTxPayloadResponse, seed: String): SubmitTxBody {
-        val signature = signerWrapper.sign(args.signerPayloadRaw.data)
+    override fun sign(args: UnsignedTxPayloadResponse): SubmitTxBody {
+        val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw.data)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: CreateTokenBody, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: CreateNewTokenMutationRequest): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submit(signedBody)
     }
 
     override fun submit(args: SubmitTxBody): SubmitResultResponse {
         val response = api.createNewTokenMutation(
-            CreateTokenBody(
+            CreateNewTokenMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), TokensApi.Use_createNewTokenMutation.submit
@@ -72,22 +73,22 @@ class CreateTokenMutationServiceImpl(private val signerWrapper: SignerWrapper, b
         return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: CreateTokenBody, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: CreateNewTokenMutationRequest): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse, seed: String): SubmitResultResponse {
-        val signedBody = sign(args, seed)
+    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+        val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
     override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
         val response = api.createNewTokenMutation(
-            CreateTokenBody(
+            CreateNewTokenMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
-            ), TokensApi.Use_createNewTokenMutation.submitWatch
+            ), TokensApi.Use_createNewTokenMutation.submit
         )
         return SubmitResultResponse(response.hash)
     }

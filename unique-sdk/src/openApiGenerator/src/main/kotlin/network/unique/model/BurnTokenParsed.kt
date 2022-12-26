@@ -24,7 +24,6 @@ import com.squareup.moshi.Json
  * @param collectionId 
  * @param tokenId 
  * @param address The ss-58 encoded address
- * @param `value` 
  */
 
 
@@ -38,10 +37,7 @@ data class BurnTokenParsed (
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String,
-
-    @Json(name = "value")
-    val `value`: java.math.BigDecimal
+    val address: kotlin.String
 
 )
 

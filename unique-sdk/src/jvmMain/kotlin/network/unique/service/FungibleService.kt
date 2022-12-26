@@ -9,10 +9,10 @@ interface FungibleService {
 
     fun getBalance(collectionId: BigDecimal, address: String, at: String): BalanceResponse
 
-    fun getAddTokensMutationService(): MutationService<AddTokensArgsDto>
+    fun getAddTokens(): MutationService<AddTokensMutationRequest>
 
-    fun getCreateFungibleCollectionMutationService(): MutationService<CreateFungibleCollectionRequest>
+    fun getCreateFungibleCollection(): MutationService<CreateFungibleCollectionMutationRequest>
 
-    fun getTransferTokensMutationService(): MutationService<TransferTokensArgsDto>
+    fun getTransferTokens(): MutationService<TransferTokensMutationRequest>
 
 }

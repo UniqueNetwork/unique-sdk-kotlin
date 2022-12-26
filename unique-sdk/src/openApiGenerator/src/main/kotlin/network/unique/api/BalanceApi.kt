@@ -21,9 +21,9 @@ import okhttp3.HttpUrl
 
 import network.unique.model.AllBalancesResponse
 import network.unique.model.TransferMutationDefaultResponse
+import network.unique.model.TransferMutationRequest
 
 import com.squareup.moshi.Json
-import network.unique.model.TransferBody
 
 import org.openapitools.client.infrastructure.ApiClient
 import org.openapitools.client.infrastructure.ApiResponse
@@ -32,10 +32,12 @@ import org.openapitools.client.infrastructure.ClientError
 import org.openapitools.client.infrastructure.ServerException
 import org.openapitools.client.infrastructure.ServerError
 import org.openapitools.client.infrastructure.MultiValueMap
+import org.openapitools.client.infrastructure.PartConfig
 import org.openapitools.client.infrastructure.RequestConfig
 import org.openapitools.client.infrastructure.RequestMethod
 import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
+import org.openapitools.client.infrastructure.toMultiValue
 
 class BalanceApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
@@ -126,14 +128,18 @@ class BalanceApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param transferBody
+     * @param transferMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -148,8 +154,8 @@ class BalanceApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun transferMutation(transferBody: TransferBody, use: Use_transferMutation? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : TransferMutationDefaultResponse {
-        val localVarResponse = transferMutationWithHttpInfo(transferBody = transferBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun transferMutation(transferMutationRequest: TransferMutationRequest, use: Use_transferMutation? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : TransferMutationDefaultResponse {
+        val localVarResponse = transferMutationWithHttpInfo(transferMutationRequest = transferMutationRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as TransferMutationDefaultResponse
@@ -169,7 +175,7 @@ class BalanceApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
     /**
      * 
      * 
-     * @param transferBody
+     * @param transferMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -181,10 +187,10 @@ class BalanceApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun transferMutationWithHttpInfo(transferBody: TransferBody, use: Use_transferMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<TransferMutationDefaultResponse?> {
-        val localVariableConfig = transferMutationRequestConfig(transferBody = transferBody, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun transferMutationWithHttpInfo(transferMutationRequest: TransferMutationRequest, use: Use_transferMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<TransferMutationDefaultResponse?> {
+        val localVariableConfig = transferMutationRequestConfig(transferMutationRequest = transferMutationRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<TransferBody, TransferMutationDefaultResponse>(
+        return request<TransferMutationRequest, TransferMutationDefaultResponse>(
             localVariableConfig
         )
     }
@@ -192,7 +198,7 @@ class BalanceApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
     /**
      * To obtain the request config of the operation transferMutation
      *
-     * @param transferBody
+     * @param transferMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -200,12 +206,12 @@ class BalanceApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun transferMutationRequestConfig(transferBody: TransferBody, use: Use_transferMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<TransferBody> {
-        val localVariableBody = transferBody
+    fun transferMutationRequestConfig(transferMutationRequest: TransferMutationRequest, use: Use_transferMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<TransferMutationRequest> {
+        val localVariableBody = transferMutationRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
-                    put("use", listOf(use.value))
+                    put("use", listOf(use.toString()))
                 }
                 if (withFee != null) {
                     put("withFee", listOf(withFee.toString()))

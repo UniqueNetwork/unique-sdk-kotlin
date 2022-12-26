@@ -21,8 +21,8 @@ import okhttp3.HttpUrl
 
 import network.unique.model.EvmCallArgumentsDto
 import network.unique.model.EvmContractExistsResponseDto
-import network.unique.model.EvmSendArgumentsDto
 import network.unique.model.EvmSendMutationDefaultResponse
+import network.unique.model.EvmSendMutationRequest
 
 import com.squareup.moshi.Json
 
@@ -200,14 +200,18 @@ class EvmApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
          @Json(name = "BuildBatch") buildBatch("BuildBatch"),
          @Json(name = "Sign") sign("Sign"),
          @Json(name = "Submit") submit("Submit"),
-         @Json(name = "SubmitWatch") submitWatch("SubmitWatch"),
-         @Json(name = "Result") result("Result")
+         @Json(name = "Result") result("Result"),
+         @Json(name = "GetFee") getFee("GetFee");
+
+        override fun toString(): String {
+            return value
+        }
      }
 
     /**
      * 
      * 
-     * @param evmSendArgumentsDto 
+     * @param evmSendMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -222,8 +226,8 @@ class EvmApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun evmSendMutation(evmSendArgumentsDto: EvmSendArgumentsDto, use: Use_evmSendMutation? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : EvmSendMutationDefaultResponse {
-        val localVarResponse = evmSendMutationWithHttpInfo(evmSendArgumentsDto = evmSendArgumentsDto, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun evmSendMutation(evmSendMutationRequest: EvmSendMutationRequest, use: Use_evmSendMutation? = null, withFee: kotlin.Boolean? = false, verify: kotlin.Boolean? = false, callbackUrl: kotlin.String? = null, nonce: java.math.BigDecimal? = null) : EvmSendMutationDefaultResponse {
+        val localVarResponse = evmSendMutationWithHttpInfo(evmSendMutationRequest = evmSendMutationRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as EvmSendMutationDefaultResponse
@@ -243,7 +247,7 @@ class EvmApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     /**
      * 
      * 
-     * @param evmSendArgumentsDto 
+     * @param evmSendMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -255,10 +259,10 @@ class EvmApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun evmSendMutationWithHttpInfo(evmSendArgumentsDto: EvmSendArgumentsDto, use: Use_evmSendMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<EvmSendMutationDefaultResponse?> {
-        val localVariableConfig = evmSendMutationRequestConfig(evmSendArgumentsDto = evmSendArgumentsDto, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
+    fun evmSendMutationWithHttpInfo(evmSendMutationRequest: EvmSendMutationRequest, use: Use_evmSendMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : ApiResponse<EvmSendMutationDefaultResponse?> {
+        val localVariableConfig = evmSendMutationRequestConfig(evmSendMutationRequest = evmSendMutationRequest, use = use, withFee = withFee, verify = verify, callbackUrl = callbackUrl, nonce = nonce)
 
-        return request<EvmSendArgumentsDto, EvmSendMutationDefaultResponse>(
+        return request<EvmSendMutationRequest, EvmSendMutationDefaultResponse>(
             localVariableConfig
         )
     }
@@ -266,7 +270,7 @@ class EvmApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     /**
      * To obtain the request config of the operation evmSendMutation
      *
-     * @param evmSendArgumentsDto 
+     * @param evmSendMutationRequest 
      * @param use  (optional)
      * @param withFee  (optional, default to false)
      * @param verify  (optional, default to false)
@@ -274,8 +278,8 @@ class EvmApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
      * @param nonce  (optional)
      * @return RequestConfig
      */
-    fun evmSendMutationRequestConfig(evmSendArgumentsDto: EvmSendArgumentsDto, use: Use_evmSendMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<EvmSendArgumentsDto> {
-        val localVariableBody = evmSendArgumentsDto
+    fun evmSendMutationRequestConfig(evmSendMutationRequest: EvmSendMutationRequest, use: Use_evmSendMutation?, withFee: kotlin.Boolean?, verify: kotlin.Boolean?, callbackUrl: kotlin.String?, nonce: java.math.BigDecimal?) : RequestConfig<EvmSendMutationRequest> {
+        val localVariableBody = evmSendMutationRequest
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (use != null) {
