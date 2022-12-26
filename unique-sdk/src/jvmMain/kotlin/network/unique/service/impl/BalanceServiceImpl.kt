@@ -17,7 +17,7 @@ class BalanceServiceImpl(basePath: String) : BalanceService {
         return api.balanceControllerGetBalance(address)
     }
 
-    override fun getTransferMutationService(): MutationService<TransferBody> {
+    override fun getTransfer(): MutationService<TransferBody> {
         return transferMutationService
     }
 

@@ -7,6 +7,6 @@ interface BalanceService {
 
     fun getBalance(address: String): AllBalancesResponse
 
-    fun getTransferMutationService(): MutationService<TransferBody>
+    fun getTransfer(): MutationService<TransferBody>
 
 }

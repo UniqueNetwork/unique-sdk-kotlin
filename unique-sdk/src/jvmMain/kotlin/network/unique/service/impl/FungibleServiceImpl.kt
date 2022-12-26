@@ -27,15 +27,15 @@ class FungibleServiceImpl(basePath: String) : FungibleService {
         return api.fungibleControllerGetBalance(address, collectionId, at)
     }
 
-    override fun getAddTokensMutationService(): MutationService<AddTokensArgsDto> {
+    override fun getAddTokens(): MutationService<AddTokensArgsDto> {
         return addTokensMutationService
     }
 
-    override fun getCreateFungibleCollectionMutationService(): MutationService<CreateFungibleCollectionRequest> {
+    override fun getCreateFungibleCollection(): MutationService<CreateFungibleCollectionRequest> {
         return createFungibleCollectionMutationService
     }
 
-    override fun getTransferTokensMutationService(): MutationService<TransferTokensArgsDto> {
+    override fun getTransferTokens(): MutationService<TransferTokensArgsDto> {
         return transferTokensMutationService
     }
 

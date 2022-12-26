@@ -11,6 +11,6 @@ interface EvmService {
     //TODO Empty response?
     fun call(body: EvmCallArgumentsDto): Any
 
-    fun getEvmSendMutationService(): MutationService<EvmSendArgumentsDto>
+    fun getEvmSend(): MutationService<EvmSendArgumentsDto>
 
 }

@@ -22,7 +22,7 @@ class EvmServiceImpl(basePath: String) : EvmService {
         return api.evmControllerEvmCall(body)
     }
 
-    override fun getEvmSendMutationService(): MutationService<EvmSendArgumentsDto> {
+    override fun getEvmSend(): MutationService<EvmSendArgumentsDto> {
         return evmSendMutationService
     }
 

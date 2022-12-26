@@ -101,67 +101,67 @@ class CollectionServiceImpl(basePath: String) : CollectionService {
         return api.collectionControllerTotalSupply(collectionId, at)
     }
 
-    override fun getAddCollectionAdminMutationService(): MutationService<AddCollectionAdminBody> {
+    override fun getAddCollectionAdmin(): MutationService<AddCollectionAdminBody> {
         return addCollectionAdminMutationService
     }
 
-    override fun getAddToAllowListMutationService(): MutationService<AddToAllowListBody> {
+    override fun getAddToAllowList(): MutationService<AddToAllowListBody> {
         return addToAllowLIstMutationService
     }
 
-    override fun getConfirmSponsorshipMutationService(): MutationService<ConfirmSponsorshipBody> {
+    override fun getConfirmSponsorship(): MutationService<ConfirmSponsorshipBody> {
         return confirmSponsorshipMutationService
     }
 
-    override fun getCreateCollectionMutationService(): MutationService<CreateCollectionBody> {
+    override fun getCreateCollection(): MutationService<CreateCollectionBody> {
         return createCollectionMutationService
     }
 
-    override fun getDestroyCollectionMutationService(): MutationService<DestroyCollectionBody> {
+    override fun getDestroyCollection(): MutationService<DestroyCollectionBody> {
         return destroyCollectionMutationService
     }
 
-    override fun getDeleteCollectionPropertiesMutationService(): MutationService<DeleteCollectionPropertiesBody> {
+    override fun getDeleteCollectionProperties(): MutationService<DeleteCollectionPropertiesBody> {
         return deleteCollectionPropertiesMutationService
     }
 
-    override fun getRemoveCollectionAdminMutationService(): MutationService<RemoveCollectionAdminBody> {
+    override fun getRemoveCollectionAdmin(): MutationService<RemoveCollectionAdminBody> {
         return removeCollectionAdminMutationService
     }
 
-    override fun getRemoveFromAllowListMutationService(): MutationService<RemoveFromAllowListBody> {
+    override fun getRemoveFromAllowList(): MutationService<RemoveFromAllowListBody> {
         return removeFromAllowListMutationService
     }
 
-    override fun getRemoveSponsorshipMutationService(): MutationService<RemoveSponsorshipBody> {
+    override fun getRemoveSponsorship(): MutationService<RemoveSponsorshipBody> {
         return removeSponsorshipMutationService
     }
 
-    override fun getSetCollectionLimitsMutationService(): MutationService<SetCollectionLimitsBody> {
+    override fun getSetCollectionLimits(): MutationService<SetCollectionLimitsBody> {
         return setCollectionLimitsMutationService
     }
 
-    override fun getSetCollectionPermissionsMutationService(): MutationService<SetCollectionPermissionsBody> {
+    override fun getSetCollectionPermissions(): MutationService<SetCollectionPermissionsBody> {
         return setCollectionPermissionsMutationService
     }
 
-    override fun getSetCollectionPropertiesMutationService(): MutationService<SetCollectionPropertiesBody> {
+    override fun getSetCollectionProperties(): MutationService<SetCollectionPropertiesBody> {
         return setCollectionPropertiesMutationService
     }
 
-    override fun getSetPropertyPermissionsMutationService(): MutationService<SetPropertyPermissionsBody> {
+    override fun getSetPropertyPermissions(): MutationService<SetPropertyPermissionsBody> {
         return setPropertyPermissionMutationService
     }
 
-    override fun getSetSponsorshipMutationService(): MutationService<SetSponsorshipBody> {
+    override fun getSetSponsorship(): MutationService<SetSponsorshipBody> {
         return setSponsorshipMutationService
     }
 
-    override fun getSetTransfersEnabledMutationService(): MutationService<SetTransfersEnabledBody> {
+    override fun getSetTransfersEnabled(): MutationService<SetTransfersEnabledBody> {
         return setTransfersEnabledMutationService
     }
 
-    override fun getTransferCollectionMutationService(): MutationService<TransferCollectionBody> {
+    override fun getTransferCollection(): MutationService<TransferCollectionBody> {
         return transferCollectionMutationService
     }
 }

@@ -18,6 +18,7 @@ class UniqueSdk(basePath: String) {
     var evmService: EvmService = EvmServiceImpl(basePath)
     var extrinsicService: ExtrinsicService = ExtrinsicServiceImpl(basePath)
     var fungibleService: FungibleService = FungibleServiceImpl(basePath)
+    var refungibleService: RefungibleService = RefungibleServiceImpl(basePath)
     var IPFSService: IPFSService = IPFSServiceImpl(basePath)
     var queryService: QueryService = QueryServiceImpl(basePath)
     var tokenService: TokenService = TokenServiceImpl(basePath)

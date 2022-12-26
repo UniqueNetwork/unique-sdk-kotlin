@@ -40,22 +40,22 @@ interface TokenService {
         at: String
     ): TokenBalanceResponse
 
-    fun getApproveTokenMutationService(): MutationService<ApproveTokenBody>
+    fun getApproveToken(): MutationService<ApproveTokenBody>
 
-    fun getBurnTokenMutationService(): MutationService<BurnTokenBody>
+    fun getBurnToken(): MutationService<BurnTokenBody>
 
-    fun getCreateMultipleTokensMutationService(): MutationService<CreateMultipleTokensBody>
+    fun getCreateMultipleTokens(): MutationService<CreateMultipleTokensBody>
 
-    fun getCreateTokenMutationService(): MutationService<CreateTokenBody>
+    fun getCreateToken(): MutationService<CreateTokenBody>
 
-    fun getDeleteTokenPropertiesMutationService(): MutationService<DeleteTokenPropertiesBody>
+    fun getDeleteTokenProperties(): MutationService<DeleteTokenPropertiesBody>
 
-    fun getNestTokenMutationService(): MutationService<NestTokenBody>
+    fun getNestToken(): MutationService<NestTokenBody>
 
-    fun getSetTokenPropertiesMutationService(): MutationService<SetTokenPropertiesBody>
+    fun getSetTokenProperties(): MutationService<SetTokenPropertiesBody>
 
-    fun getTransferTokenMutationService(): MutationService<TransferTokenBody>
+    fun getTransferToken(): MutationService<TransferTokenBody>
 
-    fun getUnnestTokenMutationService(): MutationService<UnnestTokenBody>
+    fun getUnnestToken(): MutationService<UnnestTokenBody>
 
 }

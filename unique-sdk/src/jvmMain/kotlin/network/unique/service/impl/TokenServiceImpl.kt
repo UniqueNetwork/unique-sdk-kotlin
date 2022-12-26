@@ -95,39 +95,39 @@ class TokenServiceImpl(basePath: String) : TokenService {
         return api.newTokenControllerGetBalance(collectionId, tokenId, address, at)
     }
 
-    override fun getApproveTokenMutationService(): MutationService<ApproveTokenBody> {
+    override fun getApproveToken(): MutationService<ApproveTokenBody> {
         return approveTokenMutationService
     }
 
-    override fun getBurnTokenMutationService(): MutationService<BurnTokenBody> {
+    override fun getBurnToken(): MutationService<BurnTokenBody> {
         return burnTokenMutationService
     }
 
-    override fun getCreateMultipleTokensMutationService(): MutationService<CreateMultipleTokensBody> {
+    override fun getCreateMultipleTokens(): MutationService<CreateMultipleTokensBody> {
         return createMultipleTokensMutationService
     }
 
-    override fun getCreateTokenMutationService(): MutationService<CreateTokenBody> {
+    override fun getCreateToken(): MutationService<CreateTokenBody> {
         return createTokenMutationService
     }
 
-    override fun getDeleteTokenPropertiesMutationService(): MutationService<DeleteTokenPropertiesBody> {
+    override fun getDeleteTokenProperties(): MutationService<DeleteTokenPropertiesBody> {
         return deleteTokenPropertiesMutationService
     }
 
-    override fun getNestTokenMutationService(): MutationService<NestTokenBody> {
+    override fun getNestToken(): MutationService<NestTokenBody> {
         return nestTokenMutationService
     }
 
-    override fun getSetTokenPropertiesMutationService(): MutationService<SetTokenPropertiesBody> {
+    override fun getSetTokenProperties(): MutationService<SetTokenPropertiesBody> {
         return setTokenPropertiesMutationService
     }
 
-    override fun getTransferTokenMutationService(): MutationService<TransferTokenBody> {
+    override fun getTransferToken(): MutationService<TransferTokenBody> {
         return transferTokenMutationService
     }
 
-    override fun getUnnestTokenMutationService(): MutationService<UnnestTokenBody> {
+    override fun getUnnestToken(): MutationService<UnnestTokenBody> {
         return unnsetTokenMutationService
     }
 

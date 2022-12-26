@@ -38,35 +38,35 @@ interface CollectionService {
 
     fun getTotalSupply(collectionId: BigDecimal, at: String): TotalSupplyResponse
 
-    fun getAddCollectionAdminMutationService(): MutationService<AddCollectionAdminBody>
+    fun getAddCollectionAdmin(): MutationService<AddCollectionAdminBody>
 
-    fun getAddToAllowListMutationService(): MutationService<AddToAllowListBody>
+    fun getAddToAllowList(): MutationService<AddToAllowListBody>
 
-    fun getConfirmSponsorshipMutationService(): MutationService<ConfirmSponsorshipBody>
+    fun getConfirmSponsorship(): MutationService<ConfirmSponsorshipBody>
 
-    fun getCreateCollectionMutationService(): MutationService<CreateCollectionBody>
+    fun getCreateCollection(): MutationService<CreateCollectionBody>
 
-    fun getDestroyCollectionMutationService(): MutationService<DestroyCollectionBody>
+    fun getDestroyCollection(): MutationService<DestroyCollectionBody>
 
-    fun getDeleteCollectionPropertiesMutationService(): MutationService<DeleteCollectionPropertiesBody>
+    fun getDeleteCollectionProperties(): MutationService<DeleteCollectionPropertiesBody>
 
-    fun getRemoveCollectionAdminMutationService(): MutationService<RemoveCollectionAdminBody>
+    fun getRemoveCollectionAdmin(): MutationService<RemoveCollectionAdminBody>
 
-    fun getRemoveFromAllowListMutationService(): MutationService<RemoveFromAllowListBody>
+    fun getRemoveFromAllowList(): MutationService<RemoveFromAllowListBody>
 
-    fun getRemoveSponsorshipMutationService(): MutationService<RemoveSponsorshipBody>
+    fun getRemoveSponsorship(): MutationService<RemoveSponsorshipBody>
 
-    fun getSetCollectionLimitsMutationService(): MutationService<SetCollectionLimitsBody>
+    fun getSetCollectionLimits(): MutationService<SetCollectionLimitsBody>
 
-    fun getSetCollectionPermissionsMutationService(): MutationService<SetCollectionPermissionsBody>
+    fun getSetCollectionPermissions(): MutationService<SetCollectionPermissionsBody>
 
-    fun getSetCollectionPropertiesMutationService(): MutationService<SetCollectionPropertiesBody>
+    fun getSetCollectionProperties(): MutationService<SetCollectionPropertiesBody>
 
-    fun getSetPropertyPermissionsMutationService(): MutationService<SetPropertyPermissionsBody>
+    fun getSetPropertyPermissions(): MutationService<SetPropertyPermissionsBody>
 
-    fun getSetSponsorshipMutationService(): MutationService<SetSponsorshipBody>
+    fun getSetSponsorship(): MutationService<SetSponsorshipBody>
 
-    fun getSetTransfersEnabledMutationService(): MutationService<SetTransfersEnabledBody>
+    fun getSetTransfersEnabled(): MutationService<SetTransfersEnabledBody>
 
-    fun getTransferCollectionMutationService(): MutationService<TransferCollectionBody>
+    fun getTransferCollection(): MutationService<TransferCollectionBody>
 }
