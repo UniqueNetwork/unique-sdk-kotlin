@@ -36,7 +36,7 @@ plugins {
     id("com.android.library")
     id("maven-publish")
     id("signing")
-//    id("org.openapi.generator") version "6.2.1"
+    id("org.openapi.generator") version "6.2.1"
 }
 
 repositories {
@@ -56,24 +56,24 @@ configurations.all {
     }
 }
 
-//openApiGenerate {
-//    generatorName.set("kotlin")
-//    inputSpec.set("$projectDir/specs/opal-spec.yml")
-//    outputDir.set("$projectDir/src/openApiGenerator")
-//    apiPackage.set("network.unique.api")
-//    invokerPackage.set("network.unique.invoker")
-//    modelPackage.set("network.unique.model")
-//    skipValidateSpec.set(true)
-//}
+openApiGenerate {
+    generatorName.set("kotlin")
+    inputSpec.set("$projectDir/specs/opal-spec.yml")
+    outputDir.set("$projectDir/src/openApiGenerator")
+    apiPackage.set("network.unique.api")
+    invokerPackage.set("network.unique.invoker")
+    modelPackage.set("network.unique.model")
+    skipValidateSpec.set(true)
+}
 
-//tasks.create("downloadSpec", org.jetbrains.kotlin.de.undercouch.gradle.tasks.download.Download::class.java) {
-//    src("https://rest.opal.uniquenetwork.dev/swagger-yaml")
-//    dest(File(projectDir, "specs/opal-spec.yml"))
-//}
-//
-//tasks.openApiGenerate {
-//    dependsOn("downloadSpec")
-//}
+tasks.create("downloadSpec", org.jetbrains.kotlin.de.undercouch.gradle.tasks.download.Download::class.java) {
+    src("https://rest.opal.uniquenetwork.dev/swagger-yaml")
+    dest(File(projectDir, "specs/opal-spec.yml"))
+}
+
+tasks.openApiGenerate {
+    dependsOn("downloadSpec")
+}
 
 android {
     compileSdk = 23

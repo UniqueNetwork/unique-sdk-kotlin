@@ -7,42 +7,42 @@ import network.unique.service.MutationService
 import network.unique.service.impl.collection.*
 import java.math.BigDecimal
 
-class CollectionServiceImpl(signerWrapper: SignerWrapper, basePath: String) : CollectionService {
+class CollectionServiceImpl(basePath: String) : CollectionService {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
     private val addCollectionAdminMutationService: MutationService<AddCollectionAdminBody> =
-        AddCollectionAdminMutationServiceImpl(signerWrapper, basePath)
+        AddCollectionAdminMutationServiceImpl(basePath)
     private val addToAllowLIstMutationService: MutationService<AddToAllowListBody> =
-        AddToAllowListMutationServiceImpl(signerWrapper, basePath)
+        AddToAllowListMutationServiceImpl(basePath)
     private val confirmSponsorshipMutationService: MutationService<ConfirmSponsorshipBody> =
-        ConfirmSponsorshipMutationServiceImpl(signerWrapper, basePath)
+        ConfirmSponsorshipMutationServiceImpl(basePath)
     private val createCollectionMutationService: MutationService<CreateCollectionBody> =
-        CreateCollectionMutationServiceImpl(signerWrapper, basePath)
+        CreateCollectionMutationServiceImpl(basePath)
     private val deleteCollectionPropertiesMutationService: MutationService<DeleteCollectionPropertiesBody> =
-        DeleteCollectionPropertiesMutationServiceImpl(signerWrapper, basePath)
+        DeleteCollectionPropertiesMutationServiceImpl(basePath)
     private val destroyCollectionMutationService: MutationService<DestroyCollectionBody> =
-        DestroyCollectionMutationServiceImpl(signerWrapper, basePath)
+        DestroyCollectionMutationServiceImpl(basePath)
     private val removeCollectionAdminMutationService: MutationService<RemoveCollectionAdminBody> =
-        RemoveCollectionAdminMutationServiceImpl(signerWrapper, basePath)
+        RemoveCollectionAdminMutationServiceImpl(basePath)
     private val removeFromAllowListMutationService: MutationService<RemoveFromAllowListBody> =
-        RemoveFromAllowListMutationServiceImpl(signerWrapper, basePath)
+        RemoveFromAllowListMutationServiceImpl(basePath)
     private val removeSponsorshipMutationService: MutationService<RemoveSponsorshipBody> =
-        RemoveSponsorshipMutationServiceImpl(signerWrapper, basePath)
+        RemoveSponsorshipMutationServiceImpl(basePath)
     private val setCollectionLimitsMutationService: MutationService<SetCollectionLimitsBody> =
-        SetCollectionLimitsMutationServiceImpl(signerWrapper, basePath)
+        SetCollectionLimitsMutationServiceImpl(basePath)
     private val setCollectionPermissionsMutationService: MutationService<SetCollectionPermissionsBody> =
-        SetCollectionPermissionsMutationServiceImpl(signerWrapper, basePath)
+        SetCollectionPermissionsMutationServiceImpl(basePath)
     private val setCollectionPropertiesMutationService: MutationService<SetCollectionPropertiesBody> =
-        SetCollectionPropertiesMutationServiceImpl(signerWrapper, basePath)
+        SetCollectionPropertiesMutationServiceImpl(basePath)
     private val setPropertyPermissionMutationService: MutationService<SetPropertyPermissionsBody> =
-        SetPropertyPermissionsMutationServiceImpl(signerWrapper, basePath)
+        SetPropertyPermissionsMutationServiceImpl(basePath)
     private val setSponsorshipMutationService: MutationService<SetSponsorshipBody> =
-        SetSponsorshipMutationServiceImpl(signerWrapper, basePath)
+        SetSponsorshipMutationServiceImpl(basePath)
     private val setTransfersEnabledMutationService: MutationService<SetTransfersEnabledBody> =
-        SetTransfersEnabledMutationServiceImpl(signerWrapper, basePath)
+        SetTransfersEnabledMutationServiceImpl(basePath)
     private val transferCollectionMutationService: MutationService<TransferCollectionBody> =
-        TransferCollectionMutationServiceImpl(signerWrapper, basePath)
+        TransferCollectionMutationServiceImpl(basePath)
 
     override fun getCollections(collectionId: BigDecimal, at: String): CollectionInfoWithSchemaResponse {
         return api.collectionControllerGetCollection(collectionId, at)

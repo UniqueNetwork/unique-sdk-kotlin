@@ -2,9 +2,10 @@ package network.unique.service.impl.balance
 
 import network.unique.api.BalanceApi
 import network.unique.model.*
+import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
-class TransferMutationServiceImpl(private val signerWrapper: SignerWrapper, basePath: String) : MutationService<TransferBody>() {
+class TransferMutationServiceImpl(basePath: String) : MutationService<TransferBody>() {
 
     private val api: BalanceApi = BalanceApi(basePath)
 
@@ -51,7 +52,7 @@ class TransferMutationServiceImpl(private val signerWrapper: SignerWrapper, base
     }
 
     override fun sign(args: UnsignedTxPayloadResponse, seed: String): SubmitTxBody {
-        val signature = signerWrapper.sign(args.signerPayloadRaw.data)
+        val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw.data)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }

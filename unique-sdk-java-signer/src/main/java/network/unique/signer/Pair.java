@@ -19,6 +19,10 @@ public class Pair {
         return new Pair(nativeHandle);
     }
 
+    public static String generate(CryptoScheme scheme, String password) {
+        return Signer.jPairGenerate(scheme.ordinal(), password);
+    }
+
     public void close() {
         Signer.jPairFree(nativeHandle);
     }
