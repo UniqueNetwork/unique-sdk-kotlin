@@ -35,11 +35,18 @@ And also you can download our library for key management on Android.
 First of all, create Signer and SDK Object
 
 ```kotlin
-// Create signer with mnemonic or seed as first parameter, password as second paramete
-val signer = Sr25519SignerWrapper(seed, null)
+// Create signer from suri and password
+val signer = Sr25519SignerWrapper(seed, seedPassword, false)
+// Or generate signer with password
+val signer = Sr25519SignerWrapper(null, seedPassword, true)
+// Or generate signer without password
+val signer = Sr25519SignerWrapper(null, null, true)
+
+// Assign signer to SDK static field
+UniqueSdk.signerWrapper = signerWrapper
 
 // create SDK god object. First parameter - signer, second - base url of backend of blockchain
-val sdk = UniqueSdk(signer, "https://rest.opal.uniquenetwork.dev")
+val sdk = UniqueSdk("https://rest.opal.uniquenetwork.dev")
 ```
 
 Signer has ```sign``` function for payload signing. When you using ```UniqueSdk``` methods they automatically use inner signer passed by parameter.
@@ -56,7 +63,7 @@ One of these mutations is balance transfering.
 
 ```kotlin
 /// Getting balance transfering mutation
-val transferMutationService = balanceService.getTransferMutationService();
+val transferService = balanceService.getTransfer();
 ```
 
 ```Mutation``` has three main methods for executing:
@@ -67,7 +74,7 @@ val transferMutationService = balanceService.getTransferMutationService();
 Let's see how it's working
 ```kotlin
 // Creating payload for balance transfering
-val transferBody = TransferBody(
+val transferBody = TransferMutationRequest(
 //from
     "5DnUE1uV7iW25bUriWVPHY67KMm2t6g5v23GzVbZCUc8fyBD",
 //to
@@ -86,12 +93,12 @@ val signBody = UnsignedTxPayloadResponse(
 )
 
 // Sign transaction via inner signer
-val signResponse = transferMutationService.sign(signBody, "null")
+val signResponse = transferService.sign(signBody)
 
 val submitBody = SubmitTxBody(signResponse.signerPayloadJSON, signResponse.signature)
 
 // Submit transaction and track result with web server
-val submitResponse = transferMutationService.submitWatch(submitBody)
+val submitResponse = transferService.submitWatch(submitBody)
 ```
 
 After all executions we can see transaction hash

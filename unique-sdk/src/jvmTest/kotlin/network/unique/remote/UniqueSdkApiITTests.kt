@@ -16,7 +16,9 @@ class ApiClientITTests {
         runBlocking {
             val signerWrapper = Sr25519SignerWrapper("charge fame control elephant taxi among brain latin meadow oven crash another", null, false)
             UniqueSdk.signerWrapper = signerWrapper
-            val transferService = TransferMutationServiceImpl("https://rest.opal.uniquenetwork.dev")
+            val sdk = UniqueSdk("https://rest.opal.uniquenetwork.dev");
+            val balanceService = sdk.balanceService;
+            val transferService = balanceService.getTransfer()
             val extrinsicService = ExtrinsicServiceImpl("https://rest.opal.uniquenetwork.dev")
             val transferBody = TransferMutationRequest(
                 "5DnUE1uV7iW25bUriWVPHY67KMm2t6g5v23GzVbZCUc8fyBD",
