@@ -31,7 +31,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Setup Cross
-        run: cargo install cross --git https://github.com/cross-rs/cross
+        run: cargo install cross --locked
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
