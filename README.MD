@@ -140,10 +140,10 @@ val signCollectionBody = UnsignedTxPayloadResponse(
     createCollectionResponse.signerPayloadRaw,
     createCollectionResponse.signerPayloadHex
 )
-val signCollectionResponse = transferService.sign(signCollectionBody)
+val signCollectionResponse = createCollection.sign(signCollectionBody)
 
 val submitCollectionBody = SubmitTxBody(signCollectionResponse.signerPayloadJSON, signCollectionResponse.signature)
-val submitCollectionResponse = transferService.submitWatch(submitCollectionBody)
+val submitCollectionResponse = createCollection.submitWatch(submitCollectionBody)
 val collectionExtrinsic = extrinsicService.getExtrinsicStatus(submitCollectionResponse.hash)
 
 println(submitCollectionResponse.hash)
