@@ -1,9 +1,9 @@
 # Unique SKD Kotlin
+
 [![Maven Central JVM](https://img.shields.io/maven-central/v/network.unique/unique-sdk-jvm.svg?label=Maven%20Central%20JVM)](https://search.maven.org/search?q=g:%22network.unique%22%20AND%20a:%22unique-sdk-jvm%22)
 [![Maven Central Signer](https://img.shields.io/maven-central/v/network.unique/unique-sdk-jvm.svg?label=Maven%20Central%20Signer)](https://search.maven.org/search?q=g:%22network.unique%22%20AND%20a:%22unique-sdk-java-signer%22)
 [![Maven Central Android](https://img.shields.io/maven-central/v/network.unique/unique-sdk-jvm.svg?label=Maven%20Central%20Android)](https://search.maven.org/search?q=g:%22network.unique%22%20AND%20a:%22unique-sdk-android%22)
 ![Publishing](https://github.com/UniqueNetwork/unique-sdk-kotlin/actions/workflows/gradle-publishing.yml/badge.svg)
-
 
 Unique SDK Kotlin is a Kotlin library for dealing with polkadot blockchains.
 
@@ -32,6 +32,7 @@ And also you can download our library for key management on Android.
 ## Usage
 
 ### unique-sdk-kotlin
+
 First of all, create Signer and SDK Object
 
 ```kotlin
@@ -49,7 +50,8 @@ UniqueSdk.signerWrapper = signerWrapper
 val sdk = UniqueSdk("https://rest.opal.uniquenetwork.dev")
 ```
 
-Signer has ```sign``` function for payload signing. When you using ```UniqueSdk``` methods they automatically use inner signer passed by parameter.
+Signer has ```sign``` function for payload signing. When you using ```UniqueSdk``` methods they automatically use inner
+signer passed by parameter.
 
 After we can use inner services of SDK
 
@@ -67,11 +69,13 @@ val transferService = balanceService.getTransfer();
 ```
 
 ```Mutation``` has three main methods for executing:
+
 - Build
 - Sign
 - Submit
 
 Let's see how it's working
+
 ```kotlin
 // Creating payload for balance transfering
 val transferBody = TransferMutationRequest(
@@ -105,6 +109,45 @@ After all executions we can see transaction hash
 
 ```kotlin
 println(submitResponse.hash)
+```
+
+### Collection creating example
+
+```kotlin
+val collectionService = sdk.collectionService
+val createCollection = collectionService.getCreateCollection()
+
+val request = CreateCollectionMutationRequest(
+    name = "Sample collection name",
+    description = "sample collection description",
+    tokenPrefix = "TEST",
+    address = "5DnUE1uV7iW25bUriWVPHY67KMm2t6g5v23GzVbZCUc8fyBD",
+    mode = CreateCollectionMutationRequest.Mode.nFT,
+    metaUpdatePermission = CreateCollectionMutationRequest.MetaUpdatePermission.itemOwner,
+    permissions = CollectionPermissionsDto(
+        access = CollectionPermissionsDto.Access.normal,
+        mintMode = true,
+        nesting = CollectionNestingPermissionsDto(
+            tokenOwner = true,
+            collectionAdmin = true,
+        )
+    )
+)
+val createCollectionResponse = createCollection.build(request)
+
+val signCollectionBody = UnsignedTxPayloadResponse(
+    createCollectionResponse.signerPayloadJSON,
+    createCollectionResponse.signerPayloadRaw,
+    createCollectionResponse.signerPayloadHex
+)
+val signCollectionResponse = transferService.sign(signCollectionBody)
+
+val submitCollectionBody = SubmitTxBody(signCollectionResponse.signerPayloadJSON, signCollectionResponse.signature)
+val submitCollectionResponse = transferService.submitWatch(submitCollectionBody)
+val collectionExtrinsic = extrinsicService.getExtrinsicStatus(submitCollectionResponse.hash)
+
+println(submitCollectionResponse.hash)
+println(collectionExtrinsic)
 ```
 
 ## Contributing
