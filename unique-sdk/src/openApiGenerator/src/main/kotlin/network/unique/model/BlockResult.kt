@@ -30,10 +30,10 @@ import com.squareup.moshi.Json
 data class BlockResult (
 
     @Json(name = "hash")
-    val hash: kotlin.String,
+    val hash: kotlin.String? = null,
 
     @Json(name = "header")
-    val header: HeaderResult
+    val header: HeaderResult? = null,
 
 )
 

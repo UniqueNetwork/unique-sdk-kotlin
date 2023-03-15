@@ -29,10 +29,10 @@ import com.squareup.moshi.Json
 data class EvmEventDto (
 
     @Json(name = "name")
-    val name: kotlin.String,
+    val name: kotlin.String? = null,
 
     @Json(name = "values")
-    val propertyValues: kotlin.Any
+    val propertyValues: kotlin.Any? = null,
 
 )
 

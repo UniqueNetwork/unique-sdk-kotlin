@@ -31,10 +31,10 @@ data class GetFungibleBalanceArgsRequest (
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal,
+    val collectionId: java.math.BigDecimal? = null,
 
     /* Hash of execution block */
     @Json(name = "at")

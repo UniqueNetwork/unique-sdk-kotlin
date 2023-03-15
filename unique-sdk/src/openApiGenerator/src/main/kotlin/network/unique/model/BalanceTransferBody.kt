@@ -31,14 +31,14 @@ data class BalanceTransferBody (
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "destination")
-    val destination: kotlin.String,
+    val destination: kotlin.String? = null,
 
     @Json(name = "amount")
-    val amount: java.math.BigDecimal
+    val amount: java.math.BigDecimal? = null,
 
 )
 

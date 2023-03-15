@@ -30,10 +30,10 @@ import com.squareup.moshi.Json
 data class EffectiveCollectionLimitsResponse (
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal,
+    val collectionId: java.math.BigDecimal? = null,
 
     @Json(name = "limits")
-    val limits: EffectiveCollectionLimitsResponseLimits
+    val limits: EffectiveCollectionLimitsResponseLimits? = null,
 
 )
 

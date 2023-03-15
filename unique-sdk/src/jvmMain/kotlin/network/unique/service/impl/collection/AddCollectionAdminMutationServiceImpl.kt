@@ -6,7 +6,7 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class AddCollectionAdminMutationServiceImpl(basePath: String) :
-    MutationService<AddAdminRequest>() {
+    MutationService<AddAdminRequest, AddAdminDefaultResponse>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
@@ -48,49 +48,47 @@ class AddCollectionAdminMutationServiceImpl(basePath: String) :
     }
 
     override fun sign(args: UnsignedTxPayloadResponse): SubmitTxBody {
-        val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw.data)
+        val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw!!.data!!)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: AddAdminRequest): SubmitResultResponse {
+    override fun submit(args: AddAdminRequest): AddAdminDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submit(args: UnsignedTxPayloadResponse): AddAdminDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.addAdmin(
+    override fun submit(args: SubmitTxBody): AddAdminDefaultResponse {
+        return api.addAdmin(
             AddAdminRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_addAdmin.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: AddAdminRequest): SubmitResultResponse {
+    override fun submitWatch(args: AddAdminRequest): AddAdminDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submitWatch(args: UnsignedTxPayloadResponse): AddAdminDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.addAdmin(
+    override fun submitWatch(args: SubmitTxBody): AddAdminDefaultResponse {
+        return api.addAdmin(
             AddAdminRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_addAdmin.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
 }

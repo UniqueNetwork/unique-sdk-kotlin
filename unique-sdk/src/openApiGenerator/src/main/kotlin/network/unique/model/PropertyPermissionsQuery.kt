@@ -30,7 +30,7 @@ import com.squareup.moshi.Json
 data class PropertyPermissionsQuery (
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal,
+    val collectionId: java.math.BigDecimal? = null,
 
     @Json(name = "propertyKeys")
     val propertyKeys: kotlin.collections.List<kotlin.String>? = null,

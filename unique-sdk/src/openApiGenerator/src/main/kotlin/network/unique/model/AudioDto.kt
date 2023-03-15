@@ -30,7 +30,7 @@ import com.squareup.moshi.Json
 data class AudioDto (
 
     @Json(name = "format")
-    val format: kotlin.String,
+    val format: kotlin.String? = null,
 
     @Json(name = "urlTemplate")
     val urlTemplate: kotlin.String? = null,

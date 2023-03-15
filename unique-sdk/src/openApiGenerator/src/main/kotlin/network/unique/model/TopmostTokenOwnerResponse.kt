@@ -29,7 +29,7 @@ data class TopmostTokenOwnerResponse (
 
     /* The ss-58 encoded address */
     @Json(name = "topmostOwner")
-    val topmostOwner: kotlin.String
+    val topmostOwner: kotlin.String? = null,
 
 )
 

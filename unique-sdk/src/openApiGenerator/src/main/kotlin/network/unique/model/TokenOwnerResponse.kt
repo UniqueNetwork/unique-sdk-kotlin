@@ -29,7 +29,7 @@ data class TokenOwnerResponse (
 
     /* The ss-58 encoded address */
     @Json(name = "owner")
-    val owner: kotlin.String
+    val owner: kotlin.String? = null,
 
 )
 

@@ -32,15 +32,15 @@ import com.squareup.moshi.Json
 data class AllowanceFungibleTokensArgumentsDto (
 
     @Json(name = "collectionId")
-    val collectionId: TokenIdQueryCollectionId,
+    val collectionId: TokenIdQueryCollectionId? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "from")
-    val from: kotlin.String,
+    val from: kotlin.String? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "to")
-    val to: kotlin.String,
+    val to: kotlin.String? = null,
 
     /* Hash of execution block */
     @Json(name = "at")

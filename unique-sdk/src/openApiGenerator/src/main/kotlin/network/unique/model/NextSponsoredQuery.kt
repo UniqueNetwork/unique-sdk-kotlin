@@ -31,14 +31,14 @@ import com.squareup.moshi.Json
 data class NextSponsoredQuery (
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal,
+    val collectionId: java.math.BigDecimal? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
     @Json(name = "tokenId")
-    val tokenId: java.math.BigDecimal,
+    val tokenId: java.math.BigDecimal? = null,
 
     /* Hash of execution block */
     @Json(name = "at")

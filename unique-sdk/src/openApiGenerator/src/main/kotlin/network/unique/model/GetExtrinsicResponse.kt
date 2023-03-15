@@ -33,22 +33,22 @@ import com.squareup.moshi.Json
 data class GetExtrinsicResponse (
 
     @Json(name = "section")
-    val section: kotlin.String,
+    val section: kotlin.String? = null,
 
     @Json(name = "method")
-    val method: kotlin.String,
+    val method: kotlin.String? = null,
 
     @Json(name = "events")
-    val events: kotlin.collections.List<kotlin.Any>,
+    val events: kotlin.collections.List<kotlin.Any>? = null,
 
     @Json(name = "args")
-    val args: kotlin.collections.List<kotlin.Any>,
+    val args: kotlin.collections.List<kotlin.Any>? = null,
 
     @Json(name = "nonce")
-    val nonce: java.math.BigDecimal,
+    val nonce: java.math.BigDecimal? = null,
 
     @Json(name = "signer")
-    val signer: kotlin.String
+    val signer: kotlin.String? = null,
 
 )
 

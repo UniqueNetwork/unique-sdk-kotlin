@@ -31,17 +31,17 @@ import com.squareup.moshi.Json
 data class CreatRefungibleTokenParsed (
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal,
+    val collectionId: java.math.BigDecimal? = null,
 
     @Json(name = "tokenId")
-    val tokenId: java.math.BigDecimal,
+    val tokenId: java.math.BigDecimal? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "owner")
-    val owner: kotlin.String,
+    val owner: kotlin.String? = null,
 
     @Json(name = "amount")
-    val amount: java.math.BigDecimal
+    val amount: java.math.BigDecimal? = null,
 
 )
 

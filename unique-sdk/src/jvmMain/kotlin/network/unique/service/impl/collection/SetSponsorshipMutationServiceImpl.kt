@@ -6,7 +6,7 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class SetSponsorshipMutationServiceImpl(basePath: String) :
-    MutationService<SetSponsorshipRequest>() {
+    MutationService<SetSponsorshipRequest, SetSponsorshipDefaultResponse>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
@@ -48,49 +48,47 @@ class SetSponsorshipMutationServiceImpl(basePath: String) :
     }
 
     override fun sign(args: UnsignedTxPayloadResponse): SubmitTxBody {
-        val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw.data)
+        val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw!!.data!!)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: SetSponsorshipRequest): SubmitResultResponse {
+    override fun submit(args: SetSponsorshipRequest): SetSponsorshipDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submit(args: UnsignedTxPayloadResponse): SetSponsorshipDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.setSponsorship(
+    override fun submit(args: SubmitTxBody): SetSponsorshipDefaultResponse {
+        return api.setSponsorship(
             SetSponsorshipRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_setSponsorship.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: SetSponsorshipRequest): SubmitResultResponse {
+    override fun submitWatch(args: SetSponsorshipRequest): SetSponsorshipDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submitWatch(args: UnsignedTxPayloadResponse): SetSponsorshipDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.setSponsorship(
+    override fun submitWatch(args: SubmitTxBody): SetSponsorshipDefaultResponse {
+        return api.setSponsorship(
             SetSponsorshipRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_setSponsorship.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
 }

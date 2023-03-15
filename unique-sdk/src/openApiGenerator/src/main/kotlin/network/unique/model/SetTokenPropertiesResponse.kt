@@ -32,10 +32,10 @@ import com.squareup.moshi.Json
 data class SetTokenPropertiesResponse (
 
     @Json(name = "isError")
-    val isError: kotlin.Boolean,
+    val isError: kotlin.Boolean? = null,
 
     @Json(name = "parsed")
-    val parsed: SetTokenPropertiesParsed,
+    val parsed: SetTokenPropertiesParsed? = null,
 
     @Json(name = "fee")
     val fee: FeeResponse? = null

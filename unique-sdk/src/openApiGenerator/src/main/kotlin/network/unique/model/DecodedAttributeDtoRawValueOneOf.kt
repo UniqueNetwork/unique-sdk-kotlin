@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 data class DecodedAttributeDtoRawValueOneOf (
 
     @Json(name = "_")
-    val underscore: kotlin.String
+    val underscore: kotlin.String? = null,
 
 ) : kotlin.collections.HashMap<String, kotlin.String>()
 

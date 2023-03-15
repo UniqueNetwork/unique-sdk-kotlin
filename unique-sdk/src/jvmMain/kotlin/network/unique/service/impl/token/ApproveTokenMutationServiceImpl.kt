@@ -6,7 +6,7 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class ApproveTokenMutationServiceImpl(basePath: String) :
-    MutationService<ApproveRequest>() {
+    MutationService<ApproveRequest, ApproveDefaultResponse>() {
 
     private val api: TokensApi = TokensApi(basePath)
 
@@ -48,49 +48,47 @@ class ApproveTokenMutationServiceImpl(basePath: String) :
     }
 
     override fun sign(args: UnsignedTxPayloadResponse): SubmitTxBody {
-        val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw.data)
+        val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw!!.data!!)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: ApproveRequest): SubmitResultResponse {
+    override fun submit(args: ApproveRequest): ApproveDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submit(args: UnsignedTxPayloadResponse): ApproveDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.approve(
+    override fun submit(args: SubmitTxBody): ApproveDefaultResponse {
+        return api.approve(
             ApproveRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), TokensApi.Use_approve.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: ApproveRequest): SubmitResultResponse {
+    override fun submitWatch(args: ApproveRequest): ApproveDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submitWatch(args: UnsignedTxPayloadResponse): ApproveDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.approve(
+    override fun submitWatch(args: SubmitTxBody): ApproveDefaultResponse {
+        return api.approve(
             ApproveRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), TokensApi.Use_approve.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
 }

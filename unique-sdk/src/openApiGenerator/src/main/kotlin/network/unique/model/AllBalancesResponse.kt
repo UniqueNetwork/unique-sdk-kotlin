@@ -32,17 +32,17 @@ import com.squareup.moshi.Json
 data class AllBalancesResponse (
 
     @Json(name = "availableBalance")
-    val availableBalance: BalanceResponse,
+    val availableBalance: BalanceResponse? = null,
 
     @Json(name = "lockedBalance")
-    val lockedBalance: BalanceResponse,
+    val lockedBalance: BalanceResponse? = null,
 
     @Json(name = "freeBalance")
-    val freeBalance: BalanceResponse,
+    val freeBalance: BalanceResponse? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String
+    val address: kotlin.String? = null,
 
 )
 

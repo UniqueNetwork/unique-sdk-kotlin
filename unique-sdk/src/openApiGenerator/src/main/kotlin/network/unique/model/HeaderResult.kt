@@ -33,22 +33,22 @@ import com.squareup.moshi.Json
 data class HeaderResult (
 
     @Json(name = "hash")
-    val hash: kotlin.String,
+    val hash: kotlin.String? = null,
 
     @Json(name = "parentHash")
-    val parentHash: kotlin.String,
+    val parentHash: kotlin.String? = null,
 
     @Json(name = "number")
-    val number: kotlin.String,
+    val number: kotlin.String? = null,
 
     @Json(name = "stateRoot")
-    val stateRoot: kotlin.String,
+    val stateRoot: kotlin.String? = null,
 
     @Json(name = "extrinsicsRoot")
-    val extrinsicsRoot: kotlin.String,
+    val extrinsicsRoot: kotlin.String? = null,
 
     @Json(name = "digest")
-    val digest: kotlin.Any
+    val digest: kotlin.Any? = null,
 
 )
 

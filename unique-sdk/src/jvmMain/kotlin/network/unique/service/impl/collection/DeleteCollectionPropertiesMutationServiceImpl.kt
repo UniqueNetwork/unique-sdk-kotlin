@@ -6,7 +6,7 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class DeleteCollectionPropertiesMutationServiceImpl(basePath: String) :
-    MutationService<DeleteCollectionPropertiesRequest>() {
+    MutationService<DeleteCollectionPropertiesRequest, DeleteCollectionPropertiesDefaultResponse>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
@@ -48,49 +48,47 @@ class DeleteCollectionPropertiesMutationServiceImpl(basePath: String) :
     }
 
     override fun sign(args: UnsignedTxPayloadResponse): SubmitTxBody {
-        val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw.data)
+        val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw!!.data!!)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: DeleteCollectionPropertiesRequest): SubmitResultResponse {
+    override fun submit(args: DeleteCollectionPropertiesRequest): DeleteCollectionPropertiesDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submit(args: UnsignedTxPayloadResponse): DeleteCollectionPropertiesDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.deleteCollectionProperties(
+    override fun submit(args: SubmitTxBody): DeleteCollectionPropertiesDefaultResponse {
+        return api.deleteCollectionProperties(
             DeleteCollectionPropertiesRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_deleteCollectionProperties.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: DeleteCollectionPropertiesRequest): SubmitResultResponse {
+    override fun submitWatch(args: DeleteCollectionPropertiesRequest): DeleteCollectionPropertiesDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submitWatch(args: UnsignedTxPayloadResponse): DeleteCollectionPropertiesDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.deleteCollectionProperties(
+    override fun submitWatch(args: SubmitTxBody): DeleteCollectionPropertiesDefaultResponse {
+        return api.deleteCollectionProperties(
             DeleteCollectionPropertiesRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_deleteCollectionProperties.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
 }

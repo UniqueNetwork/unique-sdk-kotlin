@@ -29,7 +29,7 @@ import com.squareup.moshi.Json
 data class SetCollectionPropertiesParsed (
 
     @Json(name = "properties")
-    val properties: kotlin.collections.List<CollectionPropertySetEvent>
+    val properties: kotlin.collections.List<CollectionPropertySetEvent>? = null,
 
 )
 

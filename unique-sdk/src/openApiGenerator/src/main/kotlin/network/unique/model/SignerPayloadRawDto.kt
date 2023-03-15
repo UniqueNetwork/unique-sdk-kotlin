@@ -31,15 +31,15 @@ data class SignerPayloadRawDto (
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
     /* The hex-encoded data for this request */
     @Json(name = "data")
-    val `data`: kotlin.String,
+    val `data`: kotlin.String? = null,
 
     /* The type of the contained data */
     @Json(name = "type")
-    val type: SignerPayloadRawDto.Type
+    val type: SignerPayloadRawDto.Type? = null,
 
 ) {
 

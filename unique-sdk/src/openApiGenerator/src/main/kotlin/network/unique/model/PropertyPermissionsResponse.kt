@@ -29,7 +29,7 @@ import com.squareup.moshi.Json
 data class PropertyPermissionsResponse (
 
     @Json(name = "propertyPermissions")
-    val propertyPermissions: kotlin.collections.List<PropertyKeyPermission>
+    val propertyPermissions: kotlin.collections.List<PropertyKeyPermission>? = null,
 
 )
 

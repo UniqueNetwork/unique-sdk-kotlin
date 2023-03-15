@@ -30,10 +30,10 @@ import com.squareup.moshi.Json
 data class PropertyKeyPermission (
 
     @Json(name = "key")
-    val key: kotlin.String,
+    val key: kotlin.String? = null,
 
     @Json(name = "permission")
-    val permission: PropertyPermission
+    val permission: PropertyPermission? = null,
 
 )
 

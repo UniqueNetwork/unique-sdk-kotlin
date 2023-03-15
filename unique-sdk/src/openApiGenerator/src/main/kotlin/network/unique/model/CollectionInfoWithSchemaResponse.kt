@@ -50,29 +50,29 @@ import com.squareup.moshi.Json
 data class CollectionInfoWithSchemaResponse (
 
     @Json(name = "name")
-    val name: kotlin.String,
+    val name: kotlin.String? = null,
 
     @Json(name = "description")
-    val description: kotlin.String,
+    val description: kotlin.String? = null,
 
     @Json(name = "tokenPrefix")
-    val tokenPrefix: kotlin.String,
+    val tokenPrefix: kotlin.String? = null,
 
     @Json(name = "id")
-    val id: java.math.BigDecimal,
+    val id: java.math.BigDecimal? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "owner")
-    val owner: kotlin.String,
+    val owner: kotlin.String? = null,
 
     @Json(name = "properties")
-    val properties: kotlin.collections.List<CollectionProperty>,
+    val properties: kotlin.collections.List<CollectionProperty>? = null,
 
     @Json(name = "flags")
-    val flags: CollectionFlags,
+    val flags: CollectionFlags? = null,
 
     @Json(name = "tokenPropertyPermissions")
-    val tokenPropertyPermissions: kotlin.collections.List<CollectionPropertyKeyPermission>,
+    val tokenPropertyPermissions: kotlin.collections.List<CollectionPropertyKeyPermission>? = null,
 
     @Json(name = "mode")
     val mode: CollectionInfoWithSchemaResponse.Mode? = null,

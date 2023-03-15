@@ -32,19 +32,19 @@ import com.squareup.moshi.Json
 data class ChainPropertiesResponse (
 
     @Json(name = "SS58Prefix")
-    val ss58Prefix: java.math.BigDecimal,
+    val ss58Prefix: java.math.BigDecimal? = null,
 
     @Json(name = "token")
-    val token: kotlin.String,
+    val token: kotlin.String? = null,
 
     @Json(name = "decimals")
-    val decimals: java.math.BigDecimal,
+    val decimals: java.math.BigDecimal? = null,
 
     @Json(name = "wsUrl")
-    val wsUrl: kotlin.String,
+    val wsUrl: kotlin.String? = null,
 
     @Json(name = "genesisHash")
-    val genesisHash: kotlin.String
+    val genesisHash: kotlin.String? = null,
 
 )
 

@@ -29,10 +29,10 @@ import com.squareup.moshi.Json
 data class MethodNameDto (
 
     @Json(name = "section")
-    val section: kotlin.String,
+    val section: kotlin.String? = null,
 
     @Json(name = "method")
-    val method: kotlin.String
+    val method: kotlin.String? = null,
 
 )
 

@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 data class GetNonceResponse (
 
     @Json(name = "nonce")
-    val nonce: java.math.BigDecimal
+    val nonce: java.math.BigDecimal? = null,
 
 )
 

@@ -6,7 +6,7 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class SetCollectionLimitsMutationServiceImpl(basePath: String) :
-    MutationService<SetCollectionLimitsRequest>() {
+    MutationService<SetCollectionLimitsRequest, SetCollectionLimitsDefaultResponse>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
@@ -48,49 +48,47 @@ class SetCollectionLimitsMutationServiceImpl(basePath: String) :
     }
 
     override fun sign(args: UnsignedTxPayloadResponse): SubmitTxBody {
-        val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw.data)
+        val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw!!.data!!)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: SetCollectionLimitsRequest): SubmitResultResponse {
+    override fun submit(args: SetCollectionLimitsRequest): SetCollectionLimitsDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submit(args: UnsignedTxPayloadResponse): SetCollectionLimitsDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.setCollectionLimits(
+    override fun submit(args: SubmitTxBody): SetCollectionLimitsDefaultResponse {
+        return api.setCollectionLimits(
             SetCollectionLimitsRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_setCollectionLimits.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: SetCollectionLimitsRequest): SubmitResultResponse {
+    override fun submitWatch(args: SetCollectionLimitsRequest): SetCollectionLimitsDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submitWatch(args: UnsignedTxPayloadResponse): SetCollectionLimitsDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.setCollectionLimits(
+    override fun submitWatch(args: SubmitTxBody): SetCollectionLimitsDefaultResponse {
+        return api.setCollectionLimits(
             SetCollectionLimitsRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_setCollectionLimits.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
 }

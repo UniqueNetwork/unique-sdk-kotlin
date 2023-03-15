@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 data class TokenExistsResponse (
 
     @Json(name = "isExists")
-    val isExists: kotlin.Boolean
+    val isExists: kotlin.Boolean? = null,
 
 )
 

@@ -45,16 +45,16 @@ import com.squareup.moshi.Json
 data class UniqueCollectionSchemaToCreateDto (
 
     @Json(name = "coverPicture")
-    val coverPicture: UniqueTokenToCreateDtoImage,
+    val coverPicture: UniqueTokenToCreateDtoImage? = null,
 
     @Json(name = "image")
-    val image: ImageDto,
+    val image: ImageDto? = null,
 
     @Json(name = "schemaName")
-    val schemaName: UniqueCollectionSchemaToCreateDto.SchemaName,
+    val schemaName: UniqueCollectionSchemaToCreateDto.SchemaName? = null,
 
     @Json(name = "schemaVersion")
-    val schemaVersion: kotlin.String,
+    val schemaVersion: kotlin.String? = null,
 
     @Json(name = "attributesSchema")
     val attributesSchema: kotlin.collections.Map<kotlin.String, AttributeSchemaDto>? = null,

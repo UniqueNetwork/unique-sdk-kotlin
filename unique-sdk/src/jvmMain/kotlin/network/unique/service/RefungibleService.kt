@@ -34,16 +34,16 @@ interface RefungibleService {
         collectionId: BigDecimal,
         address: String,
         at: String
-    ): MutationService<CreateRefungibleCollectionMutationRequest>
+    ): MutationService<CreateRefungibleCollectionMutationRequest, CreateCollectionMutationDefaultResponse>
 
-    fun getBurnRefungibleCollection(): MutationService<BurnRequest1>
+    fun getBurnRefungibleCollection(): MutationService<BurnRequest1, BurnDefaultResponse1>
 
-    fun getCreateRefungibleTokens(): MutationService<AddTokensMutationRequest1>
+    fun getCreateRefungibleTokens(): MutationService<AddTokensMutationRequest1, AddTokensMutationDefaultResponse1>
 
-    fun getTransferRefungibleTokens(): MutationService<TransferTokensMutationRequest1>
+    fun getTransferRefungibleTokens(): MutationService<TransferTokensMutationRequest1, TransferTokensMutationDefaultResponse1>
 
-    fun getApproveRefungibleTokens(): MutationService<ApproveTokensMutationRequest1>
+    fun getApproveRefungibleTokens(): MutationService<ApproveTokensMutationRequest1, ApproveTokensMutationDefaultResponse1>
 
-    fun getRepartitionTokens(): MutationService<RepartitionTokenMutationRequest>
+    fun getRepartitionTokens(): MutationService<RepartitionTokenMutationRequest, RepartitionTokenMutationDefaultResponse>
 
 }

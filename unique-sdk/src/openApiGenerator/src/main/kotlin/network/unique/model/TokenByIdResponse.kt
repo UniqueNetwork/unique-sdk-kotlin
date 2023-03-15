@@ -47,29 +47,29 @@ import com.squareup.moshi.Json
 data class TokenByIdResponse (
 
     @Json(name = "attributes")
-    val attributes: kotlin.collections.List<DecodedAttributeDto>,
+    val attributes: kotlin.collections.List<DecodedAttributeDto>? = null,
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal,
+    val collectionId: java.math.BigDecimal? = null,
 
     @Json(name = "image")
-    val image: UniqueCollectionSchemaDecodedDtoCoverPicture,
+    val image: UniqueCollectionSchemaDecodedDtoCoverPicture? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "owner")
-    val owner: kotlin.String,
+    val owner: kotlin.String? = null,
 
     @Json(name = "tokenId")
-    val tokenId: java.math.BigDecimal,
+    val tokenId: java.math.BigDecimal? = null,
 
     @Json(name = "nestingParentToken")
-    val nestingParentToken: NestingParentId,
+    val nestingParentToken: NestingParentId? = null,
 
     @Json(name = "properties")
-    val properties: kotlin.collections.List<TokenProperty>,
+    val properties: kotlin.collections.List<TokenProperty>? = null,
 
     @Json(name = "collection")
-    val collection: CollectionInfoWithSchemaResponse,
+    val collection: CollectionInfoWithSchemaResponse? = null,
 
     @Json(name = "audio")
     val audio: UniqueCollectionSchemaDecodedDtoCoverPicture? = null,

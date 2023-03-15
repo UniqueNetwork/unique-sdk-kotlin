@@ -35,19 +35,19 @@ data class EvmCallArgumentsDto (
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
     /* JSON ABI from your smart contract */
     @Json(name = "abi")
-    val abi: kotlin.collections.List<kotlin.Any>,
+    val abi: kotlin.collections.List<kotlin.Any>? = null,
 
     /* Ethereum address of your smart contract */
     @Json(name = "contractAddress")
-    val contractAddress: kotlin.String,
+    val contractAddress: kotlin.String? = null,
 
     /* Name of function smart-contract */
     @Json(name = "funcName")
-    val funcName: kotlin.String,
+    val funcName: kotlin.String? = null,
 
     /* An array of arguments you want to pass to the function call */
     @Json(name = "args")

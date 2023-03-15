@@ -31,7 +31,7 @@ data class IpfsUploadResponse (
 
     /* Entry CID_V0 */
     @Json(name = "cid")
-    val cid: kotlin.String,
+    val cid: kotlin.String? = null,
 
     /* IPFS gateway file URL (renamed to fullUrl) */
     @Json(name = "fileUrl")

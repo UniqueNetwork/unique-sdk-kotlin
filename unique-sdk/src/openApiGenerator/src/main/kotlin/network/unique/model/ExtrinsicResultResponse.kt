@@ -42,31 +42,31 @@ import com.squareup.moshi.Json
 data class ExtrinsicResultResponse (
 
     @Json(name = "isCompleted")
-    val isCompleted: kotlin.Boolean?,
+    val isCompleted: kotlin.Boolean? = null,
 
     @Json(name = "hash")
-    val hash: kotlin.String?,
+    val hash: kotlin.String? = null,
 
     @Json(name = "blockIndex")
-    val blockIndex: java.math.BigDecimal?,
+    val blockIndex: java.math.BigDecimal? = null,
 
     @Json(name = "error")
-    val error: kotlin.Any?,
+    val error: kotlin.Any? = null,
 
     @Json(name = "events")
-    val events: kotlin.collections.List<ExtrinsicResultEvent>?,
+    val events: kotlin.collections.List<ExtrinsicResultEvent>? = null,
 
     @Json(name = "callbackUrl")
-    val callbackUrl: kotlin.String?,
+    val callbackUrl: kotlin.String? = null,
 
     @Json(name = "createdAt")
-    val createdAt: java.math.BigDecimal?,
+    val createdAt: java.math.BigDecimal? = null,
 
     @Json(name = "block")
-    val block: BlockResult?,
+    val block: BlockResult? = null,
 
     @Json(name = "callMethod")
-    val callMethod: MethodNameDto?,
+    val callMethod: MethodNameDto? = null,
 
     @Json(name = "parsed")
     val parsed: kotlin.Any? = null,

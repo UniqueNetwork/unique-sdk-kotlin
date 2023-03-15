@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 data class SubstrateAddress (
 
     @Json(name = "Substrate")
-    val substrate: kotlin.String
+    val substrate: kotlin.String? = null,
 
 )
 

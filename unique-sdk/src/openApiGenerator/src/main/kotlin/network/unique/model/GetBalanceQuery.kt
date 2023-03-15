@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 data class GetBalanceQuery (
 
     @Json(name = "address")
-    val address: kotlin.String
+    val address: kotlin.String? = null,
 
 )
 

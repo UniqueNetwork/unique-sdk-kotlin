@@ -30,13 +30,13 @@ import com.squareup.moshi.Json
 data class CollectionPropertyPermission (
 
     @Json(name = "mutable")
-    val mutable: kotlin.Boolean,
+    val mutable: kotlin.Boolean? = null,
 
     @Json(name = "collectionAdmin")
-    val collectionAdmin: kotlin.Boolean,
+    val collectionAdmin: kotlin.Boolean? = null,
 
     @Json(name = "tokenOwner")
-    val tokenOwner: kotlin.Boolean
+    val tokenOwner: kotlin.Boolean? = null,
 
 )
 

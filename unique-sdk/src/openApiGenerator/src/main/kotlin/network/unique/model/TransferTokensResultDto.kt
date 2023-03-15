@@ -32,17 +32,17 @@ data class TransferTokensResultDto (
 
     /* The ss-58 encoded address */
     @Json(name = "recipient")
-    val recipient: kotlin.String,
+    val recipient: kotlin.String? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "sender")
-    val sender: kotlin.String,
+    val sender: kotlin.String? = null,
 
     @Json(name = "amount")
-    val amount: java.math.BigDecimal,
+    val amount: java.math.BigDecimal? = null,
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal
+    val collectionId: java.math.BigDecimal? = null,
 
 )
 

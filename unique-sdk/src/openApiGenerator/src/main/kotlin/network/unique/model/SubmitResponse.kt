@@ -30,7 +30,7 @@ import com.squareup.moshi.Json
 data class SubmitResponse (
 
     @Json(name = "hash")
-    val hash: kotlin.String,
+    val hash: kotlin.String? = null,
 
     @Json(name = "fee")
     val fee: FeeResponse? = null

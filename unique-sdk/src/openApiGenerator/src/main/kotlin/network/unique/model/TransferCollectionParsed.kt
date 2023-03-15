@@ -29,11 +29,11 @@ import com.squareup.moshi.Json
 data class TransferCollectionParsed (
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal,
+    val collectionId: java.math.BigDecimal? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "owner")
-    val owner: kotlin.String
+    val owner: kotlin.String? = null,
 
 )
 

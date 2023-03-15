@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 data class NextSponsoredResponse (
 
     @Json(name = "blockNumber")
-    val blockNumber: java.math.BigDecimal
+    val blockNumber: java.math.BigDecimal? = null,
 
 )
 

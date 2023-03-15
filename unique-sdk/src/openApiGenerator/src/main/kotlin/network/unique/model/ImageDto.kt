@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 data class ImageDto (
 
     @Json(name = "urlTemplate")
-    val urlTemplate: kotlin.String
+    val urlTemplate: kotlin.String? = null,
 
 )
 

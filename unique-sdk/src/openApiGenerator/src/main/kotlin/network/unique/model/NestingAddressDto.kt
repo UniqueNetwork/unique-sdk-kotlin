@@ -29,7 +29,7 @@ data class NestingAddressDto (
 
     /* collection and token id, encoded as ethereum address */
     @Json(name = "address")
-    val address: kotlin.String
+    val address: kotlin.String? = null,
 
 )
 

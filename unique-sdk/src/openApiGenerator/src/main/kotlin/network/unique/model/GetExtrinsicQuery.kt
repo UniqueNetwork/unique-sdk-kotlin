@@ -30,10 +30,10 @@ import com.squareup.moshi.Json
 data class GetExtrinsicQuery (
 
     @Json(name = "blockHashOrNumber")
-    val blockHashOrNumber: EvmContractExistsArgumentsDtoBlockNumber,
+    val blockHashOrNumber: EvmContractExistsArgumentsDtoBlockNumber? = null,
 
     @Json(name = "extrinsicHash")
-    val extrinsicHash: kotlin.String
+    val extrinsicHash: kotlin.String? = null,
 
 )
 

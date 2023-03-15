@@ -36,19 +36,19 @@ import com.squareup.moshi.Json
 data class DecodedAttributeDto (
 
     @Json(name = "type")
-    val type: DecodedAttributeDto.Type,
+    val type: DecodedAttributeDto.Type? = null,
 
     @Json(name = "isArray")
-    val isArray: kotlin.Boolean,
+    val isArray: kotlin.Boolean? = null,
 
     @Json(name = "isEnum")
-    val isEnum: kotlin.Boolean,
+    val isEnum: kotlin.Boolean? = null,
 
     @Json(name = "rawValue")
-    val rawValue: DecodedAttributeDtoRawValue,
+    val rawValue: DecodedAttributeDtoRawValue? = null,
 
     @Json(name = "value")
-    val `value`: DecodedAttributeDtoValue,
+    val `value`: DecodedAttributeDtoValue? = null,
 
     @Json(name = "name")
     val name: DecodedAttributeDtoName? = null

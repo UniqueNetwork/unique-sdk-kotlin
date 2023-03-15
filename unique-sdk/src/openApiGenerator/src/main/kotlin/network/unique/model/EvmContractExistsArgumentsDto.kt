@@ -31,7 +31,7 @@ data class EvmContractExistsArgumentsDto (
 
     /* Ethereum address of your smart contract */
     @Json(name = "contractAddress")
-    val contractAddress: kotlin.String,
+    val contractAddress: kotlin.String? = null,
 
     @Json(name = "blockNumber")
     val blockNumber: EvmContractExistsArgumentsDtoBlockNumber? = null

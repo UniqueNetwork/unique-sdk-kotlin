@@ -30,10 +30,10 @@ data class CollectionSponsorship (
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
     @Json(name = "isConfirmed")
-    val isConfirmed: kotlin.Boolean
+    val isConfirmed: kotlin.Boolean? = null,
 
 )
 

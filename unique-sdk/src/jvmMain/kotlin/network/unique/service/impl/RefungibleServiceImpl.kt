@@ -11,16 +11,17 @@ class RefungibleServiceImpl(basePath: String) : RefungibleService {
 
     private val api: RefungibleApi = RefungibleApi(basePath)
 
-    private val createRefungibleCollection: MutationService<CreateRefungibleCollectionMutationRequest> =
+    private val createRefungibleCollection: MutationService<CreateRefungibleCollectionMutationRequest, CreateCollectionMutationDefaultResponse> =
         CreateRefungibleCollectionMutationServiceImpl(basePath)
-    private val burnRefungibleCollection: MutationService<BurnRequest1> = BurnRefungibleMutationServiceImpl(basePath)
-    private val createRefungibleTokens: MutationService<AddTokensMutationRequest1> =
+    private val burnRefungibleCollection: MutationService<BurnRequest1, BurnDefaultResponse1> =
+        BurnRefungibleMutationServiceImpl(basePath)
+    private val createRefungibleTokens: MutationService<AddTokensMutationRequest1, AddTokensMutationDefaultResponse1> =
         CreateRefungibleTokensMutationServiceImpl(basePath)
-    private val transferRefungibleTokens: MutationService<TransferTokensMutationRequest1> =
+    private val transferRefungibleTokens: MutationService<TransferTokensMutationRequest1, TransferTokensMutationDefaultResponse1> =
         TransferRefungibleTokensMutationServiceImpl(basePath)
-    private val approveRefungibleTokens: MutationService<ApproveTokensMutationRequest1> =
+    private val approveRefungibleTokens: MutationService<ApproveTokensMutationRequest1, ApproveTokensMutationDefaultResponse1> =
         ApproveRefungibleTokensMutationServiceImpl(basePath)
-    private val repartitionTokens: MutationService<RepartitionTokenMutationRequest> =
+    private val repartitionTokens: MutationService<RepartitionTokenMutationRequest, RepartitionTokenMutationDefaultResponse> =
         RepartitionTokensMutationServiceImpl(basePath)
 
     override fun getRefungibleCollectionInfo(collectionId: BigDecimal, at: String): CollectionInfoWithSchemaResponse {
@@ -62,27 +63,27 @@ class RefungibleServiceImpl(basePath: String) : RefungibleService {
         collectionId: BigDecimal,
         address: String,
         at: String
-    ): MutationService<CreateRefungibleCollectionMutationRequest> {
+    ): MutationService<CreateRefungibleCollectionMutationRequest, CreateCollectionMutationDefaultResponse> {
         return createRefungibleCollection
     }
 
-    override fun getBurnRefungibleCollection(): MutationService<BurnRequest1> {
+    override fun getBurnRefungibleCollection(): MutationService<BurnRequest1, BurnDefaultResponse1> {
         return burnRefungibleCollection
     }
 
-    override fun getCreateRefungibleTokens(): MutationService<AddTokensMutationRequest1> {
+    override fun getCreateRefungibleTokens(): MutationService<AddTokensMutationRequest1, AddTokensMutationDefaultResponse1> {
         return createRefungibleTokens
     }
 
-    override fun getTransferRefungibleTokens(): MutationService<TransferTokensMutationRequest1> {
+    override fun getTransferRefungibleTokens(): MutationService<TransferTokensMutationRequest1, TransferTokensMutationDefaultResponse1> {
         return transferRefungibleTokens
     }
 
-    override fun getApproveRefungibleTokens(): MutationService<ApproveTokensMutationRequest1> {
+    override fun getApproveRefungibleTokens(): MutationService<ApproveTokensMutationRequest1, ApproveTokensMutationDefaultResponse1> {
         return approveRefungibleTokens
     }
 
-    override fun getRepartitionTokens(): MutationService<RepartitionTokenMutationRequest> {
+    override fun getRepartitionTokens(): MutationService<RepartitionTokenMutationRequest, RepartitionTokenMutationDefaultResponse> {
         return repartitionTokens
     }
 

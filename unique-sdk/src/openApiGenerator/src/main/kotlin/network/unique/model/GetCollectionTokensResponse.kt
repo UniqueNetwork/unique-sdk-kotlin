@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 data class GetCollectionTokensResponse (
 
     @Json(name = "ids")
-    val ids: kotlin.collections.List<java.math.BigDecimal>
+    val ids: kotlin.collections.List<java.math.BigDecimal>? = null,
 
 )
 

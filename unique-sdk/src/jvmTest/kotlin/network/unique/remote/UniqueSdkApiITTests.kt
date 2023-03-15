@@ -33,13 +33,48 @@ class ApiClientITTests {
 
             val submitBody = SubmitTxBody(signResponse.signerPayloadJSON, signResponse.signature)
             val submitResponse = transferService.submitWatch(submitBody)
-            val extrinsic = extrinsicService.getExtrinsicStatus(submitResponse.hash)
+            val extrinsic = extrinsicService.getExtrinsicStatus(submitResponse.hash!!)
 
             println(submitResponse.hash)
             println(extrinsic)
 
             Assertions.assertNotNull(extrinsic)
             Assertions.assertFalse(extrinsic.isCompleted!!)
+
+//            val collectionService = sdk.collectionService
+//            val createCollection = collectionService.getCreateCollection()
+//
+//            val request = CreateCollectionMutationRequest(
+//                name = "Sample collection name",
+//                description = "sample collection description",
+//                tokenPrefix = "TEST",
+//                address = "5DnUE1uV7iW25bUriWVPHY67KMm2t6g5v23GzVbZCUc8fyBD",
+//                mode = CreateCollectionMutationRequest.Mode.nFT,
+//                metaUpdatePermission = CreateCollectionMutationRequest.MetaUpdatePermission.itemOwner,
+//                permissions = CollectionPermissionsDto(
+//                    access = CollectionPermissionsDto.Access.normal,
+//                    mintMode = true,
+//                    nesting = CollectionNestingPermissionsDto(
+//                        tokenOwner = true,
+//                        collectionAdmin = true,
+//                    )
+//                )
+//            )
+//            val createCollectionResponse = createCollection.build(request)
+//
+//            val signCollectionBody = UnsignedTxPayloadResponse(
+//                createCollectionResponse.signerPayloadJSON,
+//                createCollectionResponse.signerPayloadRaw,
+//                createCollectionResponse.signerPayloadHex
+//            )
+//            val signCollectionResponse = transferService.sign(signCollectionBody)
+//
+//            val submitCollectionBody = SubmitTxBody(signCollectionResponse.signerPayloadJSON, signCollectionResponse.signature)
+//            val submitCollectionResponse = transferService.submitWatch(submitCollectionBody)
+//            val collectionExtrinsic = extrinsicService.getExtrinsicStatus(submitCollectionResponse.hash)
+//
+//            println(submitCollectionResponse.hash)
+//            println(collectionExtrinsic)
         }
     }
 }

@@ -30,10 +30,10 @@ import com.squareup.moshi.Json
 data class BuildBatchPayloadsResponse (
 
     @Json(name = "payloads")
-    val payloads: kotlin.collections.List<UnsignedTxPayloadResponse>,
+    val payloads: kotlin.collections.List<UnsignedTxPayloadResponse>? = null,
 
     @Json(name = "nextNonce")
-    val nextNonce: java.math.BigDecimal
+    val nextNonce: java.math.BigDecimal? = null,
 
 )
 

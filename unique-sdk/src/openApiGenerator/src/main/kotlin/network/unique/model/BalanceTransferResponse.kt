@@ -21,21 +21,21 @@ import network.unique.model.FeeResponse
 import com.squareup.moshi.Json
 
 /**
- * 
  *
- * @param isError 
- * @param parsed 
- * @param fee 
+ *
+ * @param isError
+ * @param parsed
+ * @param fee
  */
 
 
 data class BalanceTransferResponse (
 
     @Json(name = "isError")
-    val isError: kotlin.Boolean,
+    val isError: kotlin.Boolean? = null,
 
     @Json(name = "parsed")
-    val parsed: BalanceTransferParsed,
+    val parsed: BalanceTransferParsed? = null,
 
     @Json(name = "fee")
     val fee: FeeResponse? = null

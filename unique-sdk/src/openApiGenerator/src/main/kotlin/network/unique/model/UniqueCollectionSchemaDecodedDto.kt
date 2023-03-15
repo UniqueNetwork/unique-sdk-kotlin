@@ -49,34 +49,34 @@ import com.squareup.moshi.Json
 data class UniqueCollectionSchemaDecodedDto (
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal,
+    val collectionId: java.math.BigDecimal? = null,
 
     @Json(name = "coverPicture")
-    val coverPicture: UniqueCollectionSchemaDecodedDtoCoverPicture,
+    val coverPicture: UniqueCollectionSchemaDecodedDtoCoverPicture? = null,
 
     @Json(name = "image")
-    val image: ImageDto,
+    val image: ImageDto? = null,
 
     @Json(name = "schemaName")
-    val schemaName: UniqueCollectionSchemaDecodedDto.SchemaName,
+    val schemaName: UniqueCollectionSchemaDecodedDto.SchemaName? = null,
 
     @Json(name = "schemaVersion")
-    val schemaVersion: kotlin.String,
+    val schemaVersion: kotlin.String? = null,
 
     @Json(name = "oldProperties")
-    val oldProperties: OldPropertiesDto,
+    val oldProperties: OldPropertiesDto? = null,
 
     @Json(name = "audio")
-    val audio: AudioDto,
+    val audio: AudioDto? = null,
 
     @Json(name = "spatialObject")
-    val spatialObject: SpatialObjectDto,
+    val spatialObject: SpatialObjectDto? = null,
 
     @Json(name = "video")
-    val video: VideoDto,
+    val video: VideoDto? = null,
 
     @Json(name = "file")
-    val file: ImageDto,
+    val file: ImageDto? = null,
 
     @Json(name = "attributesSchema")
     val attributesSchema: kotlin.collections.Map<kotlin.String, AttributeSchemaDto>? = null,

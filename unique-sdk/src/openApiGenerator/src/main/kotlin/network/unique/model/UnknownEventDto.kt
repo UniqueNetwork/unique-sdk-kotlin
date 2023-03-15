@@ -29,10 +29,10 @@ import com.squareup.moshi.Json
 data class UnknownEventDto (
 
     @Json(name = "topics")
-    val topics: kotlin.collections.List<kotlin.String>,
+    val topics: kotlin.collections.List<kotlin.String>? = null,
 
     @Json(name = "data")
-    val `data`: kotlin.String
+    val `data`: kotlin.String? = null,
 
 )
 

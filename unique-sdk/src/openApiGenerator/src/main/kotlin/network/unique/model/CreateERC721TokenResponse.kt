@@ -32,10 +32,10 @@ import com.squareup.moshi.Json
 data class CreateERC721TokenResponse (
 
     @Json(name = "isError")
-    val isError: kotlin.Boolean,
+    val isError: kotlin.Boolean? = null,
 
     @Json(name = "parsed")
-    val parsed: TokenId,
+    val parsed: TokenId? = null,
 
     @Json(name = "fee")
     val fee: FeeResponse? = null

@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 data class SubmitResultResponse (
 
     @Json(name = "hash")
-    val hash: kotlin.String
+    val hash: kotlin.String? = null,
 
 )
 

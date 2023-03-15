@@ -29,10 +29,10 @@ import com.squareup.moshi.Json
 data class ApproveFungibleTokensParsed (
 
     @Json(name = "amount")
-    val amount: java.math.BigDecimal,
+    val amount: java.math.BigDecimal? = null,
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal
+    val collectionId: java.math.BigDecimal? = null,
 
 )
 

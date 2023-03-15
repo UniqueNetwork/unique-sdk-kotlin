@@ -40,51 +40,51 @@ data class SignerPayloadJSONDto (
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
-    /* The checkpoint hash of the block, in hex */
+    /* The checkpoint hash of the block? = null, in hex */
     @Json(name = "blockHash")
-    val blockHash: kotlin.String,
+    val blockHash: kotlin.String? = null,
 
-    /* The checkpoint block number, in hex */
+    /* The checkpoint block number? = null, in hex */
     @Json(name = "blockNumber")
-    val blockNumber: kotlin.String,
+    val blockNumber: kotlin.String? = null,
 
-    /* The era for this transaction, in hex */
+    /* The era for this transaction? = null, in hex */
     @Json(name = "era")
-    val era: kotlin.String,
+    val era: kotlin.String? = null,
 
-    /* The genesis hash of the chain, in hex */
+    /* The genesis hash of the chain? = null, in hex */
     @Json(name = "genesisHash")
-    val genesisHash: kotlin.String,
+    val genesisHash: kotlin.String? = null,
 
     /* The encoded method (with arguments) in hex */
     @Json(name = "method")
-    val method: kotlin.String,
+    val method: kotlin.String? = null,
 
-    /* The nonce for this transaction, in hex */
+    /* The nonce for this transaction? = null, in hex */
     @Json(name = "nonce")
-    val nonce: kotlin.String,
+    val nonce: kotlin.String? = null,
 
     /* The current spec version for the runtime */
     @Json(name = "specVersion")
-    val specVersion: kotlin.String,
+    val specVersion: kotlin.String? = null,
 
-    /* The tip for this transaction, in hex */
+    /* The tip for this transaction? = null, in hex */
     @Json(name = "tip")
-    val tip: kotlin.String,
+    val tip: kotlin.String? = null,
 
     /* The current transaction version for the runtime */
     @Json(name = "transactionVersion")
-    val transactionVersion: kotlin.String,
+    val transactionVersion: kotlin.String? = null,
 
     /* The applicable signed extensions for this runtime */
     @Json(name = "signedExtensions")
-    val signedExtensions: kotlin.collections.List<kotlin.String>,
+    val signedExtensions: kotlin.collections.List<kotlin.String>? = null,
 
     /* The version of the extrinsic we are dealing with */
     @Json(name = "version")
-    val version: java.math.BigDecimal
+    val version: java.math.BigDecimal? = null,
 
 )
 

@@ -32,14 +32,14 @@ import com.squareup.moshi.Json
 data class TokenBalanceQuery (
 
     @Json(name = "collectionId")
-    val collectionId: TokenIdQueryCollectionId,
+    val collectionId: TokenIdQueryCollectionId? = null,
 
     @Json(name = "tokenId")
-    val tokenId: java.math.BigDecimal,
+    val tokenId: java.math.BigDecimal? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
     /* Hash of execution block */
     @Json(name = "at")

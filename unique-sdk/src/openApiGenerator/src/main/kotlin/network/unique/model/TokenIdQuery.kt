@@ -31,10 +31,10 @@ import com.squareup.moshi.Json
 data class TokenIdQuery (
 
     @Json(name = "collectionId")
-    val collectionId: TokenIdQueryCollectionId,
+    val collectionId: TokenIdQueryCollectionId? = null,
 
     @Json(name = "tokenId")
-    val tokenId: java.math.BigDecimal,
+    val tokenId: java.math.BigDecimal? = null,
 
     /* Hash of execution block */
     @Json(name = "at")

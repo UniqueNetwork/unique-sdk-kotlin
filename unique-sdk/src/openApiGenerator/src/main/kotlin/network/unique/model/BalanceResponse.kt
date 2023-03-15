@@ -32,19 +32,19 @@ import com.squareup.moshi.Json
 data class BalanceResponse (
 
     @Json(name = "raw")
-    val raw: kotlin.String,
+    val raw: kotlin.String? = null,
 
     @Json(name = "amount")
-    val amount: kotlin.String,
+    val amount: kotlin.String? = null,
 
     @Json(name = "formatted")
-    val formatted: kotlin.String,
+    val formatted: kotlin.String? = null,
 
     @Json(name = "unit")
-    val unit: kotlin.String,
+    val unit: kotlin.String? = null,
 
     @Json(name = "decimals")
-    val decimals: java.math.BigDecimal
+    val decimals: java.math.BigDecimal? = null,
 
 )
 

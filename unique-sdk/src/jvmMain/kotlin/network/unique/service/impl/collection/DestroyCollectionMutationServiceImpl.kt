@@ -6,7 +6,7 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class DestroyCollectionMutationServiceImpl(basePath: String) :
-    MutationService<DestroyRequest>() {
+    MutationService<DestroyRequest, DestroyDefaultResponse>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
@@ -48,49 +48,47 @@ class DestroyCollectionMutationServiceImpl(basePath: String) :
     }
 
     override fun sign(args: UnsignedTxPayloadResponse): SubmitTxBody {
-        val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw.data)
+        val signature = UniqueSdk.signerWrapper.sign(args.signerPayloadRaw!!.data!!)
 
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: DestroyRequest): SubmitResultResponse {
+    override fun submit(args: DestroyRequest): DestroyDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submit(args: UnsignedTxPayloadResponse): DestroyDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.destroy(
+    override fun submit(args: SubmitTxBody): DestroyDefaultResponse {
+        return api.destroy(
             DestroyRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_destroy.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: DestroyRequest): SubmitResultResponse {
+    override fun submitWatch(args: DestroyRequest): DestroyDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submitWatch(args: UnsignedTxPayloadResponse): DestroyDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.destroy(
+    override fun submitWatch(args: SubmitTxBody): DestroyDefaultResponse {
+        return api.destroy(
             DestroyRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_destroy.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
 }
