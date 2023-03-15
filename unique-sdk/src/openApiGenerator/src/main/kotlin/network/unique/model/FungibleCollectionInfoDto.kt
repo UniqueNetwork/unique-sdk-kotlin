@@ -42,23 +42,23 @@ import com.squareup.moshi.Json
 data class FungibleCollectionInfoDto (
 
     @Json(name = "name")
-    val name: kotlin.String,
+    val name: kotlin.String? = null,
 
     @Json(name = "description")
-    val description: kotlin.String,
+    val description: kotlin.String? = null,
 
     @Json(name = "tokenPrefix")
-    val tokenPrefix: kotlin.String,
+    val tokenPrefix: kotlin.String? = null,
 
     @Json(name = "decimals")
-    val decimals: java.math.BigDecimal,
+    val decimals: java.math.BigDecimal? = null,
 
     @Json(name = "id")
-    val id: java.math.BigDecimal,
+    val id: java.math.BigDecimal? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "owner")
-    val owner: kotlin.String,
+    val owner: kotlin.String? = null,
 
     @Json(name = "mode")
     val mode: FungibleCollectionInfoDto.Mode? = null,

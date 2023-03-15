@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 data class AllowListBodyResult (
 
     @Json(name = "addresses")
-    val addresses: kotlin.collections.List<kotlin.String>
+    val addresses: kotlin.collections.List<kotlin.String>? = null,
 
 )
 

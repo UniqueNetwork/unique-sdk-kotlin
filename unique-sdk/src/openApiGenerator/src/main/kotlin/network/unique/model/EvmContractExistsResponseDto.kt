@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 data class EvmContractExistsResponseDto (
 
     @Json(name = "exists")
-    val exists: kotlin.Boolean
+    val exists: kotlin.Boolean? = null,
 
 )
 

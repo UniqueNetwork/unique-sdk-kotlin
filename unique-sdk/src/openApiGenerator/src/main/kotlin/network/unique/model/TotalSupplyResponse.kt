@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 data class TotalSupplyResponse (
 
     @Json(name = "totalSupply")
-    val totalSupply: java.math.BigDecimal
+    val totalSupply: java.math.BigDecimal? = null,
 
 )
 

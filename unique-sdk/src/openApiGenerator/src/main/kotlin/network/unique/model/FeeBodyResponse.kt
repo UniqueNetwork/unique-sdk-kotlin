@@ -29,7 +29,7 @@ import com.squareup.moshi.Json
 data class FeeBodyResponse (
 
     @Json(name = "fee")
-    val fee: FeeResponse
+    val fee: FeeResponse? = null,
 
 )
 

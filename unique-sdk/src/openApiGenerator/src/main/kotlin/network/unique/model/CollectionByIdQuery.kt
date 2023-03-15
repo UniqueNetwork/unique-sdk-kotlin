@@ -30,7 +30,7 @@ import com.squareup.moshi.Json
 data class CollectionByIdQuery (
 
     @Json(name = "collectionId")
-    val collectionId: TokenIdQueryCollectionId,
+    val collectionId: TokenIdQueryCollectionId? = null,
 
     /* Hash of execution block */
     @Json(name = "at")

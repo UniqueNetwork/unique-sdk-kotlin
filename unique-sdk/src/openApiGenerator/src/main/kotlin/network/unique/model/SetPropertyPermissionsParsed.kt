@@ -29,7 +29,7 @@ import com.squareup.moshi.Json
 data class SetPropertyPermissionsParsed (
 
     @Json(name = "propertyPermissions")
-    val propertyPermissions: kotlin.collections.List<PropertyPermissionSetEvent>
+    val propertyPermissions: kotlin.collections.List<PropertyPermissionSetEvent>? = null,
 
 )
 

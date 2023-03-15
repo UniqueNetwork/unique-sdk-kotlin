@@ -32,10 +32,10 @@ import com.squareup.moshi.Json
 data class DestroyCollectionResponse (
 
     @Json(name = "isError")
-    val isError: kotlin.Boolean,
+    val isError: kotlin.Boolean? = null,
 
     @Json(name = "parsed")
-    val parsed: DestroyCollectionParsed,
+    val parsed: DestroyCollectionParsed? = null,
 
     @Json(name = "fee")
     val fee: FeeResponse? = null

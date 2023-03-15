@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 data class AllowedResponse (
 
     @Json(name = "isAllowed")
-    val isAllowed: kotlin.Boolean
+    val isAllowed: kotlin.Boolean? = null,
 
 )
 

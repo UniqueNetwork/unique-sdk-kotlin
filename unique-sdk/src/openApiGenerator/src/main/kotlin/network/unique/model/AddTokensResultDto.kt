@@ -30,13 +30,13 @@ import com.squareup.moshi.Json
 data class AddTokensResultDto (
 
     @Json(name = "recipient")
-    val recipient: kotlin.String,
+    val recipient: kotlin.String? = null,
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal,
+    val collectionId: java.math.BigDecimal? = null,
 
     @Json(name = "amount")
-    val amount: java.math.BigDecimal
+    val amount: java.math.BigDecimal? = null,
 
 )
 

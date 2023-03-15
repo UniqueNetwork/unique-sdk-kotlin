@@ -30,11 +30,11 @@ import com.squareup.moshi.Json
 data class SubmitTxBody (
 
     @Json(name = "signerPayloadJSON")
-    val signerPayloadJSON: SignerPayloadJSONDto,
+    val signerPayloadJSON: SignerPayloadJSONDto? = null,
 
     /* Warning: Signature must be with SignatureType! */
     @Json(name = "signature")
-    val signature: kotlin.String
+    val signature: kotlin.String? = null,
 
 )
 

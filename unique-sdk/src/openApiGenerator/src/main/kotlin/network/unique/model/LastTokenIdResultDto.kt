@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 data class LastTokenIdResultDto (
 
     @Json(name = "tokenId")
-    val tokenId: java.math.BigDecimal
+    val tokenId: java.math.BigDecimal? = null,
 
 )
 

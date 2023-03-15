@@ -30,13 +30,13 @@ import com.squareup.moshi.Json
 data class TokenPropertyDeletedEvent (
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal,
+    val collectionId: java.math.BigDecimal? = null,
 
     @Json(name = "tokenId")
-    val tokenId: java.math.BigDecimal,
+    val tokenId: java.math.BigDecimal? = null,
 
     @Json(name = "propertyKey")
-    val propertyKey: kotlin.String
+    val propertyKey: kotlin.String? = null,
 
 )
 

@@ -46,17 +46,17 @@ import com.squareup.moshi.Json
 data class CreateRefungibleCollectionRequest (
 
     @Json(name = "name")
-    val name: kotlin.String,
+    val name: kotlin.String? = null,
 
     @Json(name = "description")
-    val description: kotlin.String,
+    val description: kotlin.String? = null,
 
     @Json(name = "tokenPrefix")
-    val tokenPrefix: kotlin.String,
+    val tokenPrefix: kotlin.String? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
     @Json(name = "mode")
     val mode: CreateRefungibleCollectionRequest.Mode? = null,

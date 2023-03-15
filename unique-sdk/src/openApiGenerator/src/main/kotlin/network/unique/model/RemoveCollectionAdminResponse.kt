@@ -32,10 +32,10 @@ import com.squareup.moshi.Json
 data class RemoveCollectionAdminResponse (
 
     @Json(name = "isError")
-    val isError: kotlin.Boolean,
+    val isError: kotlin.Boolean? = null,
 
     @Json(name = "parsed")
-    val parsed: RemoveCollectionAdminParsed,
+    val parsed: RemoveCollectionAdminParsed? = null,
 
     @Json(name = "fee")
     val fee: FeeResponse? = null

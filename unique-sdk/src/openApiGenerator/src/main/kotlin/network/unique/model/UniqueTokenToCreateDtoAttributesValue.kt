@@ -30,7 +30,7 @@ import com.squareup.moshi.Json
 data class UniqueTokenToCreateDtoAttributesValue (
 
     @Json(name = "_")
-    val underscore: java.math.BigDecimal
+    val underscore: java.math.BigDecimal? = null,
 
 )
 

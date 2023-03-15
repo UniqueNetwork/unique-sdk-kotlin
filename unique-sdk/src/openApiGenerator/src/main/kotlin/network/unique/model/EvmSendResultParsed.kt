@@ -32,13 +32,13 @@ import com.squareup.moshi.Json
 data class EvmSendResultParsed (
 
     @Json(name = "isExecutedFailed")
-    val isExecutedFailed: kotlin.Boolean,
+    val isExecutedFailed: kotlin.Boolean? = null,
 
     @Json(name = "parsedEvents")
-    val parsedEvents: kotlin.collections.List<EvmEventDto>,
+    val parsedEvents: kotlin.collections.List<EvmEventDto>? = null,
 
     @Json(name = "unknownEvents")
-    val unknownEvents: kotlin.collections.List<UnknownEventDto>
+    val unknownEvents: kotlin.collections.List<UnknownEventDto>? = null,
 
 )
 

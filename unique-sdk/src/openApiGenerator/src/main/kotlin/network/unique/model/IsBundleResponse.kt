@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 data class IsBundleResponse (
 
     @Json(name = "isBundle")
-    val isBundle: kotlin.Boolean
+    val isBundle: kotlin.Boolean? = null,
 
 )
 

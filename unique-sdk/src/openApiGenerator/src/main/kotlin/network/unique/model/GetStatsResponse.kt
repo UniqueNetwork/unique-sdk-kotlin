@@ -30,13 +30,13 @@ import com.squareup.moshi.Json
 data class GetStatsResponse (
 
     @Json(name = "created")
-    val created: java.math.BigDecimal,
+    val created: java.math.BigDecimal? = null,
 
     @Json(name = "destroyed")
-    val destroyed: java.math.BigDecimal,
+    val destroyed: java.math.BigDecimal? = null,
 
     @Json(name = "alive")
-    val alive: java.math.BigDecimal
+    val alive: java.math.BigDecimal? = null,
 
 )
 

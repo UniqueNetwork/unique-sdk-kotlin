@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 data class AllowanceRefungibleTokenResponse (
 
     @Json(name = "amount")
-    val amount: java.math.BigDecimal
+    val amount: java.math.BigDecimal? = null,
 
 )
 

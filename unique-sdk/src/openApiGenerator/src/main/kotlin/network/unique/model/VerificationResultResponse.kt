@@ -29,10 +29,10 @@ import com.squareup.moshi.Json
 data class VerificationResultResponse (
 
     @Json(name = "isValid")
-    val isValid: kotlin.Boolean,
+    val isValid: kotlin.Boolean? = null,
 
     @Json(name = "errorMessage")
-    val errorMessage: kotlin.String
+    val errorMessage: kotlin.String? = null,
 
 )
 

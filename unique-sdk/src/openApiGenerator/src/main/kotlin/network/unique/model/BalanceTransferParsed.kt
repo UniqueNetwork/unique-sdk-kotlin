@@ -31,14 +31,14 @@ data class BalanceTransferParsed (
 
     /* The ss-58 encoded address */
     @Json(name = "from")
-    val from: kotlin.String,
+    val from: kotlin.String? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "to")
-    val to: kotlin.String,
+    val to: kotlin.String? = null,
 
     @Json(name = "amount")
-    val amount: kotlin.String
+    val amount: kotlin.String? = null,
 
 )
 

@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 data class CreateCollectionParsed (
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal
+    val collectionId: java.math.BigDecimal? = null,
 
 )
 

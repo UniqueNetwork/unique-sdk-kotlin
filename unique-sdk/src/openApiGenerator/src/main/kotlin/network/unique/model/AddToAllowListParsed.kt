@@ -29,11 +29,11 @@ import com.squareup.moshi.Json
 data class AddToAllowListParsed (
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal,
+    val collectionId: java.math.BigDecimal? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String
+    val address: kotlin.String? = null,
 
 )
 

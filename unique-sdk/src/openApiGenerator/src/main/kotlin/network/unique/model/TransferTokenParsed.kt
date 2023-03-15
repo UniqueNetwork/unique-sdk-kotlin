@@ -32,21 +32,21 @@ import com.squareup.moshi.Json
 data class TransferTokenParsed (
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal,
+    val collectionId: java.math.BigDecimal? = null,
 
     @Json(name = "tokenId")
-    val tokenId: java.math.BigDecimal,
+    val tokenId: java.math.BigDecimal? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "from")
-    val from: kotlin.String,
+    val from: kotlin.String? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "to")
-    val to: kotlin.String,
+    val to: kotlin.String? = null,
 
     @Json(name = "value")
-    val `value`: java.math.BigDecimal
+    val `value`: java.math.BigDecimal? = null,
 
 )
 

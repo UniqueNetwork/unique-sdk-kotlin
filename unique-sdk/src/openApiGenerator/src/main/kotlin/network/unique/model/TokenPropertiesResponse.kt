@@ -29,7 +29,7 @@ import com.squareup.moshi.Json
 data class TokenPropertiesResponse (
 
     @Json(name = "properties")
-    val properties: kotlin.collections.List<TokenProperty>
+    val properties: kotlin.collections.List<TokenProperty>? = null,
 
 )
 

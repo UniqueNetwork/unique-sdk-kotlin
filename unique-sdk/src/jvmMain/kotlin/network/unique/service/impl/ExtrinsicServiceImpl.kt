@@ -17,7 +17,7 @@ class ExtrinsicServiceImpl(basePath: String) : ExtrinsicService {
     override fun signTx(body: UnsignedTxPayloadBody, seed: String): SignTxResultResponse {
         val keyPair = Pair.fromSuri(CryptoScheme.Sr25519, seed, null)
 
-        val signature = keyPair.sign(toByteArray(body.signerPayloadRaw.data.substring(2)))
+        val signature = keyPair.sign(toByteArray(body.signerPayloadRaw!!.data!!.substring(2)))
             .joinToString("") { eachByte -> "%02x".format(eachByte) }
 
         return SignTxResultResponse("0x01$signature", SignTxResultResponse.SignatureType.sr25519)

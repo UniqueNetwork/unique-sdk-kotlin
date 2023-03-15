@@ -30,13 +30,13 @@ import com.squareup.moshi.Json
 data class ApiGetterParams (
 
     @Json(name = "endpoint")
-    val endpoint: kotlin.String,
+    val endpoint: kotlin.String? = null,
 
     @Json(name = "module")
-    val module: kotlin.String,
+    val module: kotlin.String? = null,
 
     @Json(name = "method")
-    val method: kotlin.String
+    val method: kotlin.String? = null,
 
 )
 

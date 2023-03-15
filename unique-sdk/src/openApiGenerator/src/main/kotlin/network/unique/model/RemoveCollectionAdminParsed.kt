@@ -29,11 +29,11 @@ import com.squareup.moshi.Json
 data class RemoveCollectionAdminParsed (
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal,
+    val collectionId: java.math.BigDecimal? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "admin")
-    val admin: kotlin.String
+    val admin: kotlin.String? = null,
 
 )
 

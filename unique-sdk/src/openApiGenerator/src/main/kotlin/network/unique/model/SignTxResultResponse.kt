@@ -29,10 +29,10 @@ import com.squareup.moshi.Json
 data class SignTxResultResponse (
 
     @Json(name = "signature")
-    val signature: kotlin.String,
+    val signature: kotlin.String? = null,
 
     @Json(name = "signatureType")
-    val signatureType: SignTxResultResponse.SignatureType
+    val signatureType: SignTxResultResponse.SignatureType? = null,
 
 ) {
 

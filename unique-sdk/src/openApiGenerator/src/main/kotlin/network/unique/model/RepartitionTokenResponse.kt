@@ -32,10 +32,10 @@ import com.squareup.moshi.Json
 data class RepartitionTokenResponse (
 
     @Json(name = "isError")
-    val isError: kotlin.Boolean,
+    val isError: kotlin.Boolean? = null,
 
     @Json(name = "parsed")
-    val parsed: RepartitionTokenParsed,
+    val parsed: RepartitionTokenParsed? = null,
 
     @Json(name = "fee")
     val fee: FeeResponse? = null

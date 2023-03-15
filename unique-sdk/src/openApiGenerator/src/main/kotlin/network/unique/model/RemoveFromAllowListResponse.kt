@@ -32,10 +32,10 @@ import com.squareup.moshi.Json
 data class RemoveFromAllowListResponse (
 
     @Json(name = "isError")
-    val isError: kotlin.Boolean,
+    val isError: kotlin.Boolean? = null,
 
     @Json(name = "parsed")
-    val parsed: RemoveFromAllowListParsed,
+    val parsed: RemoveFromAllowListParsed? = null,
 
     @Json(name = "fee")
     val fee: FeeResponse? = null

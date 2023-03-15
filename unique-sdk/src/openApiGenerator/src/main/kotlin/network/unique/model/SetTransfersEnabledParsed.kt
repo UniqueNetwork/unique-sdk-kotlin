@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 data class SetTransfersEnabledParsed (
 
     @Json(name = "success")
-    val success: kotlin.Boolean
+    val success: kotlin.Boolean? = null,
 
 )
 

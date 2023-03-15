@@ -32,10 +32,10 @@ import com.squareup.moshi.Json
 data class ConfirmSponsorshipResponse (
 
     @Json(name = "isError")
-    val isError: kotlin.Boolean,
+    val isError: kotlin.Boolean? = null,
 
     @Json(name = "parsed")
-    val parsed: ConfirmSponsorshipParsed,
+    val parsed: ConfirmSponsorshipParsed? = null,
 
     @Json(name = "fee")
     val fee: FeeResponse? = null

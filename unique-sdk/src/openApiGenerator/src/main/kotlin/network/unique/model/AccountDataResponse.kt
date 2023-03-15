@@ -33,18 +33,18 @@ data class AccountDataResponse (
 
     /* The mnemonic seed gives full access to your account */
     @Json(name = "mnemonic")
-    val mnemonic: kotlin.String,
+    val mnemonic: kotlin.String? = null,
 
     /* The private key generated from the mnemonic */
     @Json(name = "seed")
-    val seed: kotlin.String,
+    val seed: kotlin.String? = null,
 
     /* The public key generated from the mnemonic. The SS58 address is based on the public key (aka \"Account ID\") */
     @Json(name = "publicKey")
-    val publicKey: kotlin.String,
+    val publicKey: kotlin.String? = null,
 
     @Json(name = "keyfile")
-    val keyfile: AccountDataResponseKeyfile
+    val keyfile: AccountDataResponseKeyfile? = null
 
 )
 

@@ -29,7 +29,7 @@ import com.squareup.moshi.Json
 data class SpatialObjectDto (
 
     @Json(name = "format")
-    val format: kotlin.String,
+    val format: kotlin.String? = null,
 
     @Json(name = "urlTemplate")
     val urlTemplate: kotlin.String? = null

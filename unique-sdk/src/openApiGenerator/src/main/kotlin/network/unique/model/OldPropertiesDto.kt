@@ -31,16 +31,16 @@ import com.squareup.moshi.Json
 data class OldPropertiesDto (
 
     @Json(name = "_old_schemaVersion")
-    val oldSchemaVersion: kotlin.String,
+    val oldSchemaVersion: kotlin.String? = null,
 
     @Json(name = "_old_offchainSchema")
-    val oldOffchainSchema: kotlin.String,
+    val oldOffchainSchema: kotlin.String? = null,
 
     @Json(name = "_old_constOnChainSchema")
-    val oldConstOnChainSchema: kotlin.String,
+    val oldConstOnChainSchema: kotlin.String? = null,
 
     @Json(name = "_old_variableOnChainSchema")
-    val oldVariableOnChainSchema: kotlin.String
+    val oldVariableOnChainSchema: kotlin.String? = null,
 
 )
 

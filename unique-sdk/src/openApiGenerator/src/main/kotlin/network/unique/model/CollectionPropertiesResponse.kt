@@ -29,7 +29,7 @@ import com.squareup.moshi.Json
 data class CollectionPropertiesResponse (
 
     @Json(name = "properties")
-    val properties: kotlin.collections.List<CollectionProperty>
+    val properties: kotlin.collections.List<CollectionProperty>? = null,
 
 )
 

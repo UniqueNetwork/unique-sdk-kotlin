@@ -34,10 +34,10 @@ import com.squareup.moshi.Json
 data class AttributeSchemaDto (
 
     @Json(name = "name")
-    val name: DecodedAttributeDtoName,
+    val name: DecodedAttributeDtoName? = null,
 
     @Json(name = "type")
-    val type: AttributeSchemaDto.Type,
+    val type: AttributeSchemaDto.Type? = null,
 
     @Json(name = "optional")
     val optional: kotlin.Boolean? = null,

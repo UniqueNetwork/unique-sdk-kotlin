@@ -29,7 +29,7 @@ import com.squareup.moshi.Json
 data class AccountTokensResponse (
 
     @Json(name = "tokens")
-    val tokens: kotlin.collections.List<TokenId>
+    val tokens: kotlin.collections.List<TokenId>? = null
 
 )
 

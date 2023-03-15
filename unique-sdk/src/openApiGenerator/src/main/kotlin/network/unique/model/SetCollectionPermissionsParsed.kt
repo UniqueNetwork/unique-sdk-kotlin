@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 data class SetCollectionPermissionsParsed (
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal
+    val collectionId: java.math.BigDecimal? = null,
 
 )
 

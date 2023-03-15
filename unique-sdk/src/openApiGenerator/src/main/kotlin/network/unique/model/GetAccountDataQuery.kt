@@ -31,7 +31,7 @@ data class GetAccountDataQuery (
 
     /* The mnemonic seed gives full access to your account */
     @Json(name = "mnemonic")
-    val mnemonic: kotlin.String,
+    val mnemonic: kotlin.String? = null,
 
     /* Signature: ed25519, sr25519 implementation using Schnorr signatures. ECDSA signatures on the secp256k1 curve */
     @Json(name = "pairType")

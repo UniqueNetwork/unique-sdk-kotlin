@@ -32,13 +32,13 @@ import com.squareup.moshi.Json
 data class UnsignedTxPayloadBody (
 
     @Json(name = "signerPayloadJSON")
-    val signerPayloadJSON: SignerPayloadJSONDto,
+    val signerPayloadJSON: SignerPayloadJSONDto? = null,
 
     @Json(name = "signerPayloadRaw")
-    val signerPayloadRaw: SignerPayloadRawDto,
+    val signerPayloadRaw: SignerPayloadRawDto? = null,
 
     @Json(name = "signerPayloadHex")
-    val signerPayloadHex: kotlin.String
+    val signerPayloadHex: kotlin.String? = null,
 
 )
 

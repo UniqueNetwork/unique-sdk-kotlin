@@ -29,7 +29,7 @@ import com.squareup.moshi.Json
 data class DeleteTokenPropertiesParsed (
 
     @Json(name = "properties")
-    val properties: kotlin.collections.List<TokenPropertyDeletedEvent>
+    val properties: kotlin.collections.List<TokenPropertyDeletedEvent>? = null,
 
 )
 

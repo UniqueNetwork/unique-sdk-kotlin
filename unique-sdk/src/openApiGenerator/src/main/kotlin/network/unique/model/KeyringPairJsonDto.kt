@@ -31,16 +31,16 @@ import com.squareup.moshi.Json
 data class KeyringPairJsonDto (
 
     @Json(name = "encoded")
-    val encoded: kotlin.String,
+    val encoded: kotlin.String? = null,
 
     @Json(name = "encoding")
-    val encoding: kotlin.Any,
+    val encoding: kotlin.Any? = null,
 
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
     @Json(name = "meta")
-    val meta: kotlin.Any
+    val meta: kotlin.Any? = null,
 
 )
 

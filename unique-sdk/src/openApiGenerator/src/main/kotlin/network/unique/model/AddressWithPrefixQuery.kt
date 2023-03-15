@@ -30,7 +30,7 @@ data class AddressWithPrefixQuery (
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
     @Json(name = "ss58prefix")
     val ss58prefix: java.math.BigDecimal? = null

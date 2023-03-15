@@ -40,7 +40,7 @@ import com.squareup.moshi.Json
 data class UniqueTokenToCreateDto (
 
     @Json(name = "image")
-    val image: UniqueTokenToCreateDtoImage,
+    val image: UniqueTokenToCreateDtoImage? = null,
 
     @Json(name = "attributes")
     val attributes: kotlin.collections.Map<kotlin.String, UniqueTokenToCreateDtoAttributesValue>? = null,

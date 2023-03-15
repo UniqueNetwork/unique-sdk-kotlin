@@ -29,7 +29,7 @@ import com.squareup.moshi.Json
 data class SetTokenPropertiesParsed (
 
     @Json(name = "properties")
-    val properties: kotlin.collections.List<TokenPropertySetEvent>
+    val properties: kotlin.collections.List<TokenPropertySetEvent>? = null,
 
 )
 

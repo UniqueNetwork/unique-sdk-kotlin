@@ -29,7 +29,7 @@ data class AddressDto (
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String
+    val address: kotlin.String? = null,
 
 )
 

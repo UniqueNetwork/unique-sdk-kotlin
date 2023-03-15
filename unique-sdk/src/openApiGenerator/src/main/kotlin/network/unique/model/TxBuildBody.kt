@@ -31,16 +31,16 @@ data class TxBuildBody (
 
     /* The ss-58 encoded address */
     @Json(name = "address")
-    val address: kotlin.String,
+    val address: kotlin.String? = null,
 
     @Json(name = "section")
-    val section: kotlin.String,
+    val section: kotlin.String? = null,
 
     @Json(name = "method")
-    val method: kotlin.String,
+    val method: kotlin.String? = null,
 
     @Json(name = "args")
-    val args: kotlin.collections.List<Any>
+    val args: kotlin.collections.List<Any>? = null,
 
 )
 

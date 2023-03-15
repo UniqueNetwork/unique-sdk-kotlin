@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 data class AdminlistResponse (
 
     @Json(name = "admins")
-    val admins: kotlin.collections.List<kotlin.String>
+    val admins: kotlin.collections.List<kotlin.String>? = null,
 
 )
 

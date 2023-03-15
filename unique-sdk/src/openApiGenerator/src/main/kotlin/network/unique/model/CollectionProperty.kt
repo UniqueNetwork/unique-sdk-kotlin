@@ -29,10 +29,10 @@ import com.squareup.moshi.Json
 data class CollectionProperty (
 
     @Json(name = "key")
-    val key: kotlin.String,
+    val key: kotlin.String? = null,
 
     @Json(name = "value")
-    val `value`: kotlin.String
+    val `value`: kotlin.String? = null,
 
 )
 

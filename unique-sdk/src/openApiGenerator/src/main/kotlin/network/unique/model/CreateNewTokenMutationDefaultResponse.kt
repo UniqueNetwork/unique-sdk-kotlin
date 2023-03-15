@@ -45,32 +45,32 @@ import com.squareup.moshi.Json
 data class CreateNewTokenMutationDefaultResponse (
 
     @Json(name = "signerPayloadJSON")
-    val signerPayloadJSON: SignerPayloadJSONDto,
+    val signerPayloadJSON: SignerPayloadJSONDto? = null,
 
     @Json(name = "signerPayloadRaw")
-    val signerPayloadRaw: SignerPayloadRawDto,
+    val signerPayloadRaw: SignerPayloadRawDto? = null,
 
     @Json(name = "signerPayloadHex")
-    val signerPayloadHex: kotlin.String,
+    val signerPayloadHex: kotlin.String? = null,
 
     /* Warning: Signature must be with SignatureType! */
     @Json(name = "signature")
-    val signature: kotlin.String,
+    val signature: kotlin.String? = null,
 
     @Json(name = "hash")
-    val hash: kotlin.String,
+    val hash: kotlin.String? = null,
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal,
+    val collectionId: java.math.BigDecimal? = null,
 
     @Json(name = "tokenId")
-    val tokenId: java.math.BigDecimal,
+    val tokenId: java.math.BigDecimal? = null,
 
     @Json(name = "payloads")
-    val payloads: kotlin.collections.List<UnsignedTxPayloadResponse>,
+    val payloads: kotlin.collections.List<UnsignedTxPayloadResponse>? = null,
 
     @Json(name = "nextNonce")
-    val nextNonce: java.math.BigDecimal,
+    val nextNonce: java.math.BigDecimal? = null,
 
     @Json(name = "fee")
     val fee: FeeResponse? = null

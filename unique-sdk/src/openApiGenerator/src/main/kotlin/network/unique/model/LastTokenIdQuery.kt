@@ -29,7 +29,7 @@ import com.squareup.moshi.Json
 data class LastTokenIdQuery (
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal,
+    val collectionId: java.math.BigDecimal? = null,
 
     /* Hash of execution block */
     @Json(name = "at")

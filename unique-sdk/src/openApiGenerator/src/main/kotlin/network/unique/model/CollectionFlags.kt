@@ -29,10 +29,10 @@ import com.squareup.moshi.Json
 data class CollectionFlags (
 
     @Json(name = "foreign")
-    val foreign: kotlin.Boolean,
+    val foreign: kotlin.Boolean? = null,
 
     @Json(name = "erc721metadata")
-    val erc721metadata: kotlin.Boolean
+    val erc721metadata: kotlin.Boolean? = null,
 
 )
 

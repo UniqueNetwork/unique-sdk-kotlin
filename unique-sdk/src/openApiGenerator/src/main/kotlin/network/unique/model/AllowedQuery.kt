@@ -30,11 +30,11 @@ import com.squareup.moshi.Json
 data class AllowedQuery (
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal,
+    val collectionId: java.math.BigDecimal? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "account")
-    val account: kotlin.String,
+    val account: kotlin.String? = null,
 
     /* Hash of execution block */
     @Json(name = "at")

@@ -28,7 +28,7 @@ import com.squareup.moshi.Json
 data class EthereumAddress (
 
     @Json(name = "Ethereum")
-    val ethereum: kotlin.String
+    val ethereum: kotlin.String? = null,
 
 )
 

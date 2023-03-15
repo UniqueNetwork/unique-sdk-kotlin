@@ -29,11 +29,11 @@ import com.squareup.moshi.Json
 data class SetSponsorshipParsed (
 
     @Json(name = "collectionId")
-    val collectionId: java.math.BigDecimal,
+    val collectionId: java.math.BigDecimal? = null,
 
     /* The ss-58 encoded address */
     @Json(name = "sponsor")
-    val sponsor: kotlin.String
+    val sponsor: kotlin.String? = null,
 
 )
 
