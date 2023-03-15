@@ -6,7 +6,7 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class SetCollectionPropertiesMutationServiceImpl(basePath: String) :
-    MutationService<SetCollectionPropertiesRequest>() {
+    MutationService<SetCollectionPropertiesRequest, SetCollectionPropertiesDefaultResponse>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
@@ -53,44 +53,42 @@ class SetCollectionPropertiesMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: SetCollectionPropertiesRequest): SubmitResultResponse {
+    override fun submit(args: SetCollectionPropertiesRequest): SetCollectionPropertiesDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submit(args: UnsignedTxPayloadResponse): SetCollectionPropertiesDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.setCollectionProperties(
+    override fun submit(args: SubmitTxBody): SetCollectionPropertiesDefaultResponse {
+        return api.setCollectionProperties(
             SetCollectionPropertiesRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_setCollectionProperties.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: SetCollectionPropertiesRequest): SubmitResultResponse {
+    override fun submitWatch(args: SetCollectionPropertiesRequest): SetCollectionPropertiesDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submitWatch(args: UnsignedTxPayloadResponse): SetCollectionPropertiesDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.setCollectionProperties(
+    override fun submitWatch(args: SubmitTxBody): SetCollectionPropertiesDefaultResponse {
+        return api.setCollectionProperties(
             SetCollectionPropertiesRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_setCollectionProperties.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
 }

@@ -6,7 +6,7 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class CreateRefungibleCollectionMutationServiceImpl(basePath: String) :
-    MutationService<CreateRefungibleCollectionMutationRequest>() {
+    MutationService<CreateRefungibleCollectionMutationRequest, CreateCollectionMutationDefaultResponse>() {
 
     private val api: RefungibleApi = RefungibleApi(basePath)
 
@@ -58,44 +58,42 @@ class CreateRefungibleCollectionMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: CreateRefungibleCollectionMutationRequest): SubmitResultResponse {
+    override fun submit(args: CreateRefungibleCollectionMutationRequest): CreateCollectionMutationDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submit(args: UnsignedTxPayloadResponse): CreateCollectionMutationDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.createRefungibleCollectionMutation(
+    override fun submit(args: SubmitTxBody): CreateCollectionMutationDefaultResponse {
+        return api.createRefungibleCollectionMutation(
             CreateRefungibleCollectionMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), RefungibleApi.Use_createRefungibleCollectionMutation.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: CreateRefungibleCollectionMutationRequest): SubmitResultResponse {
+    override fun submitWatch(args: CreateRefungibleCollectionMutationRequest): CreateCollectionMutationDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submitWatch(args: UnsignedTxPayloadResponse): CreateCollectionMutationDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.createRefungibleCollectionMutation(
+    override fun submitWatch(args: SubmitTxBody): CreateCollectionMutationDefaultResponse {
+        return api.createRefungibleCollectionMutation(
             CreateRefungibleCollectionMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), RefungibleApi.Use_createRefungibleCollectionMutation.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
 }

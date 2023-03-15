@@ -5,7 +5,8 @@ import network.unique.model.*
 import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
-class RepartitionTokensMutationServiceImpl(basePath: String) : MutationService<RepartitionTokenMutationRequest>() {
+class RepartitionTokensMutationServiceImpl(basePath: String) :
+    MutationService<RepartitionTokenMutationRequest, RepartitionTokenMutationDefaultResponse>() {
 
     private val api: RefungibleApi = RefungibleApi(basePath)
 
@@ -52,44 +53,42 @@ class RepartitionTokensMutationServiceImpl(basePath: String) : MutationService<R
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: RepartitionTokenMutationRequest): SubmitResultResponse {
+    override fun submit(args: RepartitionTokenMutationRequest): RepartitionTokenMutationDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submit(args: UnsignedTxPayloadResponse): RepartitionTokenMutationDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.repartitionTokenMutation(
+    override fun submit(args: SubmitTxBody): RepartitionTokenMutationDefaultResponse {
+        return api.repartitionTokenMutation(
             RepartitionTokenMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), RefungibleApi.Use_repartitionTokenMutation.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: RepartitionTokenMutationRequest): SubmitResultResponse {
+    override fun submitWatch(args: RepartitionTokenMutationRequest): RepartitionTokenMutationDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submitWatch(args: UnsignedTxPayloadResponse): RepartitionTokenMutationDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.repartitionTokenMutation(
+    override fun submitWatch(args: SubmitTxBody): RepartitionTokenMutationDefaultResponse {
+        return api.repartitionTokenMutation(
             RepartitionTokenMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), RefungibleApi.Use_repartitionTokenMutation.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
 }

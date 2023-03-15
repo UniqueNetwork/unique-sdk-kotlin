@@ -6,7 +6,7 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class RemoveCollectionAdminMutationServiceImpl(basePath: String) :
-    MutationService<RemoveAdminRequest>() {
+    MutationService<RemoveAdminRequest, RemoveAdminDefaultResponse>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
@@ -53,44 +53,42 @@ class RemoveCollectionAdminMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: RemoveAdminRequest): SubmitResultResponse {
+    override fun submit(args: RemoveAdminRequest): RemoveAdminDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submit(args: UnsignedTxPayloadResponse): RemoveAdminDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.removeAdmin(
+    override fun submit(args: SubmitTxBody): RemoveAdminDefaultResponse {
+        return api.removeAdmin(
             RemoveAdminRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_removeAdmin.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: RemoveAdminRequest): SubmitResultResponse {
+    override fun submitWatch(args: RemoveAdminRequest): RemoveAdminDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submitWatch(args: UnsignedTxPayloadResponse): RemoveAdminDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.removeAdmin(
+    override fun submitWatch(args: SubmitTxBody): RemoveAdminDefaultResponse {
+        return api.removeAdmin(
             RemoveAdminRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_removeAdmin.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
 }

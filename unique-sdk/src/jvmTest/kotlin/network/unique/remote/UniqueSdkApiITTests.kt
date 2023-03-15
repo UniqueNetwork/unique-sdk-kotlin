@@ -33,7 +33,7 @@ class ApiClientITTests {
 
             val submitBody = SubmitTxBody(signResponse.signerPayloadJSON, signResponse.signature)
             val submitResponse = transferService.submitWatch(submitBody)
-            val extrinsic = extrinsicService.getExtrinsicStatus(submitResponse.hash)
+            val extrinsic = extrinsicService.getExtrinsicStatus(submitResponse.hash!!)
 
             println(submitResponse.hash)
             println(extrinsic)

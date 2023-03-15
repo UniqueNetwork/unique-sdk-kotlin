@@ -11,37 +11,37 @@ class CollectionServiceImpl(basePath: String) : CollectionService {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
-    private val addCollectionAdminMutationService: MutationService<AddAdminRequest> =
+    private val addCollectionAdminMutationService: MutationService<AddAdminRequest, AddAdminDefaultResponse> =
         AddCollectionAdminMutationServiceImpl(basePath)
-    private val addToAllowLIstMutationService: MutationService<AddToAllowListRequest> =
+    private val addToAllowLIstMutationService: MutationService<AddToAllowListRequest, AddToAllowListDefaultResponse> =
         AddToAllowListMutationServiceImpl(basePath)
-    private val confirmSponsorshipMutationService: MutationService<ConfirmSponsorshipRequest> =
+    private val confirmSponsorshipMutationService: MutationService<ConfirmSponsorshipRequest, ConfirmSponsorshipDefaultResponse> =
         ConfirmSponsorshipMutationServiceImpl(basePath)
-    private val createCollectionMutationService: MutationService<CreateCollectionMutationRequest> =
+    private val createCollectionMutationService: MutationService<CreateCollectionMutationRequest, CreateCollectionMutationDefaultResponse> =
         CreateCollectionMutationServiceImpl(basePath)
-    private val deleteCollectionPropertiesMutationService: MutationService<DeleteCollectionPropertiesRequest> =
+    private val deleteCollectionPropertiesMutationService: MutationService<DeleteCollectionPropertiesRequest, DeleteCollectionPropertiesDefaultResponse> =
         DeleteCollectionPropertiesMutationServiceImpl(basePath)
-    private val destroyCollectionMutationService: MutationService<DestroyRequest> =
+    private val destroyCollectionMutationService: MutationService<DestroyRequest, DestroyDefaultResponse> =
         DestroyCollectionMutationServiceImpl(basePath)
-    private val removeCollectionAdminMutationService: MutationService<RemoveAdminRequest> =
+    private val removeCollectionAdminMutationService: MutationService<RemoveAdminRequest, RemoveAdminDefaultResponse> =
         RemoveCollectionAdminMutationServiceImpl(basePath)
-    private val removeFromAllowListMutationService: MutationService<RemoveFromAllowListRequest> =
+    private val removeFromAllowListMutationService: MutationService<RemoveFromAllowListRequest, RemoveFromAllowListDefaultResponse> =
         RemoveFromAllowListMutationServiceImpl(basePath)
-    private val removeSponsorshipMutationService: MutationService<RemoveSponsorshipRequest> =
+    private val removeSponsorshipMutationService: MutationService<RemoveSponsorshipRequest, RemoveSponsorshipDefaultResponse> =
         RemoveSponsorshipMutationServiceImpl(basePath)
-    private val setCollectionLimitsMutationService: MutationService<SetCollectionLimitsRequest> =
+    private val setCollectionLimitsMutationService: MutationService<SetCollectionLimitsRequest, SetCollectionLimitsDefaultResponse> =
         SetCollectionLimitsMutationServiceImpl(basePath)
-    private val setCollectionPermissionsMutationService: MutationService<SetPermissionsRequest> =
+    private val setCollectionPermissionsMutationService: MutationService<SetPermissionsRequest, SetPermissionsDefaultResponse> =
         SetCollectionPermissionsMutationServiceImpl(basePath)
-    private val setCollectionPropertiesMutationService: MutationService<SetCollectionPropertiesRequest> =
+    private val setCollectionPropertiesMutationService: MutationService<SetCollectionPropertiesRequest, SetCollectionPropertiesDefaultResponse> =
         SetCollectionPropertiesMutationServiceImpl(basePath)
-    private val setPropertyPermissionMutationService: MutationService<SetPropertyPermissionsRequest> =
+    private val setPropertyPermissionMutationService: MutationService<SetPropertyPermissionsRequest, SetPropertyPermissionsDefaultResponse> =
         SetPropertyPermissionsMutationServiceImpl(basePath)
-    private val setSponsorshipMutationService: MutationService<SetSponsorshipRequest> =
+    private val setSponsorshipMutationService: MutationService<SetSponsorshipRequest, SetSponsorshipDefaultResponse> =
         SetSponsorshipMutationServiceImpl(basePath)
-    private val setTransfersEnabledMutationService: MutationService<SetTransfersEnabledRequest> =
+    private val setTransfersEnabledMutationService: MutationService<SetTransfersEnabledRequest, SetTransfersEnabledDefaultResponse> =
         SetTransfersEnabledMutationServiceImpl(basePath)
-    private val transferCollectionMutationService: MutationService<TransferRequest> =
+    private val transferCollectionMutationService: MutationService<TransferRequest, TransferDefaultResponse> =
         TransferCollectionMutationServiceImpl(basePath)
 
     override fun getCollections(collectionId: BigDecimal, at: String): CollectionInfoWithSchemaResponse {
@@ -101,67 +101,67 @@ class CollectionServiceImpl(basePath: String) : CollectionService {
         return api.collectionControllerTotalSupply(collectionId, at)
     }
 
-    override fun getAddCollectionAdmin(): MutationService<AddAdminRequest> {
+    override fun getAddCollectionAdmin(): MutationService<AddAdminRequest, AddAdminDefaultResponse> {
         return addCollectionAdminMutationService
     }
 
-    override fun getAddToAllowList(): MutationService<AddToAllowListRequest> {
+    override fun getAddToAllowList(): MutationService<AddToAllowListRequest, AddToAllowListDefaultResponse> {
         return addToAllowLIstMutationService
     }
 
-    override fun getConfirmSponsorship(): MutationService<ConfirmSponsorshipRequest> {
+    override fun getConfirmSponsorship(): MutationService<ConfirmSponsorshipRequest, ConfirmSponsorshipDefaultResponse> {
         return confirmSponsorshipMutationService
     }
 
-    override fun getCreateCollection(): MutationService<CreateCollectionMutationRequest> {
+    override fun getCreateCollection(): MutationService<CreateCollectionMutationRequest, CreateCollectionMutationDefaultResponse> {
         return createCollectionMutationService
     }
 
-    override fun getDestroyCollection(): MutationService<DestroyRequest> {
+    override fun getDestroyCollection(): MutationService<DestroyRequest, DestroyDefaultResponse> {
         return destroyCollectionMutationService
     }
 
-    override fun getDeleteCollectionProperties(): MutationService<DeleteCollectionPropertiesRequest> {
+    override fun getDeleteCollectionProperties(): MutationService<DeleteCollectionPropertiesRequest, DeleteCollectionPropertiesDefaultResponse> {
         return deleteCollectionPropertiesMutationService
     }
 
-    override fun getRemoveCollectionAdmin(): MutationService<RemoveAdminRequest> {
+    override fun getRemoveCollectionAdmin(): MutationService<RemoveAdminRequest, RemoveAdminDefaultResponse> {
         return removeCollectionAdminMutationService
     }
 
-    override fun getRemoveFromAllowList(): MutationService<RemoveFromAllowListRequest> {
+    override fun getRemoveFromAllowList(): MutationService<RemoveFromAllowListRequest, RemoveFromAllowListDefaultResponse> {
         return removeFromAllowListMutationService
     }
 
-    override fun getRemoveSponsorship(): MutationService<RemoveSponsorshipRequest> {
+    override fun getRemoveSponsorship(): MutationService<RemoveSponsorshipRequest, RemoveSponsorshipDefaultResponse> {
         return removeSponsorshipMutationService
     }
 
-    override fun getSetCollectionLimits(): MutationService<SetCollectionLimitsRequest> {
+    override fun getSetCollectionLimits(): MutationService<SetCollectionLimitsRequest, SetCollectionLimitsDefaultResponse> {
         return setCollectionLimitsMutationService
     }
 
-    override fun getSetCollectionPermissions(): MutationService<SetPermissionsRequest> {
+    override fun getSetCollectionPermissions(): MutationService<SetPermissionsRequest, SetPermissionsDefaultResponse> {
         return setCollectionPermissionsMutationService
     }
 
-    override fun getSetCollectionProperties(): MutationService<SetCollectionPropertiesRequest> {
+    override fun getSetCollectionProperties(): MutationService<SetCollectionPropertiesRequest, SetCollectionPropertiesDefaultResponse> {
         return setCollectionPropertiesMutationService
     }
 
-    override fun getSetPropertyPermissions(): MutationService<SetPropertyPermissionsRequest> {
+    override fun getSetPropertyPermissions(): MutationService<SetPropertyPermissionsRequest, SetPropertyPermissionsDefaultResponse> {
         return setPropertyPermissionMutationService
     }
 
-    override fun getSetSponsorship(): MutationService<SetSponsorshipRequest> {
+    override fun getSetSponsorship(): MutationService<SetSponsorshipRequest, SetSponsorshipDefaultResponse> {
         return setSponsorshipMutationService
     }
 
-    override fun getSetTransfersEnabled(): MutationService<SetTransfersEnabledRequest> {
+    override fun getSetTransfersEnabled(): MutationService<SetTransfersEnabledRequest, SetTransfersEnabledDefaultResponse> {
         return setTransfersEnabledMutationService
     }
 
-    override fun getTransferCollection(): MutationService<TransferRequest> {
+    override fun getTransferCollection(): MutationService<TransferRequest, TransferDefaultResponse> {
         return transferCollectionMutationService
     }
 }

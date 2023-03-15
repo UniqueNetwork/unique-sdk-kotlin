@@ -6,7 +6,7 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class AddToAllowListMutationServiceImpl(basePath: String) :
-    MutationService<AddToAllowListRequest>() {
+    MutationService<AddToAllowListRequest, AddToAllowListDefaultResponse>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
@@ -53,44 +53,42 @@ class AddToAllowListMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: AddToAllowListRequest): SubmitResultResponse {
+    override fun submit(args: AddToAllowListRequest): AddToAllowListDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submit(args: UnsignedTxPayloadResponse): AddToAllowListDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.addToAllowList(
+    override fun submit(args: SubmitTxBody): AddToAllowListDefaultResponse {
+        return api.addToAllowList(
             AddToAllowListRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_addToAllowList.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: AddToAllowListRequest): SubmitResultResponse {
+    override fun submitWatch(args: AddToAllowListRequest): AddToAllowListDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submitWatch(args: UnsignedTxPayloadResponse): AddToAllowListDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.addToAllowList(
+    override fun submitWatch(args: SubmitTxBody): AddToAllowListDefaultResponse {
+        return api.addToAllowList(
             AddToAllowListRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_addToAllowList.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
 }

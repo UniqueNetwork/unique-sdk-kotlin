@@ -6,7 +6,7 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class SetTokenPropertiesMutationServiceImpl(basePath: String) :
-    MutationService<SetTokenPropertiesRequest>() {
+    MutationService<SetTokenPropertiesRequest, SetTokenPropertiesDefaultResponse>() {
 
     private val api: TokensApi = TokensApi(basePath)
 
@@ -53,44 +53,42 @@ class SetTokenPropertiesMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: SetTokenPropertiesRequest): SubmitResultResponse {
+    override fun submit(args: SetTokenPropertiesRequest): SetTokenPropertiesDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submit(args: UnsignedTxPayloadResponse): SetTokenPropertiesDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.setTokenProperties(
+    override fun submit(args: SubmitTxBody): SetTokenPropertiesDefaultResponse {
+        return api.setTokenProperties(
             SetTokenPropertiesRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), TokensApi.Use_setTokenProperties.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: SetTokenPropertiesRequest): SubmitResultResponse {
+    override fun submitWatch(args: SetTokenPropertiesRequest): SetTokenPropertiesDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submitWatch(args: UnsignedTxPayloadResponse): SetTokenPropertiesDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.setTokenProperties(
+    override fun submitWatch(args: SubmitTxBody): SetTokenPropertiesDefaultResponse {
+        return api.setTokenProperties(
             SetTokenPropertiesRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), TokensApi.Use_setTokenProperties.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
 }

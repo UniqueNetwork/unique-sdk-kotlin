@@ -6,7 +6,7 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class CreateCollectionMutationServiceImpl(basePath: String) :
-    MutationService<CreateCollectionMutationRequest>() {
+    MutationService<CreateCollectionMutationRequest, CreateCollectionMutationDefaultResponse>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
@@ -53,44 +53,42 @@ class CreateCollectionMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: CreateCollectionMutationRequest): SubmitResultResponse {
+    override fun submit(args: CreateCollectionMutationRequest): CreateCollectionMutationDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submit(args: UnsignedTxPayloadResponse): CreateCollectionMutationDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.createCollectionMutation(
+    override fun submit(args: SubmitTxBody): CreateCollectionMutationDefaultResponse {
+        return api.createCollectionMutation(
             CreateCollectionMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_createCollectionMutation.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: CreateCollectionMutationRequest): SubmitResultResponse {
+    override fun submitWatch(args: CreateCollectionMutationRequest): CreateCollectionMutationDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submitWatch(args: UnsignedTxPayloadResponse): CreateCollectionMutationDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.createCollectionMutation(
+    override fun submitWatch(args: SubmitTxBody): CreateCollectionMutationDefaultResponse {
+        return api.createCollectionMutation(
             CreateCollectionMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_createCollectionMutation.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
 }

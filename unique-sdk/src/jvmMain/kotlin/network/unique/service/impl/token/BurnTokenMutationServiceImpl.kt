@@ -5,7 +5,7 @@ import network.unique.model.*
 import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
-class BurnTokenMutationServiceImpl(basePath: String) : MutationService<BurnTokenRequest>() {
+class BurnTokenMutationServiceImpl(basePath: String) : MutationService<BurnTokenRequest, BurnTokenDefaultResponse>() {
 
     private val api: TokensApi = TokensApi(basePath)
 
@@ -52,44 +52,42 @@ class BurnTokenMutationServiceImpl(basePath: String) : MutationService<BurnToken
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: BurnTokenRequest): SubmitResultResponse {
+    override fun submit(args: BurnTokenRequest): BurnTokenDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submit(args: UnsignedTxPayloadResponse): BurnTokenDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.burnToken(
+    override fun submit(args: SubmitTxBody): BurnTokenDefaultResponse {
+        return api.burnToken(
             BurnTokenRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), TokensApi.Use_burnToken.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: BurnTokenRequest): SubmitResultResponse {
+    override fun submitWatch(args: BurnTokenRequest): BurnTokenDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submitWatch(args: UnsignedTxPayloadResponse): BurnTokenDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.burnToken(
+    override fun submitWatch(args: SubmitTxBody): BurnTokenDefaultResponse {
+        return api.burnToken(
             BurnTokenRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), TokensApi.Use_burnToken.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
 }

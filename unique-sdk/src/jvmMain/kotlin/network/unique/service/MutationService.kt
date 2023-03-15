@@ -5,7 +5,7 @@ import network.unique.model.SubmitResultResponse
 import network.unique.model.SubmitTxBody
 import network.unique.model.UnsignedTxPayloadResponse
 
-abstract class MutationService<A> {
+abstract class MutationService<A, R> {
 
     abstract fun build(args: A): UnsignedTxPayloadResponse
 
@@ -19,16 +19,16 @@ abstract class MutationService<A> {
 
     abstract fun sign(args: UnsignedTxPayloadResponse): SubmitTxBody
 
-    abstract fun submit(args: A): SubmitResultResponse
+    abstract fun submit(args: A): R
 
-    abstract fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse
+    abstract fun submit(args: UnsignedTxPayloadResponse): R
 
-    abstract fun submit(args: SubmitTxBody): SubmitResultResponse
+    abstract fun submit(args: SubmitTxBody): R
 
-    abstract fun submitWatch(args: A): SubmitResultResponse
+    abstract fun submitWatch(args: A): R
 
-    abstract fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse
+    abstract fun submitWatch(args: UnsignedTxPayloadResponse): R
 
-    abstract fun submitWatch(args: SubmitTxBody): SubmitResultResponse
+    abstract fun submitWatch(args: SubmitTxBody): R
 
 }

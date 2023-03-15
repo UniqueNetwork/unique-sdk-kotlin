@@ -6,7 +6,7 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class EvmSendMutationServiceImpl(basePath: String) :
-    MutationService<EvmSendMutationRequest>() {
+    MutationService<EvmSendMutationRequest, EvmSendMutationDefaultResponse>() {
 
     private val api: EvmApi = EvmApi(basePath)
 
@@ -53,44 +53,42 @@ class EvmSendMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: EvmSendMutationRequest): SubmitResultResponse {
+    override fun submit(args: EvmSendMutationRequest): EvmSendMutationDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submit(args: UnsignedTxPayloadResponse): EvmSendMutationDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.evmSendMutation(
+    override fun submit(args: SubmitTxBody): EvmSendMutationDefaultResponse {
+        return api.evmSendMutation(
             EvmSendMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), EvmApi.Use_evmSendMutation.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: EvmSendMutationRequest): SubmitResultResponse {
+    override fun submitWatch(args: EvmSendMutationRequest): EvmSendMutationDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submitWatch(args: UnsignedTxPayloadResponse): EvmSendMutationDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.evmSendMutation(
+    override fun submitWatch(args: SubmitTxBody): EvmSendMutationDefaultResponse {
+        return api.evmSendMutation(
             EvmSendMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), EvmApi.Use_evmSendMutation.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
 }

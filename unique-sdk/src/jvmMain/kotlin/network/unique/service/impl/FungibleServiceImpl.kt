@@ -13,10 +13,11 @@ class FungibleServiceImpl(basePath: String) : FungibleService {
 
     private val api: FungibleApi = FungibleApi(basePath)
 
-    private val addTokensMutationService: MutationService<AddTokensMutationRequest> = AddTokensMutationServiceImpl(basePath)
-    private val createFungibleCollectionMutationService: MutationService<CreateFungibleCollectionMutationRequest> =
+    private val addTokensMutationService: MutationService<AddTokensMutationRequest, AddTokensMutationDefaultResponse> =
+        AddTokensMutationServiceImpl(basePath)
+    private val createFungibleCollectionMutationService: MutationService<CreateFungibleCollectionMutationRequest, CreateCollectionMutationDefaultResponse> =
         CreateFungibleCollectionMutationServiceImpl(basePath)
-    private val transferTokensMutationService: MutationService<TransferTokensMutationRequest> =
+    private val transferTokensMutationService: MutationService<TransferTokensMutationRequest, TransferTokensMutationDefaultResponse> =
         TransferTokensMutationServiceImpl(basePath)
 
     override fun getFungibleCollectionInfo(collectionId: BigDecimal, at: String): FungibleCollectionInfoDto {
@@ -27,15 +28,15 @@ class FungibleServiceImpl(basePath: String) : FungibleService {
         return api.fungibleControllerGetBalance(address, collectionId, at)
     }
 
-    override fun getAddTokens(): MutationService<AddTokensMutationRequest> {
+    override fun getAddTokens(): MutationService<AddTokensMutationRequest, AddTokensMutationDefaultResponse> {
         return addTokensMutationService
     }
 
-    override fun getCreateFungibleCollection(): MutationService<CreateFungibleCollectionMutationRequest> {
+    override fun getCreateFungibleCollection(): MutationService<CreateFungibleCollectionMutationRequest, CreateCollectionMutationDefaultResponse> {
         return createFungibleCollectionMutationService
     }
 
-    override fun getTransferTokens(): MutationService<TransferTokensMutationRequest> {
+    override fun getTransferTokens(): MutationService<TransferTokensMutationRequest, TransferTokensMutationDefaultResponse> {
         return transferTokensMutationService
     }
 

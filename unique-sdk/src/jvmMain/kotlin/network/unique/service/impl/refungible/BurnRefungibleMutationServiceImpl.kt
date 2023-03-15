@@ -5,7 +5,7 @@ import network.unique.model.*
 import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
-class BurnRefungibleMutationServiceImpl(basePath: String) : MutationService<BurnRequest1>() {
+class BurnRefungibleMutationServiceImpl(basePath: String) : MutationService<BurnRequest1, BurnDefaultResponse1>() {
 
     private val api: RefungibleApi = RefungibleApi(basePath)
 
@@ -57,44 +57,42 @@ class BurnRefungibleMutationServiceImpl(basePath: String) : MutationService<Burn
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: BurnRequest1): SubmitResultResponse {
+    override fun submit(args: BurnRequest1): BurnDefaultResponse1 {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submit(args: UnsignedTxPayloadResponse): BurnDefaultResponse1 {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.burn(
+    override fun submit(args: SubmitTxBody): BurnDefaultResponse1 {
+        return api.burn(
             BurnRequest1(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), RefungibleApi.Use_burn.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: BurnRequest1): SubmitResultResponse {
+    override fun submitWatch(args: BurnRequest1): BurnDefaultResponse1 {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submitWatch(args: UnsignedTxPayloadResponse): BurnDefaultResponse1 {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.burn(
+    override fun submitWatch(args: SubmitTxBody): BurnDefaultResponse1 {
+        return api.burn(
             BurnRequest1(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), RefungibleApi.Use_burn.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
 }

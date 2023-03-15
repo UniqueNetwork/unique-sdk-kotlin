@@ -5,7 +5,7 @@ import network.unique.model.*
 import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
-class TransferMutationServiceImpl(basePath: String) : MutationService<TransferMutationRequest>() {
+class TransferMutationServiceImpl(basePath: String) : MutationService<TransferMutationRequest, TransferMutationDefaultResponse>() {
 
     private val api: BalanceApi = BalanceApi(basePath)
 
@@ -57,43 +57,41 @@ class TransferMutationServiceImpl(basePath: String) : MutationService<TransferMu
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: TransferMutationRequest): SubmitResultResponse {
+    override fun submit(args: TransferMutationRequest): TransferMutationDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submit(args: UnsignedTxPayloadResponse): TransferMutationDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.transferMutation(
+    override fun submit(args: SubmitTxBody): TransferMutationDefaultResponse {
+        return api.transferMutation(
             TransferMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), BalanceApi.Use_transferMutation.submit
         )
-        return SubmitResultResponse(response.hash!!)
     }
 
-    override fun submitWatch(args: TransferMutationRequest): SubmitResultResponse {
+    override fun submitWatch(args: TransferMutationRequest): TransferMutationDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submitWatch(args: UnsignedTxPayloadResponse): TransferMutationDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.transferMutation(
+    override fun submitWatch(args: SubmitTxBody): TransferMutationDefaultResponse {
+        return api.transferMutation(
             TransferMutationRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), BalanceApi.Use_transferMutation.submit
         )
-        return SubmitResultResponse(response.hash!!)
     }
 }

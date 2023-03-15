@@ -6,7 +6,7 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class UnnestTokenMutationServiceImpl(basePath: String) :
-    MutationService<UnnestTokenRequest>() {
+    MutationService<UnnestTokenRequest, UnnestTokenDefaultResponse>() {
 
     private val api: TokensApi = TokensApi(basePath)
 
@@ -53,44 +53,42 @@ class UnnestTokenMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: UnnestTokenRequest): SubmitResultResponse {
+    override fun submit(args: UnnestTokenRequest): UnnestTokenDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submit(args: UnsignedTxPayloadResponse): UnnestTokenDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.unnestToken(
+    override fun submit(args: SubmitTxBody): UnnestTokenDefaultResponse {
+        return api.unnestToken(
             UnnestTokenRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), TokensApi.Use_unnestToken.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: UnnestTokenRequest): SubmitResultResponse {
+    override fun submitWatch(args: UnnestTokenRequest): UnnestTokenDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submitWatch(args: UnsignedTxPayloadResponse): UnnestTokenDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.unnestToken(
+    override fun submitWatch(args: SubmitTxBody): UnnestTokenDefaultResponse {
+        return api.unnestToken(
             UnnestTokenRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), TokensApi.Use_unnestToken.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
 }

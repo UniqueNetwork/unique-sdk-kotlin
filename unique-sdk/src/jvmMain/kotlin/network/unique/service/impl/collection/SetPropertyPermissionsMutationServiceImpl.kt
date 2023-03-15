@@ -6,7 +6,7 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class SetPropertyPermissionsMutationServiceImpl(basePath: String) :
-    MutationService<SetPropertyPermissionsRequest>() {
+    MutationService<SetPropertyPermissionsRequest, SetPropertyPermissionsDefaultResponse>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
@@ -53,44 +53,42 @@ class SetPropertyPermissionsMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: SetPropertyPermissionsRequest): SubmitResultResponse {
+    override fun submit(args: SetPropertyPermissionsRequest): SetPropertyPermissionsDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submit(args: UnsignedTxPayloadResponse): SetPropertyPermissionsDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.setPropertyPermissions(
+    override fun submit(args: SubmitTxBody): SetPropertyPermissionsDefaultResponse {
+        return api.setPropertyPermissions(
             SetPropertyPermissionsRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_setPropertyPermissions.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: SetPropertyPermissionsRequest): SubmitResultResponse {
+    override fun submitWatch(args: SetPropertyPermissionsRequest): SetPropertyPermissionsDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submitWatch(args: UnsignedTxPayloadResponse): SetPropertyPermissionsDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.setPropertyPermissions(
+    override fun submitWatch(args: SubmitTxBody): SetPropertyPermissionsDefaultResponse {
+        return api.setPropertyPermissions(
             SetPropertyPermissionsRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_setPropertyPermissions.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
 }

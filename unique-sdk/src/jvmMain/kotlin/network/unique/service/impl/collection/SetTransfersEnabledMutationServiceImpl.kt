@@ -6,7 +6,7 @@ import network.unique.sdk.UniqueSdk
 import network.unique.service.MutationService
 
 class SetTransfersEnabledMutationServiceImpl(basePath: String) :
-    MutationService<SetTransfersEnabledRequest>() {
+    MutationService<SetTransfersEnabledRequest, SetTransfersEnabledDefaultResponse>() {
 
     private val api: CollectionsApi = CollectionsApi(basePath)
 
@@ -53,44 +53,42 @@ class SetTransfersEnabledMutationServiceImpl(basePath: String) :
         return SubmitTxBody(args.signerPayloadJSON, signature)
     }
 
-    override fun submit(args: SetTransfersEnabledRequest): SubmitResultResponse {
+    override fun submit(args: SetTransfersEnabledRequest): SetTransfersEnabledDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submit(args: UnsignedTxPayloadResponse): SetTransfersEnabledDefaultResponse {
         val signedBody = sign(args)
         return submit(signedBody)
     }
 
-    override fun submit(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.setTransfersEnabled(
+    override fun submit(args: SubmitTxBody): SetTransfersEnabledDefaultResponse {
+        return api.setTransfersEnabled(
             SetTransfersEnabledRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_setTransfersEnabled.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
-    override fun submitWatch(args: SetTransfersEnabledRequest): SubmitResultResponse {
+    override fun submitWatch(args: SetTransfersEnabledRequest): SetTransfersEnabledDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: UnsignedTxPayloadResponse): SubmitResultResponse {
+    override fun submitWatch(args: UnsignedTxPayloadResponse): SetTransfersEnabledDefaultResponse {
         val signedBody = sign(args)
         return submitWatch(signedBody)
     }
 
-    override fun submitWatch(args: SubmitTxBody): SubmitResultResponse {
-        val response = api.setTransfersEnabled(
+    override fun submitWatch(args: SubmitTxBody): SetTransfersEnabledDefaultResponse {
+        return api.setTransfersEnabled(
             SetTransfersEnabledRequest(
                 signerPayloadJSON = args.signerPayloadJSON,
                 signature = args.signature
             ), CollectionsApi.Use_setTransfersEnabled.submit
         )
-        return SubmitResultResponse(response.hash)
     }
 
 }
